@@ -16,6 +16,11 @@
     let p4vfield = document.querySelector('#p4v')
     let p4cfield = document.querySelector('#p4c')
 
+    var i1 = setInterval(function(socket) {
+        socket.emit('update', '');
+    }, 750, socket);
+
+
     socket.on('receive_hostname', data => {
         console.log(data)
         hostfield.textContent = data.message
@@ -92,11 +97,6 @@
     //socket.emit('get_p2v', '');
     //socket.emit('get_p3v', '');
     //socket.emit('get_p4v', '');
-
-    var i1 = setInterval(function(socket) {
-        socket.emit('update', '');
-    }, 1000, socket);
-
 
 	var i1 = setInterval(function(socket) {
   		socket.emit('get_temp', '');
