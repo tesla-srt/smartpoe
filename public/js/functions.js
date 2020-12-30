@@ -1,5 +1,5 @@
 (function connect(){
-    let socket = io.connect('http://127.0.0.1:3000')
+    let socket = io()
 
     let hostfield = document.querySelector('#hostname')
 
@@ -7,4 +7,6 @@
         console.log(data)
         hostfield.textContent = data.message
     })
+
+	socket.emit('get_hostname', '');
 })()
