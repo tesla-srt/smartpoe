@@ -37,6 +37,21 @@ io.on('connection', socket => {
     //var contents = fs.readFileSync("./bin/all.json")
     var jsonContent = null;
 
+    exec("./bin/aaeonSmartPOE.exe all", (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`)
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`)
+            return;
+        }
+        //contents = fs.readFileSync("./bin/all.json");
+        jsonContent = JSON.parse(${stdout})
+        console.log(`test: ` + jsonContent.temp)
+        console.log(`updated`)
+    });
+
     socket.on('update', data => {
         exec("./bin/aaeonSmartPOE.exe all", (error, stdout, stderr) => {
             if (error) {
