@@ -1,1 +1,130 @@
-<!---->
+<!DOCTYPE html>
+<!-- 
+Todo:
+[*] PHP Wrapper for communicating with binary
+[*] Continuous updates | pull from data handling scripts for GMS
+[*] GRAPHS?
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/js/fontawesome/all.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/theme.css" type="text/css">
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-primary">
+    <div class="navbar-nav"><img class="nav-item" src="./img/logo.png" height="45" width="45"></div>
+    <div class="container d-flex ml-auto justify-content-center"> <a class="navbar-brand lead mb-0" href="#">
+        <i class="fa fa-circle"></i>
+        <b> ImagePoint</b><sup><i class="far fa-xs fa-copyright"></i></sup> <b>- Smart PoE</b>
+      </a> </div>
+  </nav>
+  <div class="py-3 text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card text-white bg-info mb-3" id="sysinfo">
+            <div class="card-header">Sentry Status</div>
+            <div class="card-body">
+              <h5 class="card-title">PoE Info</h5>
+              
+              <dl class="row card-text">
+                <dt class="col-sm-3">Hostname: </dt>
+                <dd class="col-sm-9" id="hostname"><!----></dd>
+                <dt class="col-sm-3">System Temp: </dt>
+                <dd class="col-sm-9" id="temp">&deg;F</dd>
+                <dt class="col-sm-3 text-truncate">Total Watts: </dt>
+                <dd class="col-sm-9" id="totWatts">W</dd>
+                <dt class="col-sm-3">Time</dt>
+                <dd class="col-sm-9" id="systime"><!--Time Script-->11:00:00 AM</dd>
+</dl>
+            
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-3 col-6 p-4"> <i id="p1" class="fas fa-ethernet fa-3x mb-2 text-muted"></i>
+          <div class="row">
+            <div class="col-md-12" style="">
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                  <input type="radio" name="options" id="p1on" autocomplete="off" checked=""> PoE On&nbsp; </label>
+                <label class="btn btn-primary">
+                  <input type="radio" name="options" id="p1off" autocomplete="off"> PoE Off&nbsp; </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-unstyled">
+                <li id="p1v">Voltage:&nbsp;V</li>
+                <li id="p1c">Current:&nbsp;mA</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6 p-4"> <i id="p2" class="fas fa-ethernet fa-3x mb-2 text-muted"></i>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="p2on" autocomplete="off" checked=""> PoE On&nbsp; </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="p2off" autocomplete="off"> PoE Off&nbsp; </label>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-unstyled">
+                <li id="p2v">Voltage:&nbsp;V</li>
+                <li id="p2c">Current:&nbsp;mA</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6 p-4"> <i id="p3" class="fas fa-ethernet fa-3x mb-2 text-muted"></i>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="p3on" autocomplete="off" checked=""> PoE On&nbsp; </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="p3off" autocomplete="off"> PoE Off&nbsp; </label>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-unstyled">
+                <li id="p3v">Voltage:&nbsp;V</li>
+                <li id="p3c">Current:&nbsp;mA</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6 p-4">
+        <i id="p4" class="fas fa-ethernet fa-3x mb-2 text-secondary"></i>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary active">
+              <input type="radio" name="options" id="p4on" autocomplete="off" checked=""> PoE On&nbsp; </label>
+            <label class="btn btn-primary">
+              <input type="radio" name="options" id="p4off" autocomplete="off"> PoE Off&nbsp; </label>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-unstyled">
+                <li id="p4v">Voltage:&nbsp;V</li>
+                <li id="p4c">Current:&nbsp;mA</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/jquery-3.4.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/fontawesome/fontawesome.min.new.js"></script>
+  <script src="/js/fontawesome/all.min.js"></script>
+  <script src="/js/functions.js"></script>
+</body>
+
+</html>

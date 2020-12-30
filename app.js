@@ -1,5 +1,6 @@
 const express = require('express')
 const socketio = require('socket.io')
+const { exec } = require("child_process");
 const app = express()
 
 app.set('view engine', 'ejs')
@@ -18,4 +19,33 @@ const io = socketio(server)
 
 io.on('connection', socket => {
     console.log("New user connected")
+    exec("hostname", (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+        io.sockets.emit('receive_hostname', {message: `${stdout}`})
+    });
+
+    socket.on('get_hostname', data => {
+        console.log("new message")
+        exec("hostname", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+            io.sockets.emit('receive_hostname', {message: `${stdout}`})
+        });
+    })
+
 })
