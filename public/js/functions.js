@@ -10,7 +10,7 @@
 
     socket.on('receive_temp', data => {
         console.log(data)
-        tempfield.textContent = data.message
+        tempfield.textContent = data.message + '&deg;F'
     })
 
 	socket.emit('get_hostname', '');
