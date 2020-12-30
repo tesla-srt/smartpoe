@@ -10,9 +10,17 @@
 
     socket.on('receive_temp', data => {
         console.log(data)
-        tempfield.textContent = data.message + '&deg;F'
+        tempfield.innerHTML = data.message + '&#176;F'
     })
 
 	socket.emit('get_hostname', '');
-	socket.emit('get_temp', '');
+	var interval = setInterval(function(socket) {
+  		socket.emit('get_temp', '');
+	}, 1500, socket);
+
+	//clearInterval(interval);
 })()
+
+function getTemp(socket) {
+	socket.emit('get_temp', '')
+}
