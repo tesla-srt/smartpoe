@@ -50,9 +50,9 @@
         console.log(data)
         p2vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-            //p2icon.removeClass("text-muted").addClass("text-secondary");
+            $("#p2").removeClass("text-muted").addClass("text-secondary");
         } else {
-           // p2icon.addClass("text-muted").removeClass("text-secondary");
+           $("#p2").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
