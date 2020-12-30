@@ -46,4 +46,76 @@ io.on('connection', socket => {
         });
     })
 
+    socket.on('get_p3v', data => {
+        exec("./bin/aaeonSmartPOE.exe 1 voltage && cat ./bin/voltage_port_1.txt", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            io.sockets.emit('receive_p3v', {message: `${stdout}`})
+        });
+    })
+
+    socket.on('get_p3c', data => {
+        exec("./bin/aaeonSmartPOE.exe 1 current && cat ./bin/current.mA._port_1.txt", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            io.sockets.emit('receive_p3c', {message: `${stdout}`})
+        });
+    })
+
+    socket.on('get_p1v', data => {
+        exec("./bin/aaeonSmartPOE.exe 0 voltage && cat ./bin/voltage_port_0.txt", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            io.sockets.emit('receive_p1v', {message: `${stdout}`})
+        });
+    })
+
+
+    socket.on('get_p2v', data => {
+        exec("./bin/aaeonSmartPOE.exe 2 voltage && cat ./bin/voltage_port_2.txt", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            io.sockets.emit('receive_p2v', {message: `${stdout}`})
+        });
+    })
+
+    socket.on('get_p4v', data => {
+        exec("./bin/aaeonSmartPOE.exe 3 voltage && cat ./bin/voltage_port_3.txt", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            io.sockets.emit('receive_p4v', {message: `${stdout}`})
+        });
+    })
+
+
 })
