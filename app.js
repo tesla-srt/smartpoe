@@ -19,21 +19,8 @@ const io = socketio(server)
 
 io.on('connection', socket => {
     console.log("New user connected")
-    exec("hostname", (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-        io.sockets.emit('receive_hostname', {message: `${stdout}`})
-    });
 
     socket.on('get_hostname', data => {
-        console.log("new message")
         exec("hostname", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
@@ -45,6 +32,21 @@ io.on('connection', socket => {
             }
             console.log(`stdout: ${stdout}`);
             io.sockets.emit('receive_hostname', {message: `${stdout}`})
+        });
+    })
+
+    socket.on('get_temp', data => {
+        exec("/bin/aaeonSmartPoe.exe temp && cat temperature.txt", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+            io.sockets.emit('receive_temp', {message: `${stdout}`})
         });
     })
 
