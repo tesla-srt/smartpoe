@@ -34,7 +34,7 @@ io.on('connection', socket => {
     })
 
     socket.on('get_temp', data => {
-        exec("./bin/aaeonSmartPOE.exe temp && sleep 1 && cat ./bin/temperature.txt", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe temp && sleep 5 && cat ./bin/temperature.txt", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
@@ -49,7 +49,7 @@ io.on('connection', socket => {
 
     socket.on('get_p3v', data => {
 
-        exec("./bin/aaeonSmartPOE.exe 1 voltage && sleep 1 && cat ./bin/voltage_port_1.txt", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe 1 voltage && sleep 2 && cat ./bin/voltage_port_1.txt", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
@@ -79,7 +79,7 @@ io.on('connection', socket => {
 
     socket.on('get_p1v', data => {
 
-        exec("./bin/aaeonSmartPOE.exe 0 voltage && sleep 1 && cat ./bin/voltage_port_0.txt", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe 0 voltage && sleep 2 && cat ./bin/voltage_port_0.txt", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
@@ -109,7 +109,7 @@ io.on('connection', socket => {
 
     socket.on('get_p4v', data => {
 
-        exec("./bin/aaeonSmartPOE.exe 3 voltage && sleep 1 && cat ./bin/voltage_port_3.txt", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe 3 voltage && sleep 2 && cat ./bin/voltage_port_3.txt", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
