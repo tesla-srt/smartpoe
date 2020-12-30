@@ -18,7 +18,7 @@
 
     var i1 = setInterval(function(socket) {
         socket.emit('update', '');
-    }, 750, socket);
+    }, 1000, socket);
 
 
     socket.on('receive_hostname', data => {
@@ -100,22 +100,22 @@
 
 	var i1 = setInterval(function(socket) {
   		socket.emit('get_temp', '');
-	}, 1275, socket);
+	}, 4500, socket);
 	var i2 = setInterval(function(socket) {
   		socket.emit('get_p1v', '');
-	}, 2100, socket);
+	}, 4500, socket);
 
     var i3 = setInterval(function(socket) {
         socket.emit('get_p2v', '');
-    }, 2500, socket);
+    }, 4500, socket);
 
     var i4 = setInterval(function(socket) {
         socket.emit('get_p3v', '');
-    }, 3140, socket);
+    }, 4500, socket);
 
     var i5 = setInterval(function(socket) {
         socket.emit('get_p4v', '');
-    }, 4030, socket);
+    }, 4500, socket);
 
 
 	//clearInterval(interval);
