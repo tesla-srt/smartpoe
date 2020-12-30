@@ -2,6 +2,7 @@ const express = require('express')
 const socketio = require('socket.io')
 const { exec } = require("child_process");
 const app = express()
+var fs = require("fs");
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -33,8 +34,12 @@ io.on('connection', socket => {
         });
     })
 
+    var contents = fs.readFileSync("./bin/all.json");
+    var jsonContent = JSON.parse(contents);
+
+
     socket.on('get_temp', data => {
-        exec("./bin/aaeonSmartPOE.exe temp && sleep 5 && cat ./bin/temperature.txt", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe all", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
@@ -43,13 +48,15 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }
-            io.sockets.emit('receive_temp', {message: `${stdout}`})
+            contents = fs.readFileSync("./bin/all.json");
+            jsonContent = JSON.parse(contents);
+            io.sockets.emit('receive_temp', {message: jsonContent.temp})
         });
     })
 
     socket.on('get_p3v', data => {
 
-        exec("./bin/aaeonSmartPOE.exe 1 voltage && sleep 2 && cat ./bin/voltage_port_1.txt", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe all", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
@@ -58,7 +65,9 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }
-            io.sockets.emit('receive_p3v', {message: `${stdout}`})
+            contents = fs.readFileSync("./bin/all.json");
+            jsonContent = JSON.parse(contents);
+            io.sockets.emit('receive_p3v', {message: jsonContent.p3.voltage})
         });
     })
 
