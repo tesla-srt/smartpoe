@@ -81,8 +81,8 @@ io.on('connection', socket => {
             }*/
             //contents = fs.readFileSync("./bin/all.json");
             //jsonContent = JSON.parse(contents);
-        console.log(jsonContent.p3[voltage])
-        io.sockets.emit('receive_p3v', {message: jsonContent.p3[voltage]})
+        console.log(jsonContent[p3][voltage])
+        io.sockets.emit('receive_p3v', {message: jsonContent[p3][voltage]})
         //});
     })
 
@@ -99,7 +99,7 @@ io.on('connection', socket => {
             }*/
         //contents = fs.readFileSync("./bin/all.json");
         //jsonContent = JSON.parse(contents);
-        io.sockets.emit('receive_p3c', {message: jsonContent.p3[current]})
+        io.sockets.emit('receive_p3c', {message: jsonContent[p3][current]})
         //});
     })
 
@@ -116,8 +116,8 @@ io.on('connection', socket => {
             }*/
         //contents = fs.readFileSync("./bin/all.json");
         //jsonContent = JSON.parse(contents);
-        console.log(jsonContent.p1[voltage])
-        io.sockets.emit('receive_p1v', {message: jsonContent.p1[voltage]})
+        console.log(jsonContent[p1][voltage])
+        io.sockets.emit('receive_p1v', {message: jsonContent[p1][voltage]})
         //});
     })
 
@@ -134,7 +134,7 @@ io.on('connection', socket => {
             }*/
         //contents = fs.readFileSync("./bin/all.json");
         //jsonContent = JSON.parse(contents);
-        io.sockets.emit('receive_p2v', {message: jsonContent.p2[voltage]})
+        io.sockets.emit('receive_p2v', {message: jsonContent[p2][voltage]})
         //});
     })
 
@@ -151,8 +151,8 @@ io.on('connection', socket => {
             }*/
             //contents = fs.readFileSync("./bin/all.json");
             ///jsonContent = JSON.parse(contents);
-            console.log(jsonContent.p4[voltage])
-            io.sockets.emit('receive_p4v', {message: jsonContent.p4[voltage]})
+            console.log(jsonContent[p4][voltage])
+            io.sockets.emit('receive_p4v', {message: jsonContent[p4][voltage]})
         //});
     })
 
