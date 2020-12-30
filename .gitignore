@@ -1387,3 +1387,9 @@ node_modules/xdg-basedir/index.js
 node_modules/xdg-basedir/license
 node_modules/xdg-basedir/package.json
 node_modules/xdg-basedir/readme.md
+bin/voltage_port_3.txt
+bin/voltage_port_2.txt
+bin/voltage_port_1.txt
+bin/voltage_port_0.txt
+bin/temperature.txt
+bin/temperature.txt
