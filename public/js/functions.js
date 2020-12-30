@@ -97,19 +97,19 @@
 	}, 1000, socket);
 	var i2 = setInterval(function(socket) {
   		socket.emit('get_p1v', '');
-	}, 1500, socket);
+	}, 2000, socket);
 
     var i3 = setInterval(function(socket) {
         socket.emit('get_p2v', '');
-    }, 2000, socket);
+    }, 3000, socket);
 
     var i4 = setInterval(function(socket) {
         socket.emit('get_p3v', '');
-    }, 2500, socket);
+    }, 4000, socket);
 
     var i5 = setInterval(function(socket) {
         socket.emit('get_p4v', '');
-    }, 3000, socket);
+    }, 5000, socket);
 
 
 
