@@ -98,7 +98,7 @@
     //socket.emit('get_p3v', '');
     //socket.emit('get_p4v', '');
 
-	/*var i1 = setInterval(function(socket) {
+	var i1 = setInterval(function(socket) {
   		socket.emit('get_temp', '');
 	}, 4500, socket);
 	var i2 = setInterval(function(socket) {
@@ -116,7 +116,6 @@
     var i5 = setInterval(function(socket) {
         socket.emit('get_p4v', '');
     }, 4500, socket);
-*/
 
 	//clearInterval(interval);
 })()
