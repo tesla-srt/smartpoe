@@ -94,22 +94,22 @@
     //socket.emit('get_p4v', '');
 	var i1 = setInterval(function(socket) {
   		socket.emit('get_temp', '');
-	}, 1000, socket);
+	}, 1275, socket);
 	var i2 = setInterval(function(socket) {
   		socket.emit('get_p1v', '');
-	}, 1555, socket);
+	}, 2100, socket);
 
     var i3 = setInterval(function(socket) {
         socket.emit('get_p2v', '');
-    }, 2000, socket);
+    }, 2500, socket);
 
     var i4 = setInterval(function(socket) {
         socket.emit('get_p3v', '');
-    }, 2150, socket);
+    }, 3140, socket);
 
     var i5 = setInterval(function(socket) {
         socket.emit('get_p4v', '');
-    }, 2250, socket);
+    }, 4030, socket);
 
 
 
