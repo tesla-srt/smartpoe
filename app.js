@@ -104,6 +104,7 @@ io.on('connection', socket => {
     })
 
     socket.on('get_p4v', data => {
+        
         exec("./bin/aaeonSmartPOE.exe 3 voltage && cat ./bin/voltage_port_3.txt", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
