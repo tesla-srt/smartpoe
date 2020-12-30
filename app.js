@@ -81,9 +81,9 @@ io.on('connection', socket => {
             }*/
             //contents = fs.readFileSync("./bin/all.json");
             //jsonContent = JSON.parse(contents);
-        var i = JSON.parse(jsonContent.p3)
-        console.log(i.voltage)
-        io.sockets.emit('receive_p3v', {message: i.voltage})
+        //var i = JSON.parse(jsonContent.p3)
+        console.log(jsonContent.p3[0].voltage)
+        io.sockets.emit('receive_p3v', {message: jsonContent.p3[0].voltage})
         //});
     })
 
@@ -100,8 +100,8 @@ io.on('connection', socket => {
             }*/
         //contents = fs.readFileSync("./bin/all.json");
         //jsonContent = JSON.parse(contents);
-        var i = JSON.parse(jsonContent.p3)
-        io.sockets.emit('receive_p3c', {message: i.current})
+        //var i = JSON.parse(jsonContent.p3)
+        io.sockets.emit('receive_p3c', {message: jsonContent.p3[0].current})
         //});
     })
 
@@ -118,9 +118,9 @@ io.on('connection', socket => {
             }*/
         //contents = fs.readFileSync("./bin/all.json");
         //jsonContent = JSON.parse(contents);
-        var i = JSON.parse(jsonContent.p1)
-        console.log(i.voltage)
-        io.sockets.emit('receive_p1v', {message: i.voltage})
+        //var i = JSON.parse(jsonContent.p1)
+        console.log(jsonContent.p1[0].voltage)
+        io.sockets.emit('receive_p1v', {message: jsonContent.p1[0].voltage})
         //});
     })
 
@@ -137,8 +137,8 @@ io.on('connection', socket => {
             }*/
         //contents = fs.readFileSync("./bin/all.json");
         //jsonContent = JSON.parse(contents);
-        var i = JSON.parse(jsonContent.p2)
-        io.sockets.emit('receive_p2v', {message: i.voltage})
+        //var i = JSON.parse(jsonContent.p2)
+        io.sockets.emit('receive_p2v', {message: jsonContent.p2[0].voltage})
         //});
     })
 
@@ -155,10 +155,9 @@ io.on('connection', socket => {
             }*/
             //contents = fs.readFileSync("./bin/all.json");
             ///jsonContent = JSON.parse(contents);
-            var i = JSON.parse(jsonContent.p4)
-
-            console.log(i.voltage)
-            io.sockets.emit('receive_p4v', {message: i.voltage})
+           // var i = JSON.parse(jsonContent.p4)
+            console.log(jsonContent.p4[0].voltage)
+            io.sockets.emit('receive_p4v', {message: jsonContent.p4[0].voltage})
         //});
     })
 
