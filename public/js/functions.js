@@ -18,7 +18,7 @@
 
     var i1 = setInterval(function(socket) {
         socket.emit('update', '');
-    }, 1000, socket);
+    }, 2000, socket);
 
 
     socket.on('receive_hostname', data => {
