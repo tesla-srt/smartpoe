@@ -54,7 +54,7 @@ io.on('connection', socket => {
     });*/
 
     socket.on('update', data => {
-        exec("./bin/aaeonSmartPOE.exe all", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe all && sleep 1", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`)
                 return;
