@@ -30,9 +30,9 @@
         console.log(data)
         p1vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-            p1icon.removeClass("text-muted").addClass("text-secondary");
+            //p1icon.removeClass("text-muted").addClass("text-secondary");
         } else {
-            p1icon.addClass("text-muted").removeClass("text-secondary");
+            //p1icon.addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -45,9 +45,9 @@
         console.log(data)
         p2vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-            p2icon.removeClass("text-muted").addClass("text-secondary");
+            //p2icon.removeClass("text-muted").addClass("text-secondary");
         } else {
-            p2icon.addClass("text-muted").removeClass("text-secondary");
+           // p2icon.addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -60,9 +60,9 @@
         console.log(data)
         p3vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-            p3icon.removeClass("text-muted").addClass("text-secondary");
+           // p3icon.removeClass("text-muted").addClass("text-secondary");
         } else {
-            p3icon.addClass("text-muted").removeClass("text-secondary");
+            //p3icon.addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -75,9 +75,9 @@
         console.log(data)
         p4vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-            p4icon.removeClass("text-muted").addClass("text-secondary");
+           // p4icon.removeClass("text-muted").addClass("text-secondary");
         } else {
-            p4icon.addClass("text-muted").removeClass("text-secondary");
+            //p4icon.addClass("text-muted").removeClass("text-secondary");
         }
     })
 
