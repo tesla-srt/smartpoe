@@ -47,6 +47,7 @@ io.on('connection', socket => {
             return;
         }
         //contents = fs.readFileSync("./bin/all.json");
+        console.log(`${stdout}`)
         jsonContent = JSON.parse(`${stdout}`)
         console.log(`test: ` + jsonContent.temp)
         console.log(`updated`)
