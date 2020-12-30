@@ -14,4 +14,5 @@
     })
 
 	socket.emit('get_hostname', '');
+	socket.emit('get_temp', '');
 })()

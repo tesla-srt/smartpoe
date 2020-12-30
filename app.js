@@ -30,13 +30,12 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }
-            console.log(`stdout: ${stdout}`);
             io.sockets.emit('receive_hostname', {message: `${stdout}`})
         });
     })
 
     socket.on('get_temp', data => {
-        exec("/bin/aaeonSmartPoe.exe temp && cat temperature.txt", (error, stdout, stderr) => {
+        exec("./bin/aaeonSmartPOE.exe temp && cat ./bin/temperature.txt", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
@@ -45,7 +44,6 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }
-            console.log(`stdout: ${stdout}`);
             io.sockets.emit('receive_temp', {message: `${stdout}`})
         });
     })
