@@ -35,9 +35,9 @@
         console.log(data)
         p1vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-            //p1icon.removeClass("text-muted").addClass("text-secondary");
+            $("#p1").removeClass("text-muted").addClass("text-secondary");
         } else {
-            //p1icon.addClass("text-muted").removeClass("text-secondary");
+            $("#p1").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
