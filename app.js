@@ -47,9 +47,9 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }
-            contents = fs.readFileSync("./bin/all.json");
-            jsonContent = JSON.parse(contents);
-            console.log(`stdout: ${stdout}`);
+            //contents = fs.readFileSync("./bin/all.json");
+            jsonContent = JSON.parse(${stdout});
+            console.log(`test: ` + jsonContent.temp);
         });
     })
 
@@ -63,8 +63,8 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }*/
-            contents = fs.readFileSync("./bin/all.json");
-            jsonContent = JSON.parse(contents);
+            //contents = fs.readFileSync("./bin/all.json");
+            //jsonContent = JSON.parse(contents);
             io.sockets.emit('receive_temp', {message: jsonContent.temp})
        // });
     })
@@ -80,10 +80,10 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }*/
-            contents = fs.readFileSync("./bin/all.json");
+            //contents = fs.readFileSync("./bin/all.json");
             jsonContent = JSON.parse(contents);
         //var i = JSON.parse(jsonContent.p3)
-        console.log(jsonContent.p3[0].voltage)
+        //console.log(jsonContent.p3[0].voltage)
         io.sockets.emit('receive_p3v', {message: jsonContent.p3[0].voltage})
         //});
     })
@@ -99,8 +99,8 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }*/
-        contents = fs.readFileSync("./bin/all.json");
-        jsonContent = JSON.parse(contents);
+        //contents = fs.readFileSync("./bin/all.json");
+        //jsonContent = JSON.parse(contents);
         //var i = JSON.parse(jsonContent.p3)
         io.sockets.emit('receive_p3c', {message: jsonContent.p3[0].current})
         //});
@@ -117,8 +117,8 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }*/
-        contents = fs.readFileSync("./bin/all.json");
-        jsonContent = JSON.parse(contents);
+        //contents = fs.readFileSync("./bin/all.json");
+        //jsonContent = JSON.parse(contents);
         //var i = JSON.parse(jsonContent.p1)
         console.log(jsonContent.p1[0].voltage)
         io.sockets.emit('receive_p1v', {message: jsonContent.p1[0].voltage})
@@ -136,8 +136,8 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }*/
-        contents = fs.readFileSync("./bin/all.json");
-        jsonContent = JSON.parse(contents);
+        //contents = fs.readFileSync("./bin/all.json");
+        //jsonContent = JSON.parse(contents);
         //var i = JSON.parse(jsonContent.p2)
         io.sockets.emit('receive_p2v', {message: jsonContent.p2[0].voltage})
         //});
@@ -154,8 +154,8 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }*/
-            contents = fs.readFileSync("./bin/all.json");
-            jsonContent = JSON.parse(contents);
+            //contents = fs.readFileSync("./bin/all.json");
+            //jsonContent = JSON.parse(contents);
            // var i = JSON.parse(jsonContent.p4)
             console.log(jsonContent.p4[0].voltage)
             io.sockets.emit('receive_p4v', {message: jsonContent.p4[0].voltage})
