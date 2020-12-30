@@ -10,9 +10,7 @@ app.get('/', (req, res)=> {
     res.render('index')
 })
 
-const server = app.listen(3000,'0.0.0.0', () => {
-    console.log("server is running")
-})
+const server = app.listen(3000,'0.0.0.0')
 
 //initialize socket for the server
 const io = socketio(server)
