@@ -49,7 +49,7 @@ io.on('connection', socket => {
             }
             contents = fs.readFileSync("./bin/all.json");
             jsonContent = JSON.parse(contents);
-            console.log("STD", jsonContent.p1[0].voltage)
+            console.log(`stdout: ${stdout}`);
         });
     })
 
