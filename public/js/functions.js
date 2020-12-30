@@ -1,6 +1,6 @@
 (function connect(){
     let socket = io()
-
+    socket.emit('update', '');
     let hostfield = document.querySelector('#hostname')
     let tempfield = document.querySelector('#temp')
     let p1icon = document.querySelector('#p1')

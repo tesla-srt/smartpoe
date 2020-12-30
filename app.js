@@ -34,8 +34,8 @@ io.on('connection', socket => {
         });
     })
 
-    var contents = fs.readFileSync("./bin/all.json")
-    var jsonContent = JSON.parse(contents)
+    //var contents = fs.readFileSync("./bin/all.json")
+    var jsonContent = null;
 
     socket.on('update', data => {
         exec("./bin/aaeonSmartPOE.exe all", (error, stdout, stderr) => {
