@@ -16,7 +16,13 @@
     let p4cfield = document.querySelector('#p4c')
 
     let p1OnBtn = document.querySelector('#p1on')
+    let p2OnBtn = document.querySelector('#p2on')
+    let p3OnBtn = document.querySelector('#p3on')
+    let p4OnBtn = document.querySelector('#p4on')
     let p1OffBtn = document.querySelector('#p1off')
+    let p2OffBtn = document.querySelector('#p2off')
+    let p3OffBtn = document.querySelector('#p3off')
+    let p4OffBtn = document.querySelector('#p4off')
 
     var p1c, p2c, p3c, p4c, i1, timeout;
 
@@ -31,10 +37,46 @@
         socket.emit('port_on', {port: 0})
         timeout = funInterval(socket)
     })
+    p2OnBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        clearInterval(i1)
+        socket.emit('port_on', {port: 1})
+        timeout = funInterval(socket)
+    })
+    p3OnBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        clearInterval(i1)
+        socket.emit('port_on', {port: 2})
+        timeout = funInterval(socket)
+    })
+    p4OnBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        clearInterval(i1)
+        socket.emit('port_on', {port: 3})
+        timeout = funInterval(socket)
+    })
     p1OffBtn.addEventListener('click', e => {
         //console.log(username.value)
         clearInterval(i1)
         socket.emit('port_off', {port: 0})
+        timeout = funInterval(socket)
+    })
+    p2OffBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        clearInterval(i1)
+        socket.emit('port_off', {port: 1})
+        timeout = funInterval(socket)
+    })
+    p3OffBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        clearInterval(i1)
+        socket.emit('port_off', {port: 2})
+        timeout = funInterval(socket)
+    })
+    p4OffBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        clearInterval(i1)
+        socket.emit('port_off', {port: 3})
         timeout = funInterval(socket)
     })
 
