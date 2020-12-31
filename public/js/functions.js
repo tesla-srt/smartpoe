@@ -23,14 +23,19 @@
     const tMin = 2000;
     const tMax = 6000;
 
+    timeout = funInterval(socket);
 
     p1OnBtn.addEventListener('click', e => {
         //console.log(username.value)
+        clearInterval(i1)
         socket.emit('port_on', {port: 0})
+        timeout = funInterval(socket)
     })
     p1OffBtn.addEventListener('click', e => {
         //console.log(username.value)
+        clearInterval(i1)
         socket.emit('port_off', {port: 0})
+        timeout = funInterval(socket)
     })
 
     function funInterval(socket)
@@ -48,7 +53,6 @@
         return funInterval(socket);
     }
 
-    timeout = funInterval(socket);
     // clearInterval(i1);
 
 
