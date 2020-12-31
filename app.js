@@ -84,6 +84,7 @@ io.on('connection', socket => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " ON";
         var bin = exec(cmd);
         bin.stdout.on('data', function(data) {
+            console.log(`device busy`)
             console.log(data)
         });
     })
@@ -92,6 +93,7 @@ io.on('connection', socket => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " OFF";
         var bin = exec(cmd);
         bin.stdout.on('data', function(data) {
+            console.log(`device busy`)
             console.log(data)
         });
     })
