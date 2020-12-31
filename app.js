@@ -80,5 +80,8 @@ io.on('connection', socket => {
             io.sockets.emit('receive_p4v', {message: jsonContent.p4[0].voltage})
     })
 
+    socket.on('port_on', data => {
+            console.log(data.port);
+    })
 
 })

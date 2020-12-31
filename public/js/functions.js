@@ -13,12 +13,20 @@
     let p3vfield = document.querySelector('#p3v')
     let p3cfield = document.querySelector('#p3c')
     let p4vfield = document.querySelector('#p4v')
-    let p4cfield = document.querySelector('#p4c')
+
+    let p1OnBtn = document.querySelector('#p1on')
+    let p1OffBtn = document.querySelector('#p1off')
 
     var p1c, p2c, p3c, p4c, i1, timeout;
 
     const tMin = 2000;
     const tMax = 6000;
+
+
+    p1OnBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        socket.emit('port_on', {port: 1})
+    })
 
     function funInterval(socket)
     {
