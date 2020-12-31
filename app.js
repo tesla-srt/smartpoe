@@ -83,11 +83,17 @@ io.on('connection', socket => {
     socket.on('port_on', data => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " ON";
         var bin = exec(cmd);
+        bin.stdout.on('data', function(data) {
+            console.log(data)
+        });
     })
 
     socket.on('port_off', data => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " OFF";
         var bin = exec(cmd);
+        bin.stdout.on('data', function(data) {
+            console.log(data)
+        });
     })
 
 })
