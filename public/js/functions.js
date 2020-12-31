@@ -19,7 +19,7 @@
     const tMax = 6000;
 
     //var timeout = getRandomInt(tMin,tMax);
-
+    var timeout;
     var i1;
     function funInterval(socket)
     {
@@ -28,14 +28,15 @@
         i1 = setInterval(function (socket) {
             socket.emit('update', '');
         }, interval, socket);
+        return interval;
     }
     function changeInterval(socket)
     {
         clearInterval(i1);
-        funInterval(socket);
+        return funInterval(socket);
     }
 
-    funInterval(socket);
+    timeout = funInterval(socket);
     // clearInterval(i1);
 
 
@@ -48,7 +49,7 @@
     socket.on('receive_temp', data => {
         console.log(data)
         if (data.message == "N/A") {
-            changeInterval(socket);
+            timeout = changeInterval(socket);
             socket.emit('update', '');
             console.log(`NEW TIMEOUT: ` + timeout);
 
