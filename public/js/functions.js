@@ -70,7 +70,7 @@
             $("#p1").removeClass("text-muted").addClass("text-secondary");
         } else {
             if (p1c > 0) {
-                console.log(`error`);
+                console.log(`error p1`);
             }
             $("#p1").addClass("text-muted").removeClass("text-secondary");
         }
@@ -78,7 +78,7 @@
 
     socket.on('receive_p1c', data => {
         //console.log(data)
-        p1c = data.p1c;
+        p1c = parseFloat(data.p1c);
         p1cfield.innerHTML = data.p1c + '&nbsp;mA'
     })
 
@@ -90,7 +90,7 @@
             $("#p2").removeClass("text-muted").addClass("text-secondary");
         } else {
             if (p1c > 0) {
-                console.log(`error`);
+                console.log(`error p2`);
             }
             $("#p2").addClass("text-muted").removeClass("text-secondary");
         }
@@ -98,7 +98,7 @@
 
     socket.on('receive_p2c', data => {
         //console.log(data)
-        p2c = data.p2c
+        p2c = parseFloat(data.p2c)
         p2cfield.innerHTML = data.p2c + '&nbsp;mA'
     })
 
@@ -110,7 +110,7 @@
            $("#p3").removeClass("text-muted").addClass("text-secondary");
         } else {
             if (p1c > 0) {
-                console.log(`error`);
+                console.log(`error p3`);
             }
             $("#p3").addClass("text-muted").removeClass("text-secondary");
         }
@@ -118,7 +118,7 @@
 
     socket.on('receive_p3c', data => {
         //console.log(data)
-        p3c = data.p3c
+        p3c = parseFloat(data.p3c)
         p3cfield.innerHTML = data.p3c + '&nbsp;mA'
     })
 
@@ -130,7 +130,7 @@
             $("#p4").removeClass("text-muted").addClass("text-secondary");
         } else {
             if (p1c > 0) {
-                console.log(`error`);
+                console.log(`error p4`);
             }
             $("#p4").addClass("text-muted").removeClass("text-secondary");
         }
@@ -138,7 +138,7 @@
 
     socket.on('receive_p4c', data => {
         //console.log(data)
-        p4c = data.p4c
+        p4c = parseFloat(data.p4c)
         p4cfield.innerHTML = data.p4c + '&nbsp;mA'
     })
 
