@@ -24,7 +24,7 @@
     function funInterval(socket)
     {
         var interval =  getRandomInt(tMin,tMax);
-        console.log(`Your Timeout is: ` + interval);
+       // console.log(`Your Timeout is: ` + interval);
         i1 = setInterval(function (socket) {
             socket.emit('update', '');
         }, interval, socket);
@@ -42,12 +42,12 @@
 
 
     socket.on('receive_hostname', data => {
-        console.log(data)
+        //console.log(data)
         hostfield.textContent = data.hostname
     })
 
     socket.on('receive_temp', data => {
-        console.log(data)
+        //console.log(data)
         if (data.temp == "N/A") {
             timeout = changeInterval(socket);
             socket.emit('update', '');
@@ -58,7 +58,7 @@
     })
 
     socket.on('receive_p1v', data => {
-        console.log(data)
+        //console.log(data)
 /*        if (data.message == "0") {
             timeout = getRandomInt(tMin,tMax);
             console.log(`NEW TIMEOUT: ` + timeout);
@@ -67,63 +67,68 @@
         if (parseFloat(data.p1v) > 0) {
             $("#p1").removeClass("text-muted").addClass("text-secondary");
         } else {
+            console.log(`error`);
+
             $("#p1").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
     socket.on('receive_p1c', data => {
-        console.log(data)
+        //console.log(data)
 
         p1cfield.innerHTML = data.p1c + '&nbsp;mA'
     })
 
     socket.on('receive_p2v', data => {
-        console.log(data)
+        //console.log(data)
 
         p2vfield.innerHTML = data.p2v + '&nbsp;V'
         if (parseFloat(data.p2v) > 0) {
             $("#p2").removeClass("text-muted").addClass("text-secondary");
         } else {
-           $("#p2").addClass("text-muted").removeClass("text-secondary");
+            console.log(`error`)
+            $("#p2").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
     socket.on('receive_p2c', data => {
-        console.log(data)
+        //console.log(data)
 
         p2cfield.innerHTML = data.p2c + '&nbsp;mA'
     })
 
     socket.on('receive_p3v', data => {
-        console.log(data)
+        //console.log(data)
 
         p3vfield.innerHTML = data.p3v + '&nbsp;V'
         if (parseFloat(data.p3v) > 0) {
            $("#p3").removeClass("text-muted").addClass("text-secondary");
         } else {
+            console.log(`error`)
             $("#p3").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
     socket.on('receive_p3c', data => {
-        console.log(data)
+        //console.log(data)
 
         p3cfield.innerHTML = data.p3c + '&nbsp;mA'
     })
 
     socket.on('receive_p4v', data => {
-        console.log(data)
+        //console.log(data)
 
         p4vfield.innerHTML = data.p4v + '&nbsp;V'
         if (parseFloat(data.p4v) > 0) {
             $("#p4").removeClass("text-muted").addClass("text-secondary");
         } else {
+            console.log(`error`);
             $("#p4").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
     socket.on('receive_p4c', data => {
-        console.log(data)
+        //console.log(data)
 
         p4cfield.innerHTML = data.p4c + '&nbsp;mA'
     })
