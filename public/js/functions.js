@@ -28,6 +28,10 @@
         //console.log(username.value)
         socket.emit('port_on', {port: 1})
     })
+    p1OffBtn.addEventListener('click', e => {
+        //console.log(username.value)
+        socket.emit('port_off', {port: 1})
+    })
 
     function funInterval(socket)
     {
