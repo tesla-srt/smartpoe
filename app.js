@@ -31,7 +31,7 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }
-            io.sockets.emit('receive_hostname', {message: `${stdout}`})
+            io.sockets.emit('receive_hostname', {hostname: `${stdout}`})
         });
     })
 
@@ -42,15 +42,15 @@ io.on('connection', socket => {
             //console.log(data)
             jsonContent = JSON.parse(data)
             console.log(`updated`)
-            io.sockets.emit('receive_temp', {message: jsonContent.temp})
-            io.sockets.emit('receive_p4v', {message: jsonContent.p4[0].voltage})
-            io.sockets.emit('receive_p3v', {message: jsonContent.p3[0].voltage})
-            io.sockets.emit('receive_p2v', {message: jsonContent.p2[0].voltage})
-            io.sockets.emit('receive_p1v', {message: jsonContent.p1[0].voltage})
-            io.sockets.emit('receive_p4c', {message: jsonContent.p4[0].current})
-            io.sockets.emit('receive_p3c', {message: jsonContent.p3[0].current})
-            io.sockets.emit('receive_p2c', {message: jsonContent.p2[0].current})
-            io.sockets.emit('receive_p1c', {message: jsonContent.p1[0].current})
+            io.sockets.emit('receive_temp', {temp: jsonContent.temp})
+            io.sockets.emit('receive_p4v', {p4v: jsonContent.p4[0].voltage})
+            io.sockets.emit('receive_p3v', {p3v: jsonContent.p3[0].voltage})
+            io.sockets.emit('receive_p2v', {p2v: jsonContent.p2[0].voltage})
+            io.sockets.emit('receive_p1v', {p1v: jsonContent.p1[0].voltage})
+            io.sockets.emit('receive_p4c', {p4c: jsonContent.p4[0].current})
+            io.sockets.emit('receive_p3c', {p3c: jsonContent.p3[0].current})
+            io.sockets.emit('receive_p2c', {p2c: jsonContent.p2[0].current})
+            io.sockets.emit('receive_p1c', {p1c: jsonContent.p1[0].current})
         });
 
     })

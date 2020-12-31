@@ -43,7 +43,7 @@
 
     socket.on('receive_hostname', data => {
         console.log(data)
-        hostfield.textContent = data.message
+        hostfield.textContent = data.hostname
     })
 
     socket.on('receive_temp', data => {
@@ -54,7 +54,7 @@
             console.log(`NEW TIMEOUT: ` + timeout);
 
         }
-        tempfield.innerHTML = data.message + '&deg;F'
+        tempfield.innerHTML = data.temp + '&deg;F'
     })
 
     socket.on('receive_p1v', data => {
@@ -74,13 +74,13 @@
     socket.on('receive_p1c', data => {
         console.log(data)
 
-        p1cfield.innerHTML = data.message + '&nbsp;mA'
+        p1cfield.innerHTML = data.p1c + '&nbsp;mA'
     })
 
     socket.on('receive_p2v', data => {
         console.log(data)
 
-        p2vfield.innerHTML = data.message + '&nbsp;V'
+        p2vfield.innerHTML = data.p2v + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
             $("#p2").removeClass("text-muted").addClass("text-secondary");
         } else {
@@ -91,13 +91,13 @@
     socket.on('receive_p2c', data => {
         console.log(data)
 
-        p2cfield.innerHTML = data.message + '&nbsp;mA'
+        p2cfield.innerHTML = data.p2c + '&nbsp;mA'
     })
 
     socket.on('receive_p3v', data => {
         console.log(data)
 
-        p3vfield.innerHTML = data.message + '&nbsp;V'
+        p3vfield.innerHTML = data.p3v + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
            $("#p3").removeClass("text-muted").addClass("text-secondary");
         } else {
@@ -108,13 +108,13 @@
     socket.on('receive_p3c', data => {
         console.log(data)
 
-        p3cfield.innerHTML = data.message + '&nbsp;mA'
+        p3cfield.innerHTML = data.p3c + '&nbsp;mA'
     })
 
     socket.on('receive_p4v', data => {
         console.log(data)
 
-        p4vfield.innerHTML = data.message + '&nbsp;V'
+        p4vfield.innerHTML = data.p4v + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
             $("#p4").removeClass("text-muted").addClass("text-secondary");
         } else {
@@ -125,7 +125,7 @@
     socket.on('receive_p4c', data => {
         console.log(data)
 
-        p4cfield.innerHTML = data.message + '&nbsp;mA'
+        p4cfield.innerHTML = data.p4c + '&nbsp;mA'
     })
 
 
