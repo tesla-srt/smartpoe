@@ -63,7 +63,7 @@
             timeout = getRandomInt(tMin,tMax);
             console.log(`NEW TIMEOUT: ` + timeout);
         }*/
-        p1vfield.innerHTML = data.message + '&nbsp;V'
+        p1vfield.innerHTML = data.p1v + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
             $("#p1").removeClass("text-muted").addClass("text-secondary");
         } else {
