@@ -89,7 +89,7 @@
         if (parseFloat(data.p2v) > 0) {
             $("#p2").removeClass("text-muted").addClass("text-secondary");
         } else {
-            if (p1c > 0) {
+            if (p2c > 0) {
                 console.log(`error p2`);
             }
             $("#p2").addClass("text-muted").removeClass("text-secondary");
@@ -109,7 +109,7 @@
         if (parseFloat(data.p3v) > 0) {
            $("#p3").removeClass("text-muted").addClass("text-secondary");
         } else {
-            if (p1c > 0) {
+            if (p3c > 0) {
                 console.log(`error p3`);
             }
             $("#p3").addClass("text-muted").removeClass("text-secondary");
@@ -129,7 +129,7 @@
         if (parseFloat(data.p4v) > 0) {
             $("#p4").removeClass("text-muted").addClass("text-secondary");
         } else {
-            if (p1c > 0) {
+            if (p4c > 0) {
                 console.log(`error p4`);
             }
             $("#p4").addClass("text-muted").removeClass("text-secondary");
