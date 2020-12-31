@@ -223,6 +223,10 @@
         p4cfield.innerHTML = p4c.toPrecision(4) + '&nbsp;mA'
     })
 
+    socket.on('receive_log', data => {
+        console.log(data.message)
+    })
+
 
 	socket.emit('get_hostname', '');
     //socket.emit('get_p1v', '');

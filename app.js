@@ -93,8 +93,7 @@ io.on('connection', socket => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " OFF";
         var bin = exec(cmd);
         bin.stdout.on('data', function(data) {
-            console.log(`device busy`)
-            console.log(data)
+            io.sockets.emit('receive_log', {message: `device busy`})
         });
     })
 
