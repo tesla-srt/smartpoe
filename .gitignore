@@ -1393,3 +1393,4 @@ bin/voltage_port_1.txt
 bin/voltage_port_0.txt
 bin/temperature.txt
 bin/temperature.txt
+bin/all.json
