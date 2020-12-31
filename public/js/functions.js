@@ -15,9 +15,12 @@
     let p4vfield = document.querySelector('#p4v')
     let p4cfield = document.querySelector('#p4c')
 
+    var timeout = getRandomInt(1000,5000);
+    console.log("Your Timeout is: " + timeout);
+
     var i1 = setInterval(function(socket) {
         socket.emit('update', '');
-    }, 2000, socket);
+    }, timeout, socket);
     // clearInterval(i1);
 
 
@@ -120,3 +123,16 @@
 
 	//clearInterval(interval);
 })()
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

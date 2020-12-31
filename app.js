@@ -39,7 +39,7 @@ io.on('connection', socket => {
         var bin = exec("./bin/aaeonSmartPOE.exe all");
 
         bin.stdout.on('data', function(data) {
-            console.log(data)
+            //console.log(data)
             jsonContent = JSON.parse(data)
             console.log(`updated`)
             io.sockets.emit('receive_temp', {message: jsonContent.temp})
