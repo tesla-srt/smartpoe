@@ -69,15 +69,15 @@
         if (parseFloat(data.p1v) > 0) {
             $("#p1").removeClass("text-muted").addClass("text-secondary");
             if (p1c > 0) {
-                $("#p1on").attr("checked", true);
-                $("#p1off").attr("checked", false);
+                $("#p1on").toggleClass("active", true);
+                $("#p1off").toggleClass("active", false);
             }
         } else {
             if (p1c > 0) {
                 console.log(`error p1`);
             }
-            $("#p1on").attr("checked", false);
-            $("#p1off").attr("checked", true);
+            $("#p1on").toggleClass("active", false);
+            $("#p1off").toggleClass("active", true);
             $("#p1").addClass("text-muted").removeClass("text-secondary");
         }
     })
@@ -95,15 +95,15 @@
         if (parseFloat(data.p2v) > 0) {
             $("#p2").removeClass("text-muted").addClass("text-secondary");
             if (p2c > 0) {
-                $("#p2on").attr("checked", true);
-                $("#p2off").attr("checked", false);
+                $("#p2on").toggleClass("active", true);
+                $("#p2off").toggleClass("active", false);
             }
         } else {
             if (p2c > 0) {
                 console.log(`error p2`);
             }
-            $("#p2on").attr("checked", false);
-            $("#p2off").attr("checked", true);
+            $("#p2on").toggleClass("active", false);
+            $("#p2off").toggleClass("active", true);
 
             $("#p2").addClass("text-muted").removeClass("text-secondary");
         }
@@ -122,15 +122,15 @@
         if (parseFloat(data.p3v) > 0) {
            $("#p3").removeClass("text-muted").addClass("text-secondary");
             if (p3c > 0) {
-                $("#p3on").attr("checked", true);
-                $("#p3off").attr("checked", false);
+                $("#p3on").toggleClass("active", true);
+                $("#p3off").toggleClass("active", false);
             }
         } else {
             if (p3c > 0) {
                 console.log(`error p3`);
             }
-            $("#p3on").attr("checked", false);
-            $("#p3off").attr("checked", true);
+            $("#p3on").toggleClass("active", false);
+            $("#p3off").toggleClass("active", true);
             $("#p3").addClass("text-muted").removeClass("text-secondary");
         }
     })
@@ -148,15 +148,15 @@
         if (parseFloat(data.p4v) > 0) {
             $("#p4").removeClass("text-muted").addClass("text-secondary");
             if (p4c > 0) {
-                $("#p4on").attr("checked", true);
-                $("#p4off").attr("checked", false);
+                $("#p4on").toggleClass("active", true);
+                $("#p4off").toggleClass("active", false);
             }
         } else {
             if (p4c > 0) {
                 console.log(`error p4`);
             }
-            $("#p4on").attr("checked", false);
-            $("#p4off").attr("checked", true);
+            $("#p4on").toggleClass("active", false);
+            $("#p4off").toggleClass("active", true);
             $("#p4").addClass("text-muted").removeClass("text-secondary");
         }
     })
