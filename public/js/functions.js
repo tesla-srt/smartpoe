@@ -15,14 +15,11 @@
     let p4vfield = document.querySelector('#p4v')
     let p4cfield = document.querySelector('#p4c')
 
-    var p1c, p2c,p3c, p4c;
+    var p1c, p2c, p3c, p4c, i1, timeout;
 
     const tMin = 2000;
     const tMax = 6000;
 
-    //var timeout = getRandomInt(tMin,tMax);
-    var timeout;
-    var i1;
     function funInterval(socket)
     {
         var interval =  getRandomInt(tMin,tMax);
@@ -65,7 +62,7 @@
             timeout = getRandomInt(tMin,tMax);
             console.log(`NEW TIMEOUT: ` + timeout);
         }*/
-        p1vfield.innerHTML = data.p1v + '&nbsp;V'
+        p1vfield.innerHTML = parseFloat(data.p1v).toPrecision(2) + '&nbsp;V'
         if (parseFloat(data.p1v) > 0) {
             $("#p1").removeClass("text-muted").addClass("text-secondary");
             if (p1c > 0) {
@@ -85,13 +82,13 @@
     socket.on('receive_p1c', data => {
         //console.log(data)
         p1c = parseFloat(data.p1c);
-        p1cfield.innerHTML = data.p1c + '&nbsp;mA'
+        p1cfield.innerHTML = p1c.toPrecision(2) + '&nbsp;mA'
     })
 
     socket.on('receive_p2v', data => {
         //console.log(data)
 
-        p2vfield.innerHTML = data.p2v + '&nbsp;V'
+        p2vfield.innerHTML = parseFloat(data.p2v).toPrecision(2) + '&nbsp;V'
         if (parseFloat(data.p2v) > 0) {
             $("#p2").removeClass("text-muted").addClass("text-secondary");
             if (p2c > 0) {
@@ -112,13 +109,13 @@
     socket.on('receive_p2c', data => {
         //console.log(data)
         p2c = parseFloat(data.p2c)
-        p2cfield.innerHTML = data.p2c + '&nbsp;mA'
+        p2cfield.innerHTML = p2c.toPrecision(2) + '&nbsp;mA'
     })
 
     socket.on('receive_p3v', data => {
         //console.log(data)
 
-        p3vfield.innerHTML = data.p3v + '&nbsp;V'
+        p3vfield.innerHTML = parseFloat(data.p3v).toPrecision(2) + '&nbsp;V'
         if (parseFloat(data.p3v) > 0) {
            $("#p3").removeClass("text-muted").addClass("text-secondary");
             if (p3c > 0) {
@@ -138,13 +135,13 @@
     socket.on('receive_p3c', data => {
         //console.log(data)
         p3c = parseFloat(data.p3c)
-        p3cfield.innerHTML = data.p3c + '&nbsp;mA'
+        p3cfield.innerHTML = p3c.toPrecision(2) + '&nbsp;mA'
     })
 
     socket.on('receive_p4v', data => {
         //console.log(data)
 
-        p4vfield.innerHTML = data.p4v + '&nbsp;V'
+        p4vfield.innerHTML = parseFloat(data.p4v).toPrecision(2) + '&nbsp;V'
         if (parseFloat(data.p4v) > 0) {
             $("#p4").removeClass("text-muted").addClass("text-secondary");
             if (p4c > 0) {
@@ -164,7 +161,7 @@
     socket.on('receive_p4c', data => {
         //console.log(data)
         p4c = parseFloat(data.p4c)
-        p4cfield.innerHTML = data.p4c + '&nbsp;mA'
+        p4cfield.innerHTML = p4c.toPrecision(2) + '&nbsp;mA'
     })
 
 
