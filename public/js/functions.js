@@ -16,7 +16,7 @@
     let p4cfield = document.querySelector('#p4c')
 
     const tMin = 2000;
-    const tMac = 10000;
+    const tMax = 10000;
 
     //var timeout = getRandomInt(tMin,tMax);
 
