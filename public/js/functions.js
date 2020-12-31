@@ -16,10 +16,10 @@
     let p4vfield = document.querySelector('#p4v')
     let p4cfield = document.querySelector('#p4c')
 
-    var i1 = setInterval(function(socket) {
-        socket.emit('update', '');
-    }, 2000, socket);
-    clearInterval(i1);
+    // var i1 = setInterval(function(socket) {
+    //     socket.emit('update', '');
+    // }, 2000, socket);
+    // clearInterval(i1);
 
     socket.on('receive_hostname', data => {
         console.log(data)
