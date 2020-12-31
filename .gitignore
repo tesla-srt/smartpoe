@@ -1396,3 +1396,4 @@ bin/temperature.txt
 bin/all.json
 bin/temperature.txt
 bin/temperature.txt
+bin/current.mA._port_0.txt
