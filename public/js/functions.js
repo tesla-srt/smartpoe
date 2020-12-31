@@ -15,8 +15,8 @@
     let p4vfield = document.querySelector('#p4v')
     let p4cfield = document.querySelector('#p4c')
 
-    const timeout = getRandomInt(2000,5000);
-    console.log("Your Timeout is: " + timeout);
+    var timeout = getRandomInt(2000,5000);
+    console.log(`Your Timeout is: ` + timeout);
 
     var i1 = setInterval(function(socket) {
         socket.emit('update', '');
