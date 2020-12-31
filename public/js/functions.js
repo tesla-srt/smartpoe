@@ -48,7 +48,7 @@
 
     socket.on('receive_temp', data => {
         console.log(data)
-        if (data.message == "N/A") {
+        if (data.temp == "N/A") {
             timeout = changeInterval(socket);
             socket.emit('update', '');
             console.log(`NEW TIMEOUT: ` + timeout);
@@ -64,7 +64,7 @@
             console.log(`NEW TIMEOUT: ` + timeout);
         }*/
         p1vfield.innerHTML = data.p1v + '&nbsp;V'
-        if (parseFloat(data.message) > 0) {
+        if (parseFloat(data.p1v) > 0) {
             $("#p1").removeClass("text-muted").addClass("text-secondary");
         } else {
             $("#p1").addClass("text-muted").removeClass("text-secondary");
@@ -81,7 +81,7 @@
         console.log(data)
 
         p2vfield.innerHTML = data.p2v + '&nbsp;V'
-        if (parseFloat(data.message) > 0) {
+        if (parseFloat(data.p2v) > 0) {
             $("#p2").removeClass("text-muted").addClass("text-secondary");
         } else {
            $("#p2").addClass("text-muted").removeClass("text-secondary");
@@ -98,7 +98,7 @@
         console.log(data)
 
         p3vfield.innerHTML = data.p3v + '&nbsp;V'
-        if (parseFloat(data.message) > 0) {
+        if (parseFloat(data.p3v) > 0) {
            $("#p3").removeClass("text-muted").addClass("text-secondary");
         } else {
             $("#p3").addClass("text-muted").removeClass("text-secondary");
@@ -115,7 +115,7 @@
         console.log(data)
 
         p4vfield.innerHTML = data.p4v + '&nbsp;V'
-        if (parseFloat(data.message) > 0) {
+        if (parseFloat(data.p4v) > 0) {
             $("#p4").removeClass("text-muted").addClass("text-secondary");
         } else {
             $("#p4").addClass("text-muted").removeClass("text-secondary");
