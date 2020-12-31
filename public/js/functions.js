@@ -15,12 +15,27 @@
     let p4vfield = document.querySelector('#p4v')
     let p4cfield = document.querySelector('#p4c')
 
-    var timeout = getRandomInt(2000,5000);
-    console.log(`Your Timeout is: ` + timeout);
+    const tMin = 2000;
+    const tMac = 10000;
 
-    var i1 = setInterval(function(socket) {
-        socket.emit('update', '');
-    }, timeout, socket);
+    //var timeout = getRandomInt(tMin,tMax);
+
+    var i1;
+    function funInterval(socket)
+    {
+        var interval =  getRandomInt(tMin,tMax);
+        console.log(`Your Timeout is: ` + interval);
+        i1 = setInterval(function (socket) {
+            socket.emit('update', '');
+        }, interval, socket);
+    }
+    function changeInterval(socket)
+    {
+        clearInterval(i1);
+        funInterval(socket);
+    }
+
+    funInterval(socket);
     // clearInterval(i1);
 
 
@@ -33,7 +48,8 @@
     socket.on('receive_temp', data => {
         console.log(data)
         if (data.message == "N/A") {
-            timeout = getRandomInt(2000, 5000);
+            changeInterval(socket);
+            socket.emit('update', '');
             console.log(`NEW TIMEOUT: ` + timeout);
 
         }
@@ -43,7 +59,7 @@
     socket.on('receive_p1v', data => {
         console.log(data)
 /*        if (data.message == "0") {
-            timeout = getRandomInt(2000, 5000);
+            timeout = getRandomInt(tMin,tMax);
             console.log(`NEW TIMEOUT: ` + timeout);
         }*/
         p1vfield.innerHTML = data.message + '&nbsp;V'
@@ -152,3 +168,4 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
