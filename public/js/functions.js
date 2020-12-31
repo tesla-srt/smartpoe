@@ -65,9 +65,9 @@
         console.log(data)
         p3vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-           // p3icon.removeClass("text-muted").addClass("text-secondary");
+           $("#p3").removeClass("text-muted").addClass("text-secondary");
         } else {
-            //p3icon.addClass("text-muted").removeClass("text-secondary");
+            $("#p3").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -80,9 +80,9 @@
         console.log(data)
         p4vfield.innerHTML = data.message + '&nbsp;V'
         if (parseFloat(data.message) > 0) {
-           // p4icon.removeClass("text-muted").addClass("text-secondary");
+            $("#p4").removeClass("text-muted").addClass("text-secondary");
         } else {
-            //p4icon.addClass("text-muted").removeClass("text-secondary");
+            $("#p4").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -97,7 +97,7 @@
     //socket.emit('get_p2v', '');
     //socket.emit('get_p3v', '');
     //socket.emit('get_p4v', '');
-
+/*
 	var i1 = setInterval(function(socket) {
   		socket.emit('get_temp', '');
 	}, 4500, socket);
@@ -115,7 +115,7 @@
 
     var i5 = setInterval(function(socket) {
         socket.emit('get_p4v', '');
-    }, 4500, socket);
+    }, 4500, socket);*/
 
 	//clearInterval(interval);
 })()
