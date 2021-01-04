@@ -228,12 +228,12 @@
     })
 
     socket.on('device_on_busy', data => {
-        console.log(`port_on_busy,  ${data.port}`)
+        console.log(`port_on, ` + data.port)
         socket.emit('port_on', {port: data.port})
     })
 
     socket.on('device_off_busy', data => {
-        console.log(`port_off_busy,  ${data.port}`)
+        console.log(`port_off, ` + data.port)
         socket.emit('port_off', {port: data.port})
     })
 
