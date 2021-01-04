@@ -56,10 +56,10 @@ io.on('connection', socket => {
             p1v = jsonContent.p1[0].voltage
             p1c = jsonContent.p1[0].current
 
-            p1w = p1c * p1v;
-            p2w = p2c * p2v;
-            p3w = p3c * p3v;
-            p4w = p4c * p4v;
+            p1w = (p1c / 1000) * p1v;
+            p2w = (p2c / 1000) * p2v;
+            p3w = (p3c / 1000) * p3v;
+            p4w = (p4c / 1000) * p4v;
 
             totalWatts = p1w + p2w + p3w + p4w;
 
