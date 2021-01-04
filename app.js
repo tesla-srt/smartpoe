@@ -16,7 +16,7 @@ const server = app.listen(3000,'0.0.0.0')
 //initialize socket for the server
 const io = socketio(server)
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"loading..","current":"Loading.."}],"p2":[{"voltage":"Loading..","current":"Loading.."}],"p3":[{"voltage":"Loading..","current":"Loading.."}],"p4":[{"voltage":"Loading..","current":"Loading.."}]}`)
-console.log(jsonContent.p2[0].voltage);
+//console.log(jsonContent.p2[0].voltage);
 io.on('connection', socket => {
     console.log("New user connected")
 
@@ -36,12 +36,12 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-        var bin = exec("./bin/aaeonSmartPOE.exe all");
+        var bin = exec("./bin/aaeonSmartPOE.exe all", {timeout: 200});
 
         bin.stdout.on('data', function(data) {
             //console.log(data)
             jsonContent = JSON.parse(data)
-            console.log(`updated`)
+            //console.log(`updated`)
             io.sockets.emit('receive_temp', {temp: jsonContent.temp})
             io.sockets.emit('receive_p4v', {p4v: jsonContent.p4[0].voltage})
             io.sockets.emit('receive_p3v', {p3v: jsonContent.p3[0].voltage})
@@ -82,18 +82,17 @@ io.on('connection', socket => {
 
     socket.on('port_on', data => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " ON";
-        var bin = exec(cmd);
+        var bin = exec(cmd, {timeout: 200})
         bin.stdout.on('data', function(data) {
-            console.log(`device busy`)
-            console.log(data)
+            io.sockets.emit('device_on_busy', {port: data.port})
         });
     })
 
     socket.on('port_off', data => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " OFF";
-        var bin = exec(cmd);
+        var bin = exec(cmd, {timeout: 200})
         bin.stdout.on('data', function(data) {
-            io.sockets.emit('receive_log', {message: `device busy`})
+            io.sockets.emit('device_off_busy', {port: data.port})
         });
     })
 

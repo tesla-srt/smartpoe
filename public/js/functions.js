@@ -24,7 +24,7 @@
     let p3OffBtn = document.querySelector('#p3off')
     let p4OffBtn = document.querySelector('#p4off')
 
-    var p1c, p2c, p3c, p4c, i1, timeout;
+    var p1c, p1w, p2c, p2w, p3c, p3w, p4c, p4w, totalWatts, i1, timeout;
 
     const tMin = 2000;
     const tMax = 6000;
@@ -227,8 +227,17 @@
         console.log(data.message)
     })
 
+    socket.on('device_on_busy', data => {
+        socket.emit('port_on', {port: data.port})
+    })
 
-	socket.emit('get_hostname', '');
+    socket.on('device_off_busy', data => {
+        socket.emit('port_off', {port: data.port})
+    })
+
+
+
+    socket.emit('get_hostname', '');
     //socket.emit('get_p1v', '');
     //socket.emit('get_p2v', '');
     //socket.emit('get_p3v', '');
