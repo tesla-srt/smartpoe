@@ -25,7 +25,7 @@
     let p3OffBtn = document.querySelector('#p3off')
     let p4OffBtn = document.querySelector('#p4off')
 
-    var p1c, p1w, p2c, p2w, p3c, p3w, p4c, p4w, totalWatts, i1, timeout;
+    var p1c, p2c, p3c, p4c, i1, timeout;
 
     const tMin = 2000;
     const tMax = 6000;
