@@ -36,7 +36,7 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-        var bin = exec("./bin/aaeonSmartPOE.exe all", { timeout: 500 });
+        var bin = exec("./bin/aaeonSmartPOE.exe all", { timeout: 600 });
 
         bin.stdout.on('data', function(data) {
             //console.log(data)
