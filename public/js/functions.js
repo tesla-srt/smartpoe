@@ -2,6 +2,7 @@
     let socket = io()
     let hostfield = document.querySelector('#hostname')
     let tempfield = document.querySelector('#temp')
+    let wattField = document.querySelector('#totWatts')
     let p1icon = document.querySelector('#p1')
     let p2icon = document.querySelector('#p2')
     let p3icon = document.querySelector('#p3')
@@ -102,6 +103,11 @@
     socket.on('receive_hostname', data => {
         //console.log(data)
         hostfield.textContent = data.hostname
+    })
+
+    socket.on('receive_watt', data => {
+        //console.log(data)
+        wattField.textContent = data.watts + ` W`
     })
 
     socket.on('receive_temp', data => {

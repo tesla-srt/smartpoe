@@ -15,6 +15,8 @@ const server = app.listen(3000,'0.0.0.0')
 
 //initialize socket for the server
 const io = socketio(server)
+var p1v, p1c, p1w, p2v, p2c, p2w, p3v, p3c, p3w, p4v, p4c, p4w, totalWatts;
+
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"loading..","current":"Loading.."}],"p2":[{"voltage":"Loading..","current":"Loading.."}],"p3":[{"voltage":"Loading..","current":"Loading.."}],"p4":[{"voltage":"Loading..","current":"Loading.."}]}`)
 //console.log(jsonContent.p2[0].voltage);
 io.on('connection', socket => {
@@ -42,7 +44,27 @@ io.on('connection', socket => {
             //console.log(data)
             jsonContent = JSON.parse(data)
             //console.log(`updated`)
+            p3v = jsonContent.p3[0].voltage
+            p3c = jsonContent.p3[0].current
+
+            p4v = jsonContent.p4[0].voltage
+            p4c = jsonContent.p4[0].current
+
+            p2v = jsonContent.p2[0].voltage
+            p2c = jsonContent.p2[0].current
+
+            p1v = jsonContent.p1[0].voltage
+            p1c = jsonContent.p1[0].current
+
+            p1w = p1c * p1v;
+            p2w = p2c * p2v;
+            p3w = p3c * p3v;
+            p4w = p4c * p4v;
+
+            totalWatts = p1w + p2w + p3w + p4w;
+
             io.sockets.emit('receive_temp', {temp: jsonContent.temp})
+            io.sockets.emit('receive_watt', {watts: totalWatts})
             io.sockets.emit('receive_p4v', {p4v: jsonContent.p4[0].voltage})
             io.sockets.emit('receive_p3v', {p3v: jsonContent.p3[0].voltage})
             io.sockets.emit('receive_p2v', {p2v: jsonContent.p2[0].voltage})
