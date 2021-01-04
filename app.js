@@ -82,7 +82,7 @@ io.on('connection', socket => {
 
     socket.on('port_on', data => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " ON";
-        var bin = exec(cmd, {timeout: 200})
+        var bin = exec(cmd, { timeout: 500 })
         bin.stdout.on('data', function(data) {
             io.sockets.emit('device_on_busy', {port: data.port})
         });
@@ -90,7 +90,7 @@ io.on('connection', socket => {
 
     socket.on('port_off', data => {
         var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " OFF";
-        var bin = exec(cmd, {timeout: 200})
+        var bin = exec(cmd, { timeout: 500 })
         bin.stdout.on('data', function(data) {
             io.sockets.emit('device_off_busy', {port: data.port})
         });
