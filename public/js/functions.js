@@ -107,7 +107,7 @@
 
     socket.on('receive_watt', data => {
         //console.log(data)
-        wattField.textContent = (data.watts).toPrecision(4) + ` W`
+        wattField.textContent = (data.watts).toPrecision(3) + ` W`
     })
 
     socket.on('receive_temp', data => {
