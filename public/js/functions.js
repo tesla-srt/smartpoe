@@ -278,3 +278,11 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+var myVar = setInterval(function() {
+    myTimer();
+}, 1000);
+
+function myTimer() {
+    var d = new Date();
+    document.getElementById("systime").innerHTML = d.toLocaleTimeString();
+}
