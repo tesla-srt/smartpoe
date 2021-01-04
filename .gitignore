@@ -3218,3 +3218,8 @@ node_modules/verror/package.json
 node_modules/verror/README.md
 package-lock.json
 package-lock.json
+package-lock.json
+daemon/smartpoeui.wrapper.log
+daemon/smartpoeui.out.log
+daemon/smartpoeui.exe.config
+daemon/smartpoeui.err.log
