@@ -11,7 +11,7 @@ app.get('/', (req, res)=> {
     res.render('index')
 })
 
-const server = app.listen(3000,'0.0.0.0')
+const server = app.listen(3001,'0.0.0.0')
 
 //initialize socket for the server
 const io = socketio(server)
@@ -38,7 +38,7 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-        var bin = exec("./bin/aaeonSmartPOE.exe all", { timeout: 750 });
+        var bin = exec('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { timeout: 750 });
 
         bin.stdout.on('data', function(data) {
             //console.log(data)
@@ -75,6 +75,10 @@ io.on('connection', socket => {
             io.sockets.emit('receive_p1c', {p1c: jsonContent.p1[0].current})
         });
 
+ bin.stderr.on('data', function(data) {
+            console.log(data)
+        });
+
     })
 
     socket.on('get_temp', data => {
@@ -103,7 +107,7 @@ io.on('connection', socket => {
     })
 
     socket.on('port_on', data => {
-        var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " ON";
+        var cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " ON";
         var bin = exec(cmd, { timeout: 150 })
         bin.stdout.on('data', function(data) {
             console.log(`port_on_busy: ` + data.port)
@@ -112,7 +116,7 @@ io.on('connection', socket => {
     })
 
     socket.on('port_off', data => {
-        var cmd = "./bin/aaeonSmartPOE.exe " + data.port + " OFF";
+        var cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " OFF";
         var bin = exec(cmd, { timeout: 150 })
         bin.stdout.on('data', function(data) {
             console.log(`port_off_busy: ` + data.port)
