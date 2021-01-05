@@ -1,6 +1,7 @@
 const express = require('express')
 const socketio = require('socket.io')
-const { exec } = require("child_process");
+const { spawn } = require("child_process");
+const { exec } = require("child_process").exec;
 const app = express()
 var fs = require("fs");
 
@@ -38,7 +39,7 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-        var bin = exec('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { timeout: 750 });
+        var bin = spawn('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { shell: true });
 
         bin.stdout.on('data', function(data) {
             //console.log(data)
