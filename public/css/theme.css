@@ -56,7 +56,8 @@ body {
   line-height: 1.5;
   color: white;
   text-align: left;
-  background-color: black; }
+  background-color: #2f4353;
+  background-image: linear-gradient(315deg, #2f4353 0%, #d2ccc4 74%); }
 
  #sysinfo .card-header, #sysinfo .card-title, #sysinfo .card-text { color: #333; }
 
