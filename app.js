@@ -24,7 +24,7 @@ io.on('connection', socket => {
 
     socket.on('get_hostname', data => {
         
-        execFile("hostname", (error, stdout, stderr) => {
+        exec("hostname", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
