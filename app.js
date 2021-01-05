@@ -21,16 +21,6 @@ var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"loading..","
 //console.log(jsonContent.p2[0].voltage);
 io.on('connection', socket => {
     //console.log("New user connected")
-    io.sockets.emit('receive_temp', {temp: jsonContent.temp})
-    io.sockets.emit('receive_watt', {watts: totalWatts})
-    io.sockets.emit('receive_p4v', {p4v: jsonContent.p4[0].voltage})
-    io.sockets.emit('receive_p3v', {p3v: jsonContent.p3[0].voltage})
-    io.sockets.emit('receive_p2v', {p2v: jsonContent.p2[0].voltage})
-    io.sockets.emit('receive_p1v', {p1v: jsonContent.p1[0].voltage})
-    io.sockets.emit('receive_p4c', {p4c: jsonContent.p4[0].current})
-    io.sockets.emit('receive_p3c', {p3c: jsonContent.p3[0].current})
-    io.sockets.emit('receive_p2c', {p2c: jsonContent.p2[0].current})
-    io.sockets.emit('receive_p1c', {p1c: jsonContent.p1[0].current})
 
     socket.on('get_hostname', data => {
         
