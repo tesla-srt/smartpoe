@@ -3,10 +3,6 @@
     let hostfield = document.querySelector('#hostname')
     let tempfield = document.querySelector('#temp')
     let wattField = document.querySelector('#totWatts')
-    let p1icon = document.querySelector('#p1')
-    let p2icon = document.querySelector('#p2')
-    let p3icon = document.querySelector('#p3')
-    let p4icon = document.querySelector('#p4')
     let p1vfield = document.querySelector('#p1v')
     let p1cfield = document.querySelector('#p1c')
     let p2vfield = document.querySelector('#p2v')
@@ -32,55 +28,6 @@
 
     timeout = funInterval(socket);
 
-    p1OnBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_on', {port: 0})
-        timeout = funInterval(socket)
-    })
-    p2OnBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_on', {port: 1})
-        timeout = funInterval(socket)
-    })
-    p3OnBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_on', {port: 2})
-        timeout = funInterval(socket)
-    })
-    p4OnBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_on', {port: 3})
-        timeout = funInterval(socket)
-    })
-    p1OffBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_off', {port: 0})
-        timeout = funInterval(socket)
-    })
-    p2OffBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_off', {port: 1})
-        timeout = funInterval(socket)
-    })
-    p3OffBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_off', {port: 2})
-        timeout = funInterval(socket)
-    })
-    p4OffBtn.addEventListener('click', e => {
-        //console.log(username.value)
-        clearInterval(i1)
-        socket.emit('port_off', {port: 3})
-        timeout = funInterval(socket)
-    })
-
     function funInterval(socket)
     {
         var interval =  getRandomInt(tMin,tMax);
@@ -98,7 +45,7 @@
 
     // clearInterval(i1);
 
-
+    socket.emit('get_hostname', '');
 
     socket.on('receive_hostname', data => {
         //console.log(data)
@@ -107,7 +54,7 @@
 
     socket.on('receive_watt', data => {
         //console.log(data)
-        wattField.textContent = (data.watts).toPrecision(3) + ` W`
+        wattField.textContent = (data.watts).toPrecision(4) + ` W`
     })
 
     socket.on('receive_temp', data => {
@@ -122,11 +69,6 @@
     })
 
     socket.on('receive_p1v', data => {
-        //console.log(data)
-/*        if (data.message == "0") {
-            timeout = getRandomInt(tMin,tMax);
-            console.log(`NEW TIMEOUT: ` + timeout);
-        }*/
         p1vfield.innerHTML = parseFloat(data.p1v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p1v) > 0) {
             $("#p1").removeClass("text-muted").addClass("text-secondary");
@@ -135,8 +77,10 @@
                 $("#p1off").toggleClass("active", false);
             }
         } else {
-            if (p1c > 0) {
+            if (p1c > 0) { /* If Voltage is 0 and there is a current */
                 console.log(`error p1`);
+                /* Should probably indicate that the port is not getting a voltage */
+                /* Maybe turn the port on but this should be handled by the server */
             }
             $("#p1on").toggleClass("active", false);
             $("#p1off").toggleClass("active", true);
@@ -145,14 +89,11 @@
     })
 
     socket.on('receive_p1c', data => {
-        //console.log(data)
         p1c = parseFloat(data.p1c);
         p1cfield.innerHTML = p1c.toPrecision(4) + '&nbsp;mA'
     })
 
     socket.on('receive_p2v', data => {
-        //console.log(data)
-
         p2vfield.innerHTML = parseFloat(data.p2v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p2v) > 0) {
             $("#p2").removeClass("text-muted").addClass("text-secondary");
@@ -172,7 +113,6 @@
     })
 
     socket.on('receive_p2c', data => {
-        //console.log(data)
         p2c = parseFloat(data.p2c)
         p2cfield.innerHTML = p2c.toPrecision(4) + '&nbsp;mA'
     })
@@ -198,14 +138,11 @@
     })
 
     socket.on('receive_p3c', data => {
-        //console.log(data)
         p3c = parseFloat(data.p3c)
         p3cfield.innerHTML = p3c.toPrecision(4) + '&nbsp;mA'
     })
 
     socket.on('receive_p4v', data => {
-        //console.log(data)
-
         p4vfield.innerHTML = parseFloat(data.p4v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p4v) > 0) {
             $("#p4").removeClass("text-muted").addClass("text-secondary");
@@ -224,7 +161,6 @@
     })
 
     socket.on('receive_p4c', data => {
-        //console.log(data)
         p4c = parseFloat(data.p4c)
         p4cfield.innerHTML = p4c.toPrecision(4) + '&nbsp;mA'
     })
@@ -243,34 +179,47 @@
         socket.emit('port_off', {port: data.port})
     })
 
+    p1OnBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_on', {port: 0})
+        timeout = funInterval(socket)
+    })
+    p2OnBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_on', {port: 1})
+        timeout = funInterval(socket)
+    })
+    p3OnBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_on', {port: 2})
+        timeout = funInterval(socket)
+    })
+    p4OnBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_on', {port: 3})
+        timeout = funInterval(socket)
+    })
+    p1OffBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_off', {port: 0})
+        timeout = funInterval(socket)
+    })
+    p2OffBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_off', {port: 1})
+        timeout = funInterval(socket)
+    })
+    p3OffBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_off', {port: 2})
+        timeout = funInterval(socket)
+    })
+    p4OffBtn.addEventListener('click', e => {
+        clearInterval(i1)
+        socket.emit('port_off', {port: 3})
+        timeout = funInterval(socket)
+    })
 
-
-    socket.emit('get_hostname', '');
-    //socket.emit('get_p1v', '');
-    //socket.emit('get_p2v', '');
-    //socket.emit('get_p3v', '');
-    //socket.emit('get_p4v', '');
-/*
-	var i1 = setInterval(function(socket) {
-  		socket.emit('get_temp', '');
-	}, 4500, socket);
-	var i2 = setInterval(function(socket) {
-  		socket.emit('get_p1v', '');
-	}, 4500, socket);
-
-    var i3 = setInterval(function(socket) {
-        socket.emit('get_p2v', '');
-    }, 4500, socket);
-
-    var i4 = setInterval(function(socket) {
-        socket.emit('get_p3v', '');
-    }, 4500, socket);
-
-    var i5 = setInterval(function(socket) {
-        socket.emit('get_p4v', '');
-    }, 4500, socket);*/
-
-	//clearInterval(interval);
 })()
 
 /**
