@@ -1,5 +1,7 @@
+var p1c, p2c, p3c, p4c, i1, timeout;
+let socket = io()
 (function connect(){
-    let socket = io()
+    
     let hostfield = document.querySelector('#hostname')
     let tempfield = document.querySelector('#temp')
     let wattField = document.querySelector('#totWatts')
@@ -20,8 +22,6 @@
     let p2OffBtn = document.querySelector('#p2off')
     let p3OffBtn = document.querySelector('#p3off')
     let p4OffBtn = document.querySelector('#p4off')
-
-    var p1c, p2c, p3c, p4c, i1, timeout;
 
     const tMin = 2000;
     const tMax = 6000;
