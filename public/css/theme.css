@@ -43,7 +43,9 @@ html {
   font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background-color: #2f4353;
+  background-image: linear-gradient(315deg, #2f4353 0%, #d2ccc4 74%); }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
@@ -56,8 +58,7 @@ body {
   line-height: 1.5;
   color: white;
   text-align: left;
-  background-color: #2f4353;
-  background-image: linear-gradient(315deg, #2f4353 0%, #d2ccc4 74%); }
+}
 
  #sysinfo .card-header, #sysinfo .card-title, #sysinfo .card-text { color: #333; }
 
