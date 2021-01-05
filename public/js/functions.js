@@ -46,6 +46,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
     // clearInterval(i1);
 
     socket.emit('get_hostname', '');
+    socket.emit('update', '');
 
     socket.on('receive_hostname', data => {
         //console.log(data)
