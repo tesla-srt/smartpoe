@@ -1,6 +1,6 @@
 const express = require('express')
 const socketio = require('socket.io')
-const { execFile } = require("child_process");
+const { exec } = require("child_process");
 const app = express()
 var fs = require("fs");
 
@@ -48,7 +48,7 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-        var bin = execFile('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { timeout: 750 });
+        var bin = exec('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { timeout: 750 });
 
         bin.stdout.on('data', function(data) {
             //console.log(data)
@@ -118,7 +118,7 @@ io.on('connection', socket => {
 
     socket.on('port_on', data => {
         var cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " ON";
-        var bin = execFile(cmd, { timeout: 150 })
+        var bin = exec(cmd, { timeout: 150 })
         bin.stdout.on('data', function(data) {
             console.log(`port_on_busy: ` + data.port)
             io.sockets.emit('device_on_busy', {port: data.port})
@@ -127,7 +127,7 @@ io.on('connection', socket => {
 
     socket.on('port_off', data => {
         var cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " OFF";
-        var bin = execFile(cmd, { timeout: 150 })
+        var bin = exec(cmd, { timeout: 150 })
         bin.stdout.on('data', function(data) {
             console.log(`port_off_busy: ` + data.port)
             io.sockets.emit('device_off_busy', {port: data.port})
