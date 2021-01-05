@@ -1,9 +1,7 @@
 var p1c, p2c, p3c, p4c, i1, timeout;
 
-(
+(function connect(){
     let socket = io()
-    function connect(){
-
     let hostfield = document.querySelector('#hostname')
     let tempfield = document.querySelector('#temp')
     let wattField = document.querySelector('#totWatts')
