@@ -31,7 +31,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
     function funInterval(socket)
     {
         var interval =  getRandomInt(tMin,tMax);
-       // console.log(`Your Timeout is: ` + interval);
+       console.log(`Your Timeout is: ` + interval);
         i1 = setInterval(function (socket) {
             socket.emit('update', '');
         }, interval, socket);
@@ -55,7 +55,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
 
     socket.on('receive_watt', data => {
         //console.log(data)
-        wattField.textContent = parseFloat(data.watts).toPrecision(4) + ` W`
+        wattField.textContent = parseFloat(data.watts).toPrecision(3) + ` W`
     })
 
     socket.on('receive_temp', data => {
@@ -182,22 +182,24 @@ var p1c, p2c, p3c, p4c, i1, timeout;
 
     p1OnBtn.addEventListener('click', e => {
         clearInterval(i1)
-        socket.emit('port_on', {port: 0})
+        if (parseFloat($("#p1v").html()) < 1) {
+            socket.emit('port_on', {port: 0})
+        }
         timeout = funInterval(socket)
     })
     p2OnBtn.addEventListener('click', e => {
         clearInterval(i1)
-        socket.emit('port_on', {port: 1})
+        if (parseFloat($("#p2v").html()) < 1) {socket.emit('port_on', {port: 1})}
         timeout = funInterval(socket)
     })
     p3OnBtn.addEventListener('click', e => {
         clearInterval(i1)
-        socket.emit('port_on', {port: 2})
+        if (parseFloat($("#p4v").html()) < 1) {socket.emit('port_on', {port: 2})}
         timeout = funInterval(socket)
     })
     p4OnBtn.addEventListener('click', e => {
         clearInterval(i1)
-        socket.emit('port_on', {port: 3})
+        if (parseFloat($("#p4v").html()) < 1) {socket.emit('port_on', {port: 3})}
         timeout = funInterval(socket)
     })
     p1OffBtn.addEventListener('click', e => {

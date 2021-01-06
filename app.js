@@ -18,21 +18,25 @@ const server = app.listen(3001,'0.0.0.0')
 const io = socketio(server)
 const p1 = {
     current: 0.00,
-    voltage: 0.00
+    voltage: 0.00,
+    watts: 0.00
 }
 const p2 = {
     current: 0.00,
-    voltage: 0.00
+    voltage: 0.00,
+    watts: 0.00
 }
 const p3 = {
     current: 0.00,
-    voltage: 0.00
+    voltage: 0.00,
+    watts: 0.00
 }
 const p4 = {
     current: 0.00,
-    voltage: 0.00
+    voltage: 0.00,
+    watts: 0.00
 }
-let  p1w, p2w, p3w, p4w, totalWatts;
+let totalWatts = 0.00;
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 //console.log(jsonContent.p2[0].voltage);
@@ -73,24 +77,24 @@ io.on('connection', socket => {
 
         });
 
-        p3.voltage = jsonContent.p3[0].voltage
-        p3.current = jsonContent.p3[0].current
+        p3.voltage = jsonContent["p3"][0].voltage
+        p3.current = jsonContent["p3"][0].current
 
-        p4.voltage = jsonContent.p4[0].voltage
-        p4.current = jsonContent.p4[0].current
+        p4.voltage = jsonContent["p4"][0].voltage
+        p4.current = jsonContent["p4"][0].current
 
-        p2.voltage = jsonContent.p2[0].voltage
-        p2.current = jsonContent.p2[0].current
+        p2.voltage = jsonContent["p2"][0].voltage
+        p2.current = jsonContent["p2"][0].current
 
-        p1.voltage = jsonContent.p1[0].voltage
-        p1.current = jsonContent.p1[0].current
+        p1.voltage = jsonContent["p1"][0].voltage
+        p1.current = jsonContent["p1"][0].current
 
-        p1w = (p1.current / 1000) * p1.voltage;
-        p2w = (p2.current / 1000) * p2.voltage;
-        p3w = (p3.current / 1000) * p3.voltage;
-        p4w = (p4.current / 1000) * p4.voltage;
+        p1.watts = (p1.current / 1000) * p1.voltage;
+        p2.watts = (p2.current / 1000) * p2.voltage;
+        p3.watts = (p3.current / 1000) * p3.voltage;
+        p4.watts = (p4.current / 1000) * p4.voltage;
 
-        totalWatts = p1w + p2w + p3w + p4w;
+        totalWatts = p1.watts + p2.watts + p3.watts + p4.watts;
 
         io.sockets.emit('receive_temp', {temp: jsonContent.temp})
         io.sockets.emit('receive_watt', {watts: totalWatts})
@@ -109,24 +113,35 @@ io.on('connection', socket => {
     })
 
     socket.on('get_p3v', data => {
-        io.sockets.emit('receive_p3v', {message: jsonContent.p3[0].voltage})
+        io.sockets.emit('receive_p3v', {message: p3.voltage})
     })
 
     socket.on('get_p3c', data => {
-        io.sockets.emit('receive_p3c', {message: jsonContent.p3[0].current})
+        io.sockets.emit('receive_p3c', {message: p3.current})
     })
 
     socket.on('get_p1v', data => {
-        io.sockets.emit('receive_p1v', {message: jsonContent.p1[0].voltage})
+        io.sockets.emit('receive_p1v', {message: p1.voltage})
     })
 
+    socket.on('get_p1c', data => {
+        io.sockets.emit('receive_p1c', {message: p1.current})
+    })
 
     socket.on('get_p2v', data => {
-        io.sockets.emit('receive_p2v', {message: jsonContent.p2[0].voltage})
+        io.sockets.emit('receive_p2v', {message: p2.voltage})
+    })
+
+    socket.on('get_p2c', data => {
+        io.sockets.emit('receive_p2c', {message: p2.current})
     })
 
     socket.on('get_p4v', data => {
-            io.sockets.emit('receive_p4v', {message: jsonContent.p4[0].voltage})
+            io.sockets.emit('receive_p4v', {message: p4.voltage})
+    })
+
+    socket.on('get_p4c', data => {
+        io.sockets.emit('receive_p4c', {message: p4.current})
     })
 
     socket.on('port_on', data => {
