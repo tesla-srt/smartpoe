@@ -16,7 +16,7 @@ const server = app.listen(3001,'0.0.0.0')
 
 //initialize socket for the server
 const io = socketio(server)
-var p1v, p1c, p1w, p2v, p2c, p2w, p3v, p3c, p3w, p4v, p4c, p4w, totalWatts;
+let p1v, p1c, p1w, p2v, p2c, p2w, p3v, p3c, p3w, p4v, p4c, p4w, totalWatts;
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"loading..","current":"Loading.."}],"p2":[{"voltage":"Loading..","current":"Loading.."}],"p3":[{"voltage":"Loading..","current":"Loading.."}],"p4":[{"voltage":"Loading..","current":"Loading.."}]}`)
 //console.log(jsonContent.p2[0].voltage);
@@ -39,11 +39,11 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-        var bin = spawn('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { shell: true });
+        let bin = spawn('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { shell: true });
 
-        bin.stdout.on('data', function(data) {
+        bin.stdout.on('data', async function(data) {
             //console.log(data)
-            jsonContent = JSON.parse(data)
+            jsonContent =  await JSON.parse(data)
             //console.log(`updated`)
             p3v = jsonContent.p3[0].voltage
             p3c = jsonContent.p3[0].current
@@ -83,7 +83,7 @@ io.on('connection', socket => {
     })
 
     socket.on('get_temp', data => {
-            io.sockets.emit('receive_temp', {message: jsonContent.temp})
+        io.sockets.emit('receive_temp', {message: jsonContent.temp})
     })
 
     socket.on('get_p3v', data => {
@@ -108,8 +108,8 @@ io.on('connection', socket => {
     })
 
     socket.on('port_on', data => {
-        var cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " ON";
-        var bin = exec(cmd, { timeout: 150 })
+        let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " ON";
+        let bin = exec(cmd, { timeout: 150 })
         bin.stdout.on('data', function(data) {
             console.log(`port_on_busy: ` + data.port)
             io.sockets.emit('device_on_busy', {port: data.port})
@@ -117,8 +117,8 @@ io.on('connection', socket => {
     })
 
     socket.on('port_off', data => {
-        var cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " OFF";
-        var bin = exec(cmd, { timeout: 150 })
+        let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " OFF";
+        let bin = exec(cmd, { timeout: 150 })
         bin.stdout.on('data', function(data) {
             console.log(`port_off_busy: ` + data.port)
             io.sockets.emit('device_off_busy', {port: data.port})
