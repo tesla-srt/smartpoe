@@ -194,7 +194,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
     })
     p3OnBtn.addEventListener('click', e => {
         clearInterval(i1)
-        if (parseFloat($("#p4v").html()) < 1) {socket.emit('port_on', {port: 2})}
+        if (parseFloat($("#p3v").html()) < 1) {socket.emit('port_on', {port: 2})}
         timeout = funInterval(socket)
     })
     p4OnBtn.addEventListener('click', e => {
