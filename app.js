@@ -144,21 +144,21 @@ io.on('connection', socket => {
         io.sockets.emit('receive_p4c', {message: p4.current})
     })
 
-    socket.on('port_on', data => {
-        let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " ON";
+    socket.on('port_on', msg => {
+        let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " ON";
         let bin = spawn(cmd, { shell: true })
         bin.stdout.on('data', function(data) {
-            console.log(`port_on_busy: ` + data.port)
-            io.sockets.emit('device_on_busy', {port: data.port})
+            console.log(`port_on_busy: ` + msg.port)
+            io.sockets.emit('device_on_busy', {port: msg.port})
         });
     })
 
-    socket.on('port_off', data => {
-        let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " OFF";
+    socket.on('port_off', msg => {
+        let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " OFF";
         let bin = spawn(cmd, { shell: true })
         bin.stdout.on('data', function(data) {
-            console.log(`port_off_busy: ` + data.port)
-            io.sockets.emit('device_off_busy', {port: data.port})
+            console.log(`port_off_busy: ` + msg.port)
+            io.sockets.emit('device_off_busy', {port: msg.port})
         });
     })
 
