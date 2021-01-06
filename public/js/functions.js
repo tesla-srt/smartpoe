@@ -241,6 +241,6 @@ var myVar = setInterval(function() {
 }, 1000);
 
 function myTimer() {
-    var d = new Date();
-    document.getElementById("systime").innerHTML = d.toLocaleTimeString();
+    let d = new Date();
+    $("#systime").text(d.toLocaleTimeString());
 }

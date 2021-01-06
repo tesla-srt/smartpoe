@@ -1,7 +1,7 @@
 const express = require('express')
 const socketio = require('socket.io')
-const { spawn } = require("child_process");
-const { exec } = require("child_process").exec;
+const { spawn } = require("child_process")
+const { exec } = require("child_process")
 const app = express()
 var fs = require("fs");
 
@@ -16,9 +16,25 @@ const server = app.listen(3001,'0.0.0.0')
 
 //initialize socket for the server
 const io = socketio(server)
-let p1v, p1c, p1w, p2v, p2c, p2w, p3v, p3c, p3w, p4v, p4c, p4w, totalWatts;
+const p1 = {
+    current: 0.00,
+    voltage: 0.00
+}
+const p2 = {
+    current: 0.00,
+    voltage: 0.00
+}
+const p3 = {
+    current: 0.00,
+    voltage: 0.00
+}
+const p4 = {
+    current: 0.00,
+    voltage: 0.00
+}
+let  p1w, p2w, p3w, p4w, totalWatts;
 
-var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"loading..","current":"Loading.."}],"p2":[{"voltage":"Loading..","current":"Loading.."}],"p3":[{"voltage":"Loading..","current":"Loading.."}],"p4":[{"voltage":"Loading..","current":"Loading.."}]}`)
+var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 //console.log(jsonContent.p2[0].voltage);
 io.on('connection', socket => {
     //console.log("New user connected")
@@ -41,45 +57,51 @@ io.on('connection', socket => {
     socket.on('update', data => {
         let bin = spawn('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { shell: true });
 
-        bin.stdout.on('data', async function(data) {
+        bin.stdout.on('data', function(data) {
             //console.log(data)
-            jsonContent =  await JSON.parse(data)
+            jsonContent =  JSON.parse(data)
             //console.log(`updated`)
-            p3v = jsonContent.p3[0].voltage
-            p3c = jsonContent.p3[0].current
-
-            p4v = jsonContent.p4[0].voltage
-            p4c = jsonContent.p4[0].current
-
-            p2v = jsonContent.p2[0].voltage
-            p2c = jsonContent.p2[0].current
-
-            p1v = jsonContent.p1[0].voltage
-            p1c = jsonContent.p1[0].current
-
-            p1w = (p1c / 1000) * p1v;
-            p2w = (p2c / 1000) * p2v;
-            p3w = (p3c / 1000) * p3v;
-            p4w = (p4c / 1000) * p4v;
-
-            totalWatts = p1w + p2w + p3w + p4w;
-
-            io.sockets.emit('receive_temp', {temp: jsonContent.temp})
-            io.sockets.emit('receive_watt', {watts: totalWatts})
-            io.sockets.emit('receive_p4v', {p4v: jsonContent.p4[0].voltage})
-            io.sockets.emit('receive_p3v', {p3v: jsonContent.p3[0].voltage})
-            io.sockets.emit('receive_p2v', {p2v: jsonContent.p2[0].voltage})
-            io.sockets.emit('receive_p1v', {p1v: jsonContent.p1[0].voltage})
-            io.sockets.emit('receive_p4c', {p4c: jsonContent.p4[0].current})
-            io.sockets.emit('receive_p3c', {p3c: jsonContent.p3[0].current})
-            io.sockets.emit('receive_p2c', {p2c: jsonContent.p2[0].current})
-            io.sockets.emit('receive_p1c', {p1c: jsonContent.p1[0].current})
         });
+
 
         bin.stderr.on('data', function(data) {
-            console.log(data)
+            let stream = fs.createReadStream('bin/all.json')
+            stream.on('data', function (chunk) {
+                console.log(`fallback: local file`)
+                jsonContent = JSON.parse(chunk.toString())
+            });
+
         });
 
+        p3.voltage = jsonContent.p3[0].voltage
+        p3.current = jsonContent.p3[0].current
+
+        p4.voltage = jsonContent.p4[0].voltage
+        p4.current = jsonContent.p4[0].current
+
+        p2.voltage = jsonContent.p2[0].voltage
+        p2.current = jsonContent.p2[0].current
+
+        p1.voltage = jsonContent.p1[0].voltage
+        p1.current = jsonContent.p1[0].current
+
+        p1w = (p1.current / 1000) * p1.voltage;
+        p2w = (p2.current / 1000) * p2.voltage;
+        p3w = (p3.current / 1000) * p3.voltage;
+        p4w = (p4.current / 1000) * p4.voltage;
+
+        totalWatts = p1w + p2w + p3w + p4w;
+
+        io.sockets.emit('receive_temp', {temp: jsonContent.temp})
+        io.sockets.emit('receive_watt', {watts: totalWatts})
+        io.sockets.emit('receive_p4v', {p4v: p4.voltage})
+        io.sockets.emit('receive_p3v', {p3v: p3.voltage})
+        io.sockets.emit('receive_p2v', {p2v: p2.voltage})
+        io.sockets.emit('receive_p1v', {p1v: p1.voltage})
+        io.sockets.emit('receive_p4c', {p4c: p4.current})
+        io.sockets.emit('receive_p3c', {p3c: p3.current})
+        io.sockets.emit('receive_p2c', {p2c: p2.current})
+        io.sockets.emit('receive_p1c', {p1c: p1.current})
     })
 
     socket.on('get_temp', data => {
@@ -109,7 +131,7 @@ io.on('connection', socket => {
 
     socket.on('port_on', data => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " ON";
-        let bin = exec(cmd, { timeout: 150 })
+        let bin = spawn(cmd, { shell: true })
         bin.stdout.on('data', function(data) {
             console.log(`port_on_busy: ` + data.port)
             io.sockets.emit('device_on_busy', {port: data.port})
@@ -118,7 +140,7 @@ io.on('connection', socket => {
 
     socket.on('port_off', data => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + data.port + " OFF";
-        let bin = exec(cmd, { timeout: 150 })
+        let bin = spawn(cmd, { shell: true })
         bin.stdout.on('data', function(data) {
             console.log(`port_off_busy: ` + data.port)
             io.sockets.emit('device_off_busy', {port: data.port})

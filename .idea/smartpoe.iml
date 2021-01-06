@@ -8,5 +8,6 @@
     <orderEntry type="library" name="@types/socket.io" level="application" />
     <orderEntry type="library" name="@types/socket.io-client" level="application" />
     <orderEntry type="library" name="@types/socket.io-emitter" level="application" />
+    <orderEntry type="library" name="@types/jquery" level="application" />
   </component>
 </module>
