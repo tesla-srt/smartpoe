@@ -66,6 +66,22 @@ body {
 
  #sysinfo .card-header, #sysinfo .card-title, #sysinfo .card-text { color: #333; }
 
+.blink {
+  animation: blink 1s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 [tabindex="-1"]:focus {
   outline: 0 !important; }
 

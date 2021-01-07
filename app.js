@@ -39,10 +39,8 @@ const p4 = {
 let totalWatts = 0.00;
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
-//console.log(jsonContent.p2[0].voltage);
 io.on('connection', socket => {
     //console.log("New user connected")
-
     socket.on('get_hostname', data => {
         
         exec("hostname", (error, stdout, stderr) => {
@@ -148,6 +146,7 @@ io.on('connection', socket => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " ON";
         let bin = spawn(cmd, { shell: true })
         bin.stdout.on('data', function(data) {
+            jsonContent = JSON.parse(data);
             console.log(`port_on_busy: ` + msg.port)
             io.sockets.emit('device_on_busy', {port: msg.port})
         });
@@ -157,6 +156,7 @@ io.on('connection', socket => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " OFF";
         let bin = spawn(cmd, { shell: true })
         bin.stdout.on('data', function(data) {
+            jsonContent = JSON.parse(data);
             console.log(`port_off_busy: ` + msg.port)
             io.sockets.emit('device_off_busy', {port: msg.port})
         });

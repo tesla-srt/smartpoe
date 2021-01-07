@@ -72,7 +72,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
     socket.on('receive_p1v', data => {
         p1vfield.innerHTML = parseFloat(data.p1v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p1v) > 0) {
-            $("#p1").removeClass("text-muted").addClass("text-secondary");
+            $("#p1").removeClass("text-muted").removeClass("blink").removeClass("text-warning").addClass("text-secondary");
             if (p1c > 0) {
                 $("#p1on").toggleClass("active", true);
                 $("#p1off").toggleClass("active", false);
@@ -80,12 +80,16 @@ var p1c, p2c, p3c, p4c, i1, timeout;
         } else {
             if (p1c > 0) { /* If Voltage is 0 and there is a current */
                 console.log(`error p1`);
+                $("#p1").removeClass("text-muted").addClass("text-warning").addClass("blink");
+
                 /* Should probably indicate that the port is not getting a voltage */
                 /* Maybe turn the port on but this should be handled by the server */
+            } else {
+                $("#p1").addClass("text-muted").removeClass("text-secondary");
+
             }
             $("#p1on").toggleClass("active", false);
             $("#p1off").toggleClass("active", true);
-            $("#p1").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -97,7 +101,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
     socket.on('receive_p2v', data => {
         p2vfield.innerHTML = parseFloat(data.p2v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p2v) > 0) {
-            $("#p2").removeClass("text-muted").addClass("text-secondary");
+            $("#p2").removeClass("text-muted").removeClass("blink").removeClass("text-warning").addClass("text-secondary");
             if (p2c > 0) {
                 $("#p2on").toggleClass("active", true);
                 $("#p2off").toggleClass("active", false);
@@ -105,11 +109,13 @@ var p1c, p2c, p3c, p4c, i1, timeout;
         } else {
             if (p2c > 0) {
                 console.log(`error p2`);
+                $("#p2").removeClass("text-muted").addClass("text-warning").addClass("blink");
+
+            } else {
+                $("#p2").addClass("text-muted").removeClass("text-secondary");
             }
             $("#p2on").toggleClass("active", false);
             $("#p2off").toggleClass("active", true);
-
-            $("#p2").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -123,7 +129,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
 
         p3vfield.innerHTML = parseFloat(data.p3v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p3v) > 0) {
-           $("#p3").removeClass("text-muted").addClass("text-secondary");
+            $("#p3").removeClass("text-muted").removeClass("blink").removeClass("text-warning").addClass("text-secondary");
             if (p3c > 0) {
                 $("#p3on").toggleClass("active", true);
                 $("#p3off").toggleClass("active", false);
@@ -131,10 +137,13 @@ var p1c, p2c, p3c, p4c, i1, timeout;
         } else {
             if (p3c > 0) {
                 console.log(`error p3`);
+                $("#p3").removeClass("text-muted").addClass("text-warning").addClass("blink");
+
+            } else {
+                $("#p3").addClass("text-muted").removeClass("text-secondary").removeClass("text-warning").removeClass("blink");
             }
             $("#p3on").toggleClass("active", false);
             $("#p3off").toggleClass("active", true);
-            $("#p3").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
@@ -146,7 +155,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
     socket.on('receive_p4v', data => {
         p4vfield.innerHTML = parseFloat(data.p4v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p4v) > 0) {
-            $("#p4").removeClass("text-muted").addClass("text-secondary");
+            $("#p4").removeClass("text-muted").removeClass("blink").removeClass("text-warning").addClass("text-secondary");
             if (p4c > 0) {
                 $("#p4on").toggleClass("active", true);
                 $("#p4off").toggleClass("active", false);
@@ -154,10 +163,12 @@ var p1c, p2c, p3c, p4c, i1, timeout;
         } else {
             if (p4c > 0) {
                 console.log(`error p4`);
+                $("#p4").removeClass("text-muted").addClass("text-warning").addClass("blink");
+            } else {
+                $("#p4").addClass("text-muted").removeClass("text-secondary").removeClass("text-warning").removeClass("blink");
             }
             $("#p4on").toggleClass("active", false);
             $("#p4off").toggleClass("active", true);
-            $("#p4").addClass("text-muted").removeClass("text-secondary");
         }
     })
 
