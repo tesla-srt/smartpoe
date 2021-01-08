@@ -85,7 +85,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
                 /* Should probably indicate that the port is not getting a voltage */
                 /* Maybe turn the port on but this should be handled by the server */
             } else {
-                $("#p1").addClass("text-muted").removeClass("text-secondary");
+                $("#p1").addClass("text-muted").removeClass("text-secondary blink");
 
             }
             $("#p1on").toggleClass("active", false);
@@ -112,7 +112,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
                 $("#p2").removeClass("text-muted").addClass("text-warning").addClass("blink");
 
             } else {
-                $("#p2").addClass("text-muted").removeClass("text-secondary");
+                $("#p2").addClass("text-muted").removeClass("text-secondary blink");
             }
             $("#p2on").toggleClass("active", false);
             $("#p2off").toggleClass("active", true);
