@@ -82,6 +82,10 @@ body {
   }
 }
 
+dt {
+  font-weight: 400 !important;
+}
+
 [tabindex="-1"]:focus {
   outline: 0 !important; }
 
