@@ -88,6 +88,8 @@ dt {
 }
 dl {font-weight: 400 !important; }
 
+.card-title { font-weight: 500; }
+
 [tabindex="-1"]:focus {
   outline: 0 !important; }
 
