@@ -90,6 +90,10 @@ dl {font-weight: 400 !important; }
 
 .card-title, .card-header { font-weight: 400 !important; }
 
+#p1on.active, #p2on.active, #p3on.active, #p4on.active {color: #6cff02 !important;}
+
+#p1off.active, #p2off.active, #p3off.active, #p4off.active {color: #ff270a !important;}
+
 [tabindex="-1"]:focus {
   outline: 0 !important; }
 
