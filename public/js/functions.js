@@ -22,7 +22,6 @@ let p3OffBtn = document.querySelector('#p3off');
 let p4OffBtn = document.querySelector('#p4off');
 
 (function connect(){
-    $(".loading-modal").modal('hide');
     let socket = io()
 
     const tMin = 2000;
@@ -196,7 +195,6 @@ let p4OffBtn = document.querySelector('#p4off');
     })
 
     socket.on('receive_update', data => {
-        $("#loadMe").modal('hide');
          let p1 = data.ports[0];
          let p2 = data.ports[1];
          let p3 = data.ports[2];
@@ -237,7 +235,6 @@ let p4OffBtn = document.querySelector('#p4off');
      * BUTTONS
      **********/
     p1OnBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
         clearInterval(i1)
         if (parseFloat($("#p1v").html()) < 1) {
             socket.emit('port_on', {port: 0})
@@ -245,45 +242,36 @@ let p4OffBtn = document.querySelector('#p4off');
         timeout = funInterval(socket)
     })
     p2OnBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
-
         clearInterval(i1)
         if (parseFloat($("#p2v").html()) < 1) {socket.emit('port_on', {port: 1})}
         timeout = funInterval(socket)
     })
     p3OnBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
-
         clearInterval(i1)
         if (parseFloat($("#p3v").html()) < 1) {socket.emit('port_on', {port: 2})}
         timeout = funInterval(socket)
     })
     p4OnBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
         clearInterval(i1)
         if (parseFloat($("#p4v").html()) < 1) {socket.emit('port_on', {port: 3})}
         timeout = funInterval(socket)
     })
     p1OffBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
         clearInterval(i1)
         socket.emit('port_off', {port: 0})
         timeout = funInterval(socket)
     })
     p2OffBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
         clearInterval(i1)
         socket.emit('port_off', {port: 1})
         timeout = funInterval(socket)
     })
     p3OffBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
         clearInterval(i1)
         socket.emit('port_off', {port: 2})
         timeout = funInterval(socket)
     })
     p4OffBtn.addEventListener('click', e => {
-        $("#loadMe").modal('show');
         clearInterval(i1)
         socket.emit('port_off', {port: 3})
         timeout = funInterval(socket)
