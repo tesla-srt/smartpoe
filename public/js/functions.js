@@ -1,27 +1,28 @@
 var p1c, p2c, p3c, p4c, i1, timeout;
+let hostfield = document.querySelector('#hostname');
+let tempfield = document.querySelector('#temp');
+let wattField = document.querySelector('#totWatts');
+let p1vfield = document.querySelector('#p1v');
+let p1cfield = document.querySelector('#p1c');
+let p2vfield = document.querySelector('#p2v');
+let p2cfield = document.querySelector('#p2c');
+let p3vfield = document.querySelector('#p3v');
+let p3cfield = document.querySelector('#p3c');
+let p4vfield = document.querySelector('#p4v');
+let p4cfield = document.querySelector('#p4c');
+
+
+let p1OnBtn = document.querySelector('#p1on');
+let p2OnBtn = document.querySelector('#p2on');
+let p3OnBtn = document.querySelector('#p3on');
+let p4OnBtn = document.querySelector('#p4on');
+let p1OffBtn = document.querySelector('#p1off');
+let p2OffBtn = document.querySelector('#p2off');
+let p3OffBtn = document.querySelector('#p3off');
+let p4OffBtn = document.querySelector('#p4off');
 
 (function connect(){
     let socket = io()
-    let hostfield = document.querySelector('#hostname')
-    let tempfield = document.querySelector('#temp')
-    let wattField = document.querySelector('#totWatts')
-    let p1vfield = document.querySelector('#p1v')
-    let p1cfield = document.querySelector('#p1c')
-    let p2vfield = document.querySelector('#p2v')
-    let p2cfield = document.querySelector('#p2c')
-    let p3vfield = document.querySelector('#p3v')
-    let p3cfield = document.querySelector('#p3c')
-    let p4vfield = document.querySelector('#p4v')
-    let p4cfield = document.querySelector('#p4c')
-
-    let p1OnBtn = document.querySelector('#p1on')
-    let p2OnBtn = document.querySelector('#p2on')
-    let p3OnBtn = document.querySelector('#p3on')
-    let p4OnBtn = document.querySelector('#p4on')
-    let p1OffBtn = document.querySelector('#p1off')
-    let p2OffBtn = document.querySelector('#p2off')
-    let p3OffBtn = document.querySelector('#p3off')
-    let p4OffBtn = document.querySelector('#p4off')
 
     const tMin = 2000;
     const tMax = 6000;
@@ -163,9 +164,11 @@ var p1c, p2c, p3c, p4c, i1, timeout;
         } else {
             if (p4c > 0) {
                 console.log(`error p4`);
-                $("#p4").removeClass("text-muted").addClass("text-warning").addClass("blink");
+                $("#p4").toggleClass("text-muted", false)
+                    .toggleClass("text-warning blink", true);
             } else {
-                $("#p4").addClass("text-muted").removeClass("text-secondary").removeClass("text-warning").removeClass("blink");
+                $("#p4").toggleClass("text-muted", true)
+                    .toggleClass("text-secondary text-warning blink", true);
             }
             $("#p4on").toggleClass("active", false);
             $("#p4off").toggleClass("active", true);
@@ -191,6 +194,46 @@ var p1c, p2c, p3c, p4c, i1, timeout;
         socket.emit('port_off', {port: data.port})
     })
 
+    socket.on('receive_update', data => {
+         let p1 = data.ports[0];
+         let p2 = data.ports[1];
+         let p3 = data.ports[2];
+         let p4 = data.ports[3];
+        p1vfield.innerHTML = parseFloat(data.ports[0].voltage).toPrecision(4) + '&nbsp;V'
+        p2vfield.innerHTML = parseFloat(data.ports[1].voltage).toPrecision(4) + '&nbsp;V'
+        p3vfield.innerHTML = parseFloat(data.ports[2].voltage).toPrecision(4) + '&nbsp;V'
+        p4vfield.innerHTML = parseFloat(data.ports[3].voltage).toPrecision(4) + '&nbsp;V'
+        let p1Icon = document.querySelector('#p1');
+        let p2Icon = document.querySelector('#p2');
+        let p3Icon = document.querySelector('#p3');
+        let p4Icon = document.querySelector('#p4');
+        hostfield.textContent = data.hostname
+        p1cfield.innerHTML = parseFloat(p1.current).toPrecision(4) + '&nbsp;mA';
+        p2cfield.innerHTML = parseFloat(p2.current).toPrecision(4) + '&nbsp;mA';
+        p3cfield.innerHTML = parseFloat(p3.current).toPrecision(4) + '&nbsp;mA';
+        p4cfield.innerHTML = parseFloat(p4.current).toPrecision(4) + '&nbsp;mA';
+        if (data.temp == "N/A") {
+            timeout = changeInterval(socket);
+            socket.emit('update', '');
+            console.log(`NEW TIMEOUT: ` + timeout);
+
+        }
+        tempfield.innerHTML = data.temp + '&deg;F'
+        wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`
+        guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
+        guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
+        guiUpdate(p3Icon, p3OnBtn, p3OffBtn, p3);
+        guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
+
+
+
+
+    })
+
+
+    /**********
+     * BUTTONS
+     **********/
     p1OnBtn.addEventListener('click', e => {
         clearInterval(i1)
         if (parseFloat($("#p1v").html()) < 1) {
@@ -256,4 +299,31 @@ var myVar = setInterval(function() {
 function myTimer() {
     let d = new Date();
     $("#systime").text(d.toLocaleTimeString());
+}
+
+function guiUpdate(iconField, onField, offField, sp) {
+    if (parseFloat(sp.voltage) > 0) {
+       $(iconField).removeClass("text-muted")
+            .removeClass("blink")
+            .removeClass("text-warning")
+            .addClass("text-secondary");
+        if (sp.current > 0) {
+            $(onField).toggleClass("active", true);
+            $(offField).toggleClass("active", false);
+        }
+    } else {
+        if (sp.current > 0) {
+            $(iconField).removeClass("text-muted")
+                .addClass("text-warning")
+                .addClass("blink");
+
+        } else {
+            $(iconField).addClass("text-muted")
+                .removeClass("text-secondary")
+                .removeClass("text-warning")
+                .removeClass("blink");
+        }
+        $(onField).toggleClass("active", false);
+        $(offField).toggleClass("active", true);
+    }
 }

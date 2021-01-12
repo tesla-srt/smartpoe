@@ -5,6 +5,8 @@ const { exec } = require("child_process")
 const app = express()
 var fs = require("fs");
 
+const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
+
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -36,7 +38,35 @@ const p4 = {
     voltage: 0.00,
     watts: 0.00
 }
-let totalWatts = 0.00;
+
+const sp = {
+    hostname: '',
+    temp: 0.0,
+    totalWatts: 0.00,
+    ports: [
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00
+        },
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00
+        },
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00
+        },
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00
+        }]
+}
+
+let ports = [p1, p2, p3, p4];
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 io.on('connection', socket => {
@@ -52,12 +82,13 @@ io.on('connection', socket => {
                 console.log(`stderr: ${stderr}`);
                 return;
             }
-            io.sockets.emit('receive_hostname', {hostname: `${stdout}`})
+            //io.sockets.emit('receive_hostname', {hostname: `${stdout}`})
+            sp.hostname = stdout;
         });
     })
 
     socket.on('update', data => {
-        let bin = spawn('C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all', { shell: true });
+        let bin = spawn(updatecmd, { shell: true });
 
         bin.stdout.on('data', function(data) {
             //console.log(data)
@@ -74,28 +105,35 @@ io.on('connection', socket => {
             });
 
         });
+        let port1 = sp.ports[0];
+        let port2 = sp.ports[1];
+        let port3 = sp.ports[2];
+        let port4 = sp.ports[3];
+        sp.temp = jsonContent.temp;
 
-        p3.voltage = jsonContent["p3"][0].voltage
-        p3.current = jsonContent["p3"][0].current
+        port3.voltage = jsonContent["p3"][0].voltage
+        port3.current = jsonContent["p3"][0].current
 
-        p4.voltage = jsonContent["p4"][0].voltage
-        p4.current = jsonContent["p4"][0].current
+        port4.voltage = jsonContent["p4"][0].voltage
+        port4.current = jsonContent["p4"][0].current
 
-        p2.voltage = jsonContent["p2"][0].voltage
-        p2.current = jsonContent["p2"][0].current
+        port2.voltage = jsonContent["p2"][0].voltage
+        port2.current = jsonContent["p2"][0].current
 
-        p1.voltage = jsonContent["p1"][0].voltage
-        p1.current = jsonContent["p1"][0].current
+        port1.voltage = jsonContent["p1"][0].voltage
+        port1.current = jsonContent["p1"][0].current
 
-        p1.watts = (p1.current / 1000) * p1.voltage;
-        p2.watts = (p2.current / 1000) * p2.voltage;
-        p3.watts = (p3.current / 1000) * p3.voltage;
-        p4.watts = (p4.current / 1000) * p4.voltage;
+        port1.watts = (port1.current / 1000) * port1.voltage;
+        port2.watts = (port2.current / 1000) * port2.voltage;
+        port3.watts = (port3.current / 1000) * port3.voltage;
+        port4.watts = (port4.current / 1000) * port4.voltage;
 
-        totalWatts = p1.watts + p2.watts + p3.watts + p4.watts;
+        sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
+        io.sockets.emit('receive_update', sp);
+        //io.sockets.emit('receive_temp', sp.temp);
 
-        io.sockets.emit('receive_temp', {temp: jsonContent.temp})
-        io.sockets.emit('receive_watt', {watts: totalWatts})
+/*        io.sockets.emit('receive_temp', {temp: sp.temp})
+        io.sockets.emit('receive_watt', {watts: sp.totalWatts})
         io.sockets.emit('receive_p4v', {p4v: p4.voltage})
         io.sockets.emit('receive_p3v', {p3v: p3.voltage})
         io.sockets.emit('receive_p2v', {p2v: p2.voltage})
@@ -103,11 +141,11 @@ io.on('connection', socket => {
         io.sockets.emit('receive_p4c', {p4c: p4.current})
         io.sockets.emit('receive_p3c', {p3c: p3.current})
         io.sockets.emit('receive_p2c', {p2c: p2.current})
-        io.sockets.emit('receive_p1c', {p1c: p1.current})
+        io.sockets.emit('receive_p1c', {p1c: p1.current})*/
     })
 
     socket.on('get_temp', data => {
-        io.sockets.emit('receive_temp', {message: jsonContent.temp})
+        io.sockets.emit('receive_temp', {message: sp.temp})
     })
 
     socket.on('get_p3v', data => {
@@ -161,5 +199,4 @@ io.on('connection', socket => {
             io.sockets.emit('device_off_busy', {port: msg.port})
         });
     })
-
 })
