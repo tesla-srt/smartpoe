@@ -21,7 +21,7 @@ let p2OffBtn = document.querySelector('#p2off');
 let p3OffBtn = document.querySelector('#p3off');
 let p4OffBtn = document.querySelector('#p4off');
 
-(function connect(){
+(function connect() {
     $(".loading-modal").modal('hide');
     let socket = io()
 
@@ -30,17 +30,16 @@ let p4OffBtn = document.querySelector('#p4off');
 
     timeout = funInterval(socket);
 
-    function funInterval(socket)
-    {
-        var interval =  getRandomInt(tMin,tMax);
-       console.log(`Your Timeout is: ` + interval);
+    function funInterval(socket) {
+        var interval = getRandomInt(tMin, tMax);
+        console.log(`Your Timeout is: ` + interval);
         i1 = setInterval(function (socket) {
             socket.emit('update', '');
         }, interval, socket);
         return interval;
     }
-    function changeInterval(socket)
-    {
+
+    function changeInterval(socket) {
         clearInterval(i1);
         return funInterval(socket);
     }
@@ -60,6 +59,10 @@ let p4OffBtn = document.querySelector('#p4off');
         wattField.textContent = parseFloat(data.watts).toPrecision(3) + ` W`
     })
 
+    socket.on('recv_iptable', data => {
+        //Do Stuff
+    })
+
     socket.on('receive_temp', data => {
         //console.log(data)
         if (data.temp == "N/A") {
@@ -74,7 +77,12 @@ let p4OffBtn = document.querySelector('#p4off');
     socket.on('receive_p1v', data => {
         p1vfield.innerHTML = parseFloat(data.p1v).toPrecision(4) + '&nbsp;V'
         if (parseFloat(data.p1v) > 0) {
-            $("#p1").removeClass("text-muted").removeClass("blink").removeClass("text-warning").addClass("text-secondary");
+            $("#p1").removeClass("text-muted")
+                .removeClass("blink")
+                .removeClass("text-warning")
+                .addClass("fas")
+                .removeClass("fal")
+                .addClass("text-secondary");
             if (p1c > 0) {
                 $("#p1on").toggleClass("active", true);
                 $("#p1off").toggleClass("active", false);
@@ -82,12 +90,17 @@ let p4OffBtn = document.querySelector('#p4off');
         } else {
             if (p1c > 0) { /* If Voltage is 0 and there is a current */
                 console.log(`error p1`);
-                $("#p1").removeClass("text-muted").addClass("text-warning").addClass("blink");
+                $("#p1").removeClass("text-muted")
+                    .addClass("text-warning")
+                    .addClass("blink");
 
                 /* Should probably indicate that the port is not getting a voltage */
                 /* Maybe turn the port on but this should be handled by the server */
             } else {
-                $("#p1").addClass("text-muted").removeClass("text-secondary blink");
+                $("#p1").addClass("text-muted")
+                    .removeClass("fas")
+                    .addClass("fal")
+                    .removeClass("text-secondary blink");
 
             }
             $("#p1on").toggleClass("active", false);
@@ -197,10 +210,10 @@ let p4OffBtn = document.querySelector('#p4off');
 
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
-         let p1 = data.ports[0];
-         let p2 = data.ports[1];
-         let p3 = data.ports[2];
-         let p4 = data.ports[3];
+        let p1 = data.ports[0];
+        let p2 = data.ports[1];
+        let p3 = data.ports[2];
+        let p4 = data.ports[3];
         p1vfield.innerHTML = parseFloat(data.ports[0].voltage).toPrecision(4) + '&nbsp;V'
         p2vfield.innerHTML = parseFloat(data.ports[1].voltage).toPrecision(4) + '&nbsp;V'
         p3vfield.innerHTML = parseFloat(data.ports[2].voltage).toPrecision(4) + '&nbsp;V'
@@ -228,8 +241,6 @@ let p4OffBtn = document.querySelector('#p4off');
         guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
 
 
-
-
     })
 
 
@@ -248,20 +259,26 @@ let p4OffBtn = document.querySelector('#p4off');
         $("#loadMe").modal('show');
 
         clearInterval(i1)
-        if (parseFloat($("#p2v").html()) < 1) {socket.emit('port_on', {port: 1})}
+        if (parseFloat($("#p2v").html()) < 1) {
+            socket.emit('port_on', {port: 1})
+        }
         timeout = funInterval(socket)
     })
     p3OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
 
         clearInterval(i1)
-        if (parseFloat($("#p3v").html()) < 1) {socket.emit('port_on', {port: 2})}
+        if (parseFloat($("#p3v").html()) < 1) {
+            socket.emit('port_on', {port: 2})
+        }
         timeout = funInterval(socket)
     })
     p4OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
         clearInterval(i1)
-        if (parseFloat($("#p4v").html()) < 1) {socket.emit('port_on', {port: 3})}
+        if (parseFloat($("#p4v").html()) < 1) {
+            socket.emit('port_on', {port: 3})
+        }
         timeout = funInterval(socket)
     })
     p1OffBtn.addEventListener('click', e => {
@@ -304,7 +321,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-var myVar = setInterval(function() {
+var myVar = setInterval(function () {
     myTimer();
 }, 1000);
 
@@ -315,9 +332,11 @@ function myTimer() {
 
 function guiUpdate(iconField, onField, offField, sp) {
     if (parseFloat(sp.voltage) > 0) {
-       $(iconField).removeClass("text-muted")
+        $(iconField).removeClass("text-muted")
             .removeClass("blink")
             .removeClass("text-warning")
+            .removeClass("fal")
+            .addClass("fas")
             .addClass("text-secondary");
         if (sp.current > 0) {
             $(onField).toggleClass("active", true);
@@ -333,9 +352,14 @@ function guiUpdate(iconField, onField, offField, sp) {
             $(iconField).addClass("text-muted")
                 .removeClass("text-secondary")
                 .removeClass("text-warning")
+                .removeClass("fas")
+                .addClass("fal")
                 .removeClass("blink");
         }
         $(onField).toggleClass("active", false);
         $(offField).toggleClass("active", true);
     }
+
+
+
 }

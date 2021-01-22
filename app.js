@@ -70,6 +70,7 @@ let ports = [p1, p2, p3, p4];
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 io.on('connection', socket => {
+
     //console.log("New user connected")
     socket.on('get_hostname', data => {
         
@@ -88,6 +89,14 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
+        let iptable = [];
+        try {
+            const data = fs.readFileSync('bin/iptable.txt', 'utf8')
+            iptable = data.toString().split(",")
+        } catch (err) {
+            console.error(err)
+        }
+
         let bin = spawn(updatecmd, { shell: true });
 
         bin.stdout.on('data', function(data) {
@@ -130,6 +139,7 @@ io.on('connection', socket => {
 
         sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
         io.sockets.emit('receive_update', sp);
+        io.sockets.emit('recv_iptable', iptable);
         //io.sockets.emit('receive_temp', sp.temp);
 
 /*        io.sockets.emit('receive_temp', {temp: sp.temp})
