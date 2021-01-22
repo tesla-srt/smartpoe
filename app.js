@@ -2,8 +2,10 @@ const express = require('express')
 const socketio = require('socket.io')
 const { spawn } = require("child_process")
 const { exec } = require("child_process")
+const toml = require('toml-js');
 const app = express()
 var fs = require("fs");
+var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 
@@ -41,37 +43,94 @@ const p4 = {
 
 const sp = {
     hostname: '',
+    location: config.info.location,
     temp: 0.0,
     totalWatts: 0.00,
     ports: [
         {
             voltage: 0.00,
             current: 0.00,
-            watts: 0.00
+            watts: 0.00,
+            ipv4: "0.0.0.0",
+            ipv4enabled: false
         },
         {
             voltage: 0.00,
             current: 0.00,
-            watts: 0.00
+            watts: 0.00,
+            ipv4: "0.0.0.0",
+            ipv4enabled: false
         },
         {
             voltage: 0.00,
             current: 0.00,
-            watts: 0.00
+            watts: 0.00,
+            ipv4: "0.0.0.0",
+            ipv4enabled: false
         },
         {
             voltage: 0.00,
             current: 0.00,
-            watts: 0.00
+            watts: 0.00,
+            ipv4: "0.0.0.0",
+            ipv4enabled: false
         }]
 }
 
 let ports = [p1, p2, p3, p4];
 
+
+function getcamurl() {
+    console.log(config.cams.alpha.ip);
+    config.cams.alpha.ip = '192.168.0.10'
+    fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+        if (err) return console.log(err);
+    });
+    console.log(config.cams.alpha.ip);
+}
+
+getcamurl()
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 io.on('connection', socket => {
 
+    io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
+
+    socket.on('set_location', data => {
+        config.info.location = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p1ip', data => {
+        config.cams.alpha.ip = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p2ip', data => {
+        config.cams.bravo.ip = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p3ip', data => {
+        config.cams.charlie.ip = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p4ip', data => {
+        config.cams.delta.ip = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
     socket.on('get_hostname', data => {
         
         exec("hostname", (error, stdout, stderr) => {
@@ -89,14 +148,6 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-        let iptable = [];
-        try {
-            const data = fs.readFileSync('bin/iptable.txt', 'utf8')
-            iptable = data.toString().split(",")
-        } catch (err) {
-            console.error(err)
-        }
-
         let bin = spawn(updatecmd, { shell: true });
 
         bin.stdout.on('data', function(data) {
@@ -119,18 +170,26 @@ io.on('connection', socket => {
         let port3 = sp.ports[2];
         let port4 = sp.ports[3];
         sp.temp = jsonContent.temp;
+        sp.location = config.info.location;
 
         port3.voltage = jsonContent["p3"][0].voltage
         port3.current = jsonContent["p3"][0].current
+        port3.ipv4 = config.cams.charlie.ip
 
         port4.voltage = jsonContent["p4"][0].voltage
         port4.current = jsonContent["p4"][0].current
+        port4.ipv4 = config.cams.delta.ip
+
 
         port2.voltage = jsonContent["p2"][0].voltage
         port2.current = jsonContent["p2"][0].current
+        port2.ipv4 = config.cams.bravo.ip
+
 
         port1.voltage = jsonContent["p1"][0].voltage
         port1.current = jsonContent["p1"][0].current
+        port1.ipv4 = config.cams.alpha.ip
+
 
         port1.watts = (port1.current / 1000) * port1.voltage;
         port2.watts = (port2.current / 1000) * port2.voltage;
@@ -138,8 +197,8 @@ io.on('connection', socket => {
         port4.watts = (port4.current / 1000) * port4.voltage;
 
         sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
+        //io.sockets.emit('receive_log', sp.location)
         io.sockets.emit('receive_update', sp);
-        io.sockets.emit('recv_iptable', iptable);
         //io.sockets.emit('receive_temp', sp.temp);
 
 /*        io.sockets.emit('receive_temp', {temp: sp.temp})

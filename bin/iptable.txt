@@ -1,1 +1,19 @@
-192.168.1.10,0.0.0.0,0.0.0.0,0.0.0.0
+[info]
+location = "SRTHQ"
+
+[cams.alpha]
+enabled = true
+ip = "127.0.0.1"
+
+[cams.bravo]
+enabled = false
+ip = "0.0.0.0"
+
+[cams.charlie]
+enabled = false
+ip = "0.0.0.0"
+
+[cams.delta]
+enabled = false
+ip = "0.0.0.0"
+

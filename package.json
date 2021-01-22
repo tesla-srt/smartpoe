@@ -14,7 +14,8 @@
     "express": "^4.17.1",
     "ngrok": "^3.4.0",
     "socket.io": "^3.0.4",
-    "toml": "^3.0.0"
+    "toml": "^3.0.0",
+    "toml-js": "^0.0.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

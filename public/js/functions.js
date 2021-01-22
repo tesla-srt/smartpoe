@@ -2,6 +2,7 @@ var p1c, p2c, p3c, p4c, i1, timeout;
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
+let locationField = document.querySelector('#location');
 let p1vfield = document.querySelector('#p1v');
 let p1cfield = document.querySelector('#p1c');
 let p2vfield = document.querySelector('#p2v');
@@ -12,6 +13,12 @@ let p4vfield = document.querySelector('#p4v');
 let p4cfield = document.querySelector('#p4c');
 
 
+let p1IpField = document.querySelector('#p1ip');
+let p2IpField = document.querySelector('#p2ip');
+let p3IpField = document.querySelector('#p3ip');
+let p4IpField = document.querySelector('#p4ip');
+
+
 let p1OnBtn = document.querySelector('#p1on');
 let p2OnBtn = document.querySelector('#p2on');
 let p3OnBtn = document.querySelector('#p3on');
@@ -20,6 +27,7 @@ let p1OffBtn = document.querySelector('#p1off');
 let p2OffBtn = document.querySelector('#p2off');
 let p3OffBtn = document.querySelector('#p3off');
 let p4OffBtn = document.querySelector('#p4off');
+let editButton = document.querySelector('.edit');
 
 (function connect() {
     $(".loading-modal").modal('hide');
@@ -195,7 +203,7 @@ let p4OffBtn = document.querySelector('#p4off');
     })
 
     socket.on('receive_log', data => {
-        console.log(data.message)
+        console.log(data)
     })
 
     socket.on('device_on_busy', data => {
@@ -206,6 +214,10 @@ let p4OffBtn = document.querySelector('#p4off');
     socket.on('device_off_busy', data => {
         console.log(`port_off, ` + data.port)
         socket.emit('port_off', {port: data.port})
+    })
+
+    socket.on('receive_location', data => {
+        locationField.innerHTML = data
     })
 
     socket.on('receive_update', data => {
@@ -227,12 +239,21 @@ let p4OffBtn = document.querySelector('#p4off');
         p2cfield.innerHTML = parseFloat(p2.current).toPrecision(4) + '&nbsp;mA';
         p3cfield.innerHTML = parseFloat(p3.current).toPrecision(4) + '&nbsp;mA';
         p4cfield.innerHTML = parseFloat(p4.current).toPrecision(4) + '&nbsp;mA';
+
+        // TODO: Enable/disable cams
+
+        p1IpField.innerHTML = p1.ipv4
+        p2IpField.innerHTML = p2.ipv4
+        p3IpField.innerHTML = p3.ipv4
+        p4IpField.innerHTML = p4.ipv4
+
         if (data.temp == "N/A") {
             timeout = changeInterval(socket);
             socket.emit('update', '');
             console.log(`NEW TIMEOUT: ` + timeout);
 
         }
+
         tempfield.innerHTML = data.temp + '&deg;F'
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
@@ -306,6 +327,33 @@ let p4OffBtn = document.querySelector('#p4off');
         timeout = funInterval(socket)
     })
 
+
+    $(".edit").click(function (e) {
+        e.stopPropagation();
+        clearInterval(i1)
+        let editable = $(this).prev('span').attr('contenteditable');
+        if (editable) {
+            let i = $(this).prev().attr('id').replace("#", "");
+            socket.emit('set_' + i, $(this).prev('span').html());
+
+
+            $(this).removeClass('fa-save')
+                .addClass('fa-pencil');
+            $(this).prev('span')
+                .removeAttr('contenteditable')
+                .removeClass('border border-success');
+            timeout = funInterval(socket)
+
+        } else {
+            $(this).removeClass('fa-pencil')
+                .addClass('fa-save');
+            $(this).prev('span')
+                .attr('contenteditable', 'true')
+                .addClass('border border-success');
+        }
+
+    });
+
 })()
 
 /**
@@ -359,7 +407,5 @@ function guiUpdate(iconField, onField, offField, sp) {
         $(onField).toggleClass("active", false);
         $(offField).toggleClass("active", true);
     }
-
-
 
 }
