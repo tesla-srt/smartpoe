@@ -256,17 +256,29 @@ let editButton = document.querySelector('.edit');
 
         tempfield.innerHTML = data.temp + '&deg;F'
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`
+
+        p1.camUrl = `/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`
+        p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`
+        p2.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`
+        p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`
+
+       // $.ajax({url: p1.camUrl, success: function(result){
+              // let out = JSON.parse(result);
+               //console.log(result.data);
+               $("#cam1").attr('src', p1.camUrl);
+           // }});
+
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
         guiUpdate(p3Icon, p3OnBtn, p3OffBtn, p3);
         guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
 
-
+        //cams(p1.ipv4 , p1.user, p1.pass);
     })
 
 
     /**********
-     * BUTTONS
+     * BUTTONS *
      **********/
     p1OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
@@ -376,6 +388,21 @@ var myVar = setInterval(function () {
 function myTimer() {
     let d = new Date();
     $("#systime").text(d.toLocaleTimeString());
+}
+
+function cams(ip, u, p) {
+    let password = p;
+    let username = u;
+    let authString = `${username}:${password}`
+    let url = 'http://' + ip + '/cgi-bin/mjpeg';
+    var http = new XMLHttpRequest();
+    http.open("get", url, false, username, password);
+    http.send("");
+    if (http.status == 200) {
+        alert(http.response);
+    } else {
+        alert("⚠️ Authentication failed.");
+    }
 }
 
 function guiUpdate(iconField, onField, offField, sp) {

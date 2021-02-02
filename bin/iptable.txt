@@ -3,17 +3,25 @@ location = "SRTHQ"
 
 [cams.alpha]
 enabled = true
-ip = "127.0.0.1"
+ip = "127.0.0.1<br>"
+user = "admin"
+pass = "S0larr1g"
 
 [cams.bravo]
 enabled = false
 ip = "0.0.0.0"
+user = "admin"
+pass = "S0larr1g"
 
 [cams.charlie]
 enabled = false
 ip = "0.0.0.0"
+user = "admin"
+pass = "S0larr1g"
 
 [cams.delta]
 enabled = false
 ip = "0.0.0.0"
+user = "admin"
+pass = "S0larr1g"
 

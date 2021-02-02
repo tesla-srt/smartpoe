@@ -3,7 +3,14 @@ const socketio = require('socket.io')
 const { spawn } = require("child_process")
 const { exec } = require("child_process")
 const toml = require('toml-js');
-const app = express()
+const cors = require('cors');
+const { Curl } = require('node-libcurl');
+const CurlAuth = require("node-libcurl").CurlAuth;
+const CurlFeature = require("node-libcurl").CurlFeature;
+
+const app = express();
+let base64 = require('base-64');
+
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 
@@ -13,8 +20,51 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 app.get('/', (req, res)=> {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.render('index')
 })
+
+app.get('/cam/:num/u/:user/p/:pass',cors(), (req, res) => {
+    res.contentType('image/jpeg');
+    let name = req.params.num;
+    //let password = req.params.pass.toString();
+    let pass = req.params.pass
+    let user = req.params.user
+
+    //let username = req.params.user.toString();
+    let basicAuth = "Basic " + base64.encode(user + ":" + pass);
+    let src = 'http://' + name + '/SnapshotJPEG';
+    let result = ""
+    let options = { };
+    const curl = new Curl();
+    const close = curl.close.bind(curl);
+    curl.enable(CurlFeature.Raw)
+    curl.setOpt('URL', src);
+    curl.setOpt('HTTPAUTH', CurlAuth.Digest);
+    curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
+
+    curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
+
+    curl
+        .on('end', function(code, body, headers) {
+            var buff = Buffer.from(body, 'binary').toString('base64')
+            result = buff
+            res.send(
+                body
+            );
+            this.close();
+        })
+        .on('error', function(e) {
+
+            this.close();
+        })
+        .perform();
+    //curl.on('end', close);
+    //curl.on('error', close);
+
+
+});
 
 const server = app.listen(3001,'0.0.0.0')
 
@@ -52,28 +102,36 @@ const sp = {
             current: 0.00,
             watts: 0.00,
             ipv4: "0.0.0.0",
-            ipv4enabled: false
+            ipv4enabled: false,
+            user: "",
+            pass: ""
         },
         {
             voltage: 0.00,
             current: 0.00,
             watts: 0.00,
             ipv4: "0.0.0.0",
-            ipv4enabled: false
+            ipv4enabled: false,
+            user: "",
+            pass: ""
         },
         {
             voltage: 0.00,
             current: 0.00,
             watts: 0.00,
             ipv4: "0.0.0.0",
-            ipv4enabled: false
+            ipv4enabled: false,
+            user: "",
+            pass: ""
         },
         {
             voltage: 0.00,
             current: 0.00,
             watts: 0.00,
             ipv4: "0.0.0.0",
-            ipv4enabled: false
+            ipv4enabled: false,
+            user: "",
+            pass: ""
         }]
 }
 
@@ -81,15 +139,8 @@ let ports = [p1, p2, p3, p4];
 
 
 function getcamurl() {
-    console.log(config.cams.alpha.ip);
-    config.cams.alpha.ip = '192.168.0.10'
-    fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
-        if (err) return console.log(err);
-    });
-    console.log(config.cams.alpha.ip);
 }
 
-getcamurl()
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 io.on('connection', socket => {
 
@@ -152,7 +203,11 @@ io.on('connection', socket => {
 
         bin.stdout.on('data', function(data) {
             //console.log(data)
-            jsonContent =  JSON.parse(data)
+            try {
+                jsonContent = JSON.parse(data)
+            } catch (ex) {
+                console.log(`error: ` + ex )
+            }
             //console.log(`updated`)
         });
 
@@ -175,20 +230,32 @@ io.on('connection', socket => {
         port3.voltage = jsonContent["p3"][0].voltage
         port3.current = jsonContent["p3"][0].current
         port3.ipv4 = config.cams.charlie.ip
+        port3.pass = config.cams.charlie.pass
+        port3.user = config.cams.charlie.user
 
         port4.voltage = jsonContent["p4"][0].voltage
         port4.current = jsonContent["p4"][0].current
         port4.ipv4 = config.cams.delta.ip
+        port4.ipv4 = config.cams.delta.ip
+        port4.pass = config.cams.delta.pass
+        port4.user = config.cams.delta.user
+
 
 
         port2.voltage = jsonContent["p2"][0].voltage
         port2.current = jsonContent["p2"][0].current
         port2.ipv4 = config.cams.bravo.ip
+        port2.pass = config.cams.bravo.pass
+        port2.user = config.cams.bravo.user
+
 
 
         port1.voltage = jsonContent["p1"][0].voltage
         port1.current = jsonContent["p1"][0].current
         port1.ipv4 = config.cams.alpha.ip
+        port1.pass = config.cams.alpha.pass
+        port1.user = config.cams.alpha.user
+
 
 
         port1.watts = (port1.current / 1000) * port1.voltage;
@@ -269,3 +336,4 @@ io.on('connection', socket => {
         });
     })
 })
+
