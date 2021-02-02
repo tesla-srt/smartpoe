@@ -9,7 +9,7 @@ const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
 
 const app = express();
-const base64 = require('base-64');
+let base64 = require('base-64');
 
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
@@ -155,28 +155,28 @@ io.on('connection', socket => {
     })
 
     socket.on('set_p1ip', data => {
-        config.cams.alpha.ip = data.trim();
+        config.cams.alpha.ip = data;
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
     })
 
     socket.on('set_p2ip', data => {
-        config.cams.bravo.ip = data.trim();
+        config.cams.bravo.ip = data;
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
     })
 
     socket.on('set_p3ip', data => {
-        config.cams.charlie.ip = data.trim();
+        config.cams.charlie.ip = data;
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
     })
 
     socket.on('set_p4ip', data => {
-        config.cams.delta.ip = data.trim();
+        config.cams.delta.ip = data;
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
