@@ -3,7 +3,7 @@ location = "SRTHQ"
 
 [cams.alpha]
 enabled = true
-ip = "127.0.0.1<br>"
+ip = "127.0.0.1"
 user = "admin"
 pass = "S0larr1g"
 

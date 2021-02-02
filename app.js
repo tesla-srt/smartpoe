@@ -155,7 +155,8 @@ io.on('connection', socket => {
     })
 
     socket.on('set_p1ip', data => {
-        config.cams.alpha.ip = data;
+        config.cams.alpha.ip = data.trim();
+        sp.ports[0].ipv4 = data.trim();
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
@@ -220,6 +221,7 @@ io.on('connection', socket => {
             });
 
         });
+        config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
         let port1 = sp.ports[0];
         let port2 = sp.ports[1];
         let port3 = sp.ports[2];
