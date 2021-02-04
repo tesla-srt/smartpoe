@@ -1,4 +1,5 @@
 const express = require('express')
+let ejs = require('ejs')
 const socketio = require('socket.io')
 const { spawn } = require("child_process")
 const { exec } = require("child_process")
@@ -33,12 +34,10 @@ app.get('/cam/:num/u/:user/p/:pass',cors(), (req, res) => {
     let user = req.params.user
 
     //let username = req.params.user.toString();
-    let basicAuth = "Basic " + base64.encode(user + ":" + pass);
     let src = 'http://' + name + '/SnapshotJPEG';
     let result = ""
-    let options = { };
     const curl = new Curl();
-    const close = curl.close.bind(curl);
+    let close = curl.close.bind(curl);
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
     curl.setOpt('HTTPAUTH', CurlAuth.Digest);
@@ -48,22 +47,15 @@ app.get('/cam/:num/u/:user/p/:pass',cors(), (req, res) => {
 
     curl
         .on('end', function(code, body, headers) {
-            var buff = Buffer.from(body, 'binary').toString('base64')
-            result = buff
-            res.send(
-                body
-            );
-            this.close();
+            res.send(body);
+            close();
         })
         .on('error', function(e) {
-
-            this.close();
+            close();
         })
         .perform();
     //curl.on('end', close);
     //curl.on('error', close);
-
-
 });
 
 const server = app.listen(3001,'0.0.0.0')
@@ -163,7 +155,7 @@ io.on('connection', socket => {
     })
 
     socket.on('set_p2ip', data => {
-        config.cams.bravo.ip = data;
+        config.cams.bravo.ip = data.trim();
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
