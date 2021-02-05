@@ -261,13 +261,13 @@ let c1EditBtn = document.querySelector('#c1edit');
 
         p1.camUrl = `/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
         p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p2.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p3.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        $("#cam1").attr('src', p1.camUrl);
-        $("#cam2").attr('src', p2.camUrl);
-        $("#cam3").attr('src', p3.camUrl);
-        $("#cam4").attr('src', p4.camUrl);
+        $("#cam1").on("error", handleError).attr('src', p1.camUrl);
+        $("#cam2").on("error", handleError).attr('src', p2.camUrl);
+        $("#cam3").on("error", handleError).attr('src', p3.camUrl);
+        $("#cam4").on("error", handleError).attr('src', p4.camUrl);
 
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
@@ -496,6 +496,10 @@ function updateModals() {
         $('#c4state').bootstrapToggle('disable');
     }
 
+}
+
+function handleError() {
+    this.src = ResolveUrl("/img/img404.jpg");
 }
 
 $(function() {
