@@ -233,6 +233,14 @@ io.on('connection', socket => {
         });
     })
 
+    socket.on('set_p3state', data => {
+        config.cams.charlie.enabled = data;
+        sp.ports[2].ipv4enabled = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
 
     socket.on('set_p4ip', data => {
         config.cams.delta.ip = data;

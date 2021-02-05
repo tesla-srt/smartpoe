@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<!-- 
-Todo:
-[*] Email Alerts
-[*] GRAPHS?
--->
+<!---->
 <html>
 <head>
   <meta charset="utf-8" />
@@ -224,6 +220,41 @@ Todo:
   </div>
 </div>
 <!-- End Cam 2 Settings Modal -->
+
+<!-- Begin Cam 3 Settings Modal -->
+<div class="modal modal-xl" id="cam3settings" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #3 Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="checkbox" class="cstate" id="c3state" data-toggle="toggle" data-size="sm" data-on="Enabled" data-off="Disabled">
+        <br>
+        <div class="form-group">
+          <label for="c3ip" class="text-primary">Camera IP:</label>
+          <input type="text" class="form-control" placeholder="Enter IP" id="c3ip">
+        </div>
+        <div class="form-group">
+          <label for="c3u" class="text-primary">Username:</label>
+          <input type="text" class="form-control" placeholder="admin" id="c3u">
+        </div>
+        <div class="form-group">
+          <label for="c3p" class="text-primary">Password:</label>
+          <input type="password" class="form-control"  id="c3p">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="c3save" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 3 Settings Modal -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
