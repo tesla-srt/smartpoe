@@ -28,6 +28,9 @@ let p2OffBtn = document.querySelector('#p2off');
 let p3OffBtn = document.querySelector('#p3off');
 let p4OffBtn = document.querySelector('#p4off');
 let editButton = document.querySelector('.edit');
+let portInfo = "";
+
+let c1EditBtn = document.querySelector('#c1edit');
 
 (function connect() {
     $(".loading-modal").modal('hide');
@@ -222,6 +225,7 @@ let editButton = document.querySelector('.edit');
 
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
+        portInfo = data;
         let p1 = data.ports[0];
         let p2 = data.ports[1];
         let p3 = data.ports[2];
@@ -254,26 +258,24 @@ let editButton = document.querySelector('.edit');
 
         }
 
-        tempfield.innerHTML = data.temp + '&deg;F'
-        wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`
+        tempfield.innerHTML = data.temp + '&deg;F';
+        wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
 
-        p1.camUrl = `/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`
-        p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`
-        p2.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`
-        p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`
+        p1.camUrl = `/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        p2.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-       // $.ajax({url: p1.camUrl, success: function(result){
-              // let out = JSON.parse(result);
-               //console.log(result.data);
-               $("#cam1").attr('src', p1.camUrl);
-           // }});
+        $("#cam1").attr('src', p1.camUrl);
+        $("#cam2").attr('src', p2.camUrl);
+        $("#cam3").attr('src', p3.camUrl);
+        $("#cam4").attr('src', p4.camUrl);
 
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
         guiUpdate(p3Icon, p3OnBtn, p3OffBtn, p3);
         guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
 
-        //cams(p1.ipv4 , p1.user, p1.pass);
     })
 
 
@@ -339,6 +341,47 @@ let editButton = document.querySelector('.edit');
         timeout = funInterval(socket)
     })
 
+    $('#c1edit').on("click", function(){
+        updateModals();
+        $("#cam1settings").modal('show');
+    });
+
+    $('#c1save').on("click", function(){
+
+        if ($('#c1ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
+            alert('invalid IP address');
+            return;
+        } else {
+            socket.emit('set_p1state', $('#c1state').prop('checked'));
+            socket.emit('set_p1ip', $('#c1ip').val());
+            socket.emit('set_p1u', $('#c1u').val());
+            socket.emit('set_p1p', $('#c1p').val());
+            $("#cam1settings").modal('hide');
+
+        }
+    });
+
+    $('#c2edit').on("click", function(){
+        updateModals();
+        $("#cam2settings").modal('show');
+    });
+
+    $('#c2save').on("click", function(){
+
+        if ($('#c2ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
+            alert('invalid IP address');
+            return;
+        } else {
+            socket.emit('set_p2state', $('#c2state').prop('checked'));
+            socket.emit('set_p2ip', $('#c2ip').val());
+            socket.emit('set_p2u', $('#c2u').val());
+            socket.emit('set_p2p', $('#c2p').val());
+            $("#cam2settings").modal('hide');
+
+        }
+    });
+
+
 
     $(".edit").click(function (e) {
         e.stopPropagation();
@@ -347,7 +390,6 @@ let editButton = document.querySelector('.edit');
         if (editable) {
             let i = $(this).prev().attr('id').replace("#", "");
             socket.emit('set_' + i, $(this).prev('span').html());
-
 
             $(this).removeClass('fa-save')
                 .addClass('fa-pencil');
@@ -361,12 +403,63 @@ let editButton = document.querySelector('.edit');
                 .addClass('fa-save');
             $(this).prev('span')
                 .attr('contenteditable', 'true')
-                .addClass('border border-success');
+                .addClass('border border-success')
+                .focus();
         }
 
     });
 
 })()
+
+
+function updateModals() {
+    let p1 = portInfo.ports[0];
+    let p2 = portInfo.ports[1];
+    let p3 = portInfo.ports[2];
+    let p4 = portInfo.ports[3];
+
+    if (p1.ipv4enabled) {
+        $('cam1').show();
+        $('#c1state').bootstrapToggle('on');
+    } else {
+        $('cam1').hide();
+        $('#c1state').bootstrapToggle('off');
+    }
+    $('#c1ip').val(p1.ipv4);
+    $('#c1u').val(p1.user);
+    $('#c1p').val(p1.pass);
+
+    if (p2.ipv4enabled) {
+        $('#c2state').bootstrapToggle('on');
+    } else {
+        $('#c2state').bootstrapToggle('off');
+    }
+
+    $('#c2ip').val(p2.ipv4);
+    $('#c2u').val(p2.user);
+    $('#c2p').val(p2.pass);
+
+    /*
+    if (p3.ipv4enabled) {
+        $('#c3state').bootstrapToggle('enable');
+    } else {
+        $('#c3state').bootstrapToggle('disable');
+    }
+    if (p4.ipv4enabled) {
+        $('#c4state').bootstrapToggle('enable');
+    } else {
+        $('#c4state').bootstrapToggle('disable');
+    }*/
+
+}
+
+$(function() {
+    $('.cstate').parent().css("width", "100px");
+    $('img').on("error", function () {
+        this.src = ResolveUrl("/img/img404.jpg");
+    });
+});
+
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
@@ -388,21 +481,6 @@ var myVar = setInterval(function () {
 function myTimer() {
     let d = new Date();
     $("#systime").text(d.toLocaleTimeString());
-}
-
-function cams(ip, u, p) {
-    let password = p;
-    let username = u;
-    let authString = `${username}:${password}`
-    let url = 'http://' + ip + '/cgi-bin/mjpeg';
-    var http = new XMLHttpRequest();
-    http.open("get", url, false, username, password);
-    http.send("");
-    if (http.status == 200) {
-        alert(http.response);
-    } else {
-        alert("⚠️ Authentication failed.");
-    }
 }
 
 function guiUpdate(iconField, onField, offField, sp) {

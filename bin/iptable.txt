@@ -1,15 +1,15 @@
 [info]
-location = "SRTHQ"
+location = "SRT-HQ"
 
 [cams.alpha]
 enabled = true
-ip = "127.0.0.1"
+ip = "192.168.1.10"
 user = "admin"
 pass = "S0larr1g"
 
 [cams.bravo]
-enabled = false
-ip = "0.0.0.0"
+enabled = true
+ip = "127.0.0.1"
 user = "admin"
 pass = "S0larr1g"
 

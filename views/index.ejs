@@ -9,6 +9,8 @@ Todo:
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/js/fontawesome/all.min.css" type="text/css" />
+  <link rel="stylesheet" href="/js/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="/css/bootstrap4-toggle.min.css" type="text/css" />
   <link rel="stylesheet" href="/css/theme.css" type="text/css" />
   <script src="/js/jquery-3.4.1.min.js"></script>
 </head>
@@ -29,7 +31,7 @@ Todo:
   </div>
 </nav>
 <div class="py-3 text-center">
-  <div class="container">
+  <div class="container container-fluid">
     <div class="row">
       <div class="col-md-12">
         <div class="card text-white bg-info mb-3" id="sysinfo">
@@ -69,14 +71,14 @@ Todo:
         <div class="row">
           <div class="col-md-12">
             <ul class="list-unstyled">
-              <li><span id="p1ip" nowrap>0.0.0.0</span>&nbsp;&nbsp;<i class="fas fa-pencil edit"></i></li>
+              <li><span id="p1ip" nowrap>0.0.0.0</span>&nbsp;&nbsp;<a href="#" id="c1edit"><i class="fas fa-pencil"></i></a></li>
               <li id="p1v">Voltage:&nbsp;V</li>
               <li id="p1c">Current:&nbsp;mA</li>
             </ul>
           </div>
         </div>
-        <br>
-        <img id="cam1" src="" height="100" width="125">
+
+        <img id="cam1" src="/img/img404.jpg" height="100" width="125">
       </div>
       <div class="col-lg-3 col-6 p-4">
         <i id="p2" class="fas fa-ethernet fa-3x mb-2 text-muted"></i><br />
@@ -90,7 +92,7 @@ Todo:
         <div class="row">
           <div class="col-md-12">
             <ul class="list-unstyled">
-              <li><span id="p2ip">0.0.0.0</span>&nbsp;&nbsp;&nbsp;<i class="fas fa-pencil edit"></i></li>
+              <li><span id="p2ip" nowrap>0.0.0.0</span>&nbsp;&nbsp;<a href="#" id="c2edit"><i class="fas fa-pencil"></i></a></li>
               <li id="p2v">Voltage:&nbsp;V</li>
               <li id="p2c">Current:&nbsp;mA</li>
             </ul>
@@ -109,7 +111,7 @@ Todo:
         <div class="row">
           <div class="col-md-12">
             <ul class="list-unstyled">
-              <li><span id="p3ip">0.0.0.0</span>&nbsp;&nbsp;<i class="fas fa-pencil edit"></i></li>
+              <li><span id="p3ip" nowrap>0.0.0.0</span>&nbsp;&nbsp;<a href="#" id="c3edit"><i class="fas fa-pencil"></i></a></li>
               <li id="p3v">Voltage:&nbsp;V</li>
               <li id="p3c">Current:&nbsp;mA</li>
             </ul>
@@ -128,7 +130,7 @@ Todo:
         <div class="row">
           <div class="col-md-12">
             <ul class="list-unstyled">
-              <li><span id="p4ip">0.0.0.0</span>&nbsp;&nbsp;&nbsp;<i class="fas fa-pencil edit"></i></li>
+              <li><span id="p4ip" nowrap>0.0.0.0</span>&nbsp;&nbsp;<a href="#" id="c4edit"><i class="fas fa-pencil"></i></a></li>
               <li id="p4v">Voltage:&nbsp;V</li>
               <li id="p4c">Current:&nbsp;mA</li>
             </ul>
@@ -138,7 +140,7 @@ Todo:
     </div>
   </div>
 </div>
-<!-- Modal -->
+<!-- Begin Refresh Modal -->
 <div class="modal fade" id="loadMe" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -151,11 +153,83 @@ Todo:
     </div>
   </div>
 </div>
+<!-- End Refresh Moal -->
+
+<!-- Begin Cam 1 Settings Modal -->
+<div class="modal modal-xl" id="cam1settings" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #1 Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <input type="checkbox" class="cstate" id="c1state" data-toggle="toggle" data-size="sm" data-on="Enabled" data-off="Disabled">
+        <br>
+        <div class="form-group">
+          <label for="c1ip" class="text-primary">Camera IP:</label>
+          <input type="text" class="form-control" placeholder="Enter IP" id="c1ip">
+        </div>
+        <div class="form-group">
+          <label for="c1u" class="text-primary">Username:</label>
+          <input type="text" class="form-control" placeholder="admin" id="c1u">
+        </div>
+        <div class="form-group">
+          <label for="c1p" class="text-primary">Password:</label>
+          <input type="password" class="form-control"  id="c1p">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="c1save" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 1 Settings Modal -->
+
+<!-- Begin Cam 2 Settings Modal -->
+<div class="modal modal-xl" id="cam2settings" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #2 Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="checkbox" class="cstate" id="c2state" data-toggle="toggle" data-size="sm" data-on="Enabled" data-off="Disabled">
+        <br>
+        <div class="form-group">
+          <label for="c2ip" class="text-primary">Camera IP:</label>
+          <input type="text" class="form-control" placeholder="Enter IP" id="c2ip">
+        </div>
+        <div class="form-group">
+          <label for="c2u" class="text-primary">Username:</label>
+          <input type="text" class="form-control" placeholder="admin" id="c2u">
+        </div>
+        <div class="form-group">
+          <label for="c2p" class="text-primary">Password:</label>
+          <input type="password" class="form-control"  id="c2p">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="c2save" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 2 Settings Modal -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/fontawesome.js"></script>
 <script src="/js/socket.io.js"></script>
+<script src="/js/bootstrap4-toggle.min.js"></script>
 <script src="/js/functions.js"></script>
 </body>
 </html>

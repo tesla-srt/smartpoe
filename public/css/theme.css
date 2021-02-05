@@ -4154,7 +4154,6 @@ a.close.disabled {
 .modal {
   position: fixed;
   top: 0;
-  left: 0;
   z-index: 1050;
   display: none;
   width: 100%;
@@ -4762,12 +4761,12 @@ button.bg-success:focus {
   background-color: #1e7e34 !important; }
 
 .bg-info {
-  background-color: #aaa !important; }
+  background-color: #929292 !important; }
 
 a.bg-info:hover, a.bg-info:focus,
 button.bg-info:hover,
 button.bg-info:focus {
-  background-color: #919191 !important; }
+  background-color: #585858 !important; }
 
 .bg-warning {
   background-color: #ffc107 !important; }

@@ -6,14 +6,15 @@
   "bin": "app.js",
   "author": "nick@solarrigtech.com",
   "license": "ISC",
-    "pkg": {
-      "assets": [
-        "views/*",
-        "public/**/*"
-      ]
-     },
+  "pkg": {
+    "assets": [
+      "views/*",
+      "public/**/*"
+    ]
+  },
   "dependencies": {
     "base-64": "^1.0.0",
+    "bootstrap4-toggle": "^3.6.1",
     "cors": "^2.8.5",
     "ejs": "^3.1.5",
     "express": "^4.17.1",

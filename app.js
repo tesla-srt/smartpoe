@@ -154,8 +154,57 @@ io.on('connection', socket => {
         });
     })
 
+    socket.on('set_p1u', data => {
+        config.cams.alpha.user = data.trim();
+        sp.ports[0].user = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p1p', data => {
+        config.cams.alpha.pass = data.trim();
+        sp.ports[0].pass = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p1state', data => {
+        config.cams.alpha.enabled = data;
+        sp.ports[0].ipv4enabled = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p2state', data => {
+        config.cams.bravo.enabled = data;
+        sp.ports[1].ipv4enabled = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+
     socket.on('set_p2ip', data => {
         config.cams.bravo.ip = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p2u', data => {
+        config.cams.bravo.user = data.trim();
+        sp.ports[1].user = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p2p', data => {
+        config.cams.bravo.pass = data.trim();
+        sp.ports[1].pass = data.trim();
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
@@ -168,12 +217,47 @@ io.on('connection', socket => {
         });
     })
 
+    socket.on('set_p3u', data => {
+        config.cams.charlie.user = data.trim();
+        sp.ports[2].user = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p3p', data => {
+        config.cams.charlie.pass = data.trim();
+        sp.ports[2].pass = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+
     socket.on('set_p4ip', data => {
         config.cams.delta.ip = data;
         fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });
     })
+
+    socket.on('set_p4u', data => {
+        config.cams.delta.user = data.trim();
+        sp.ports[3].user = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+    socket.on('set_p4p', data => {
+        config.cams.delta.pass = data.trim();
+        sp.ports[3].pass = data.trim();
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
+
+
 
     socket.on('get_hostname', data => {
         
@@ -209,7 +293,13 @@ io.on('connection', socket => {
             let stream = fs.createReadStream('bin/all.json')
             stream.on('data', function (chunk) {
                 console.log(`fallback: local file`)
-                jsonContent = JSON.parse(chunk.toString())
+                try {
+                    jsonContent = JSON.parse(chunk.toString())
+                }
+                catch(err) {
+                    console.error(err)
+                }
+
             });
 
         });
@@ -224,13 +314,14 @@ io.on('connection', socket => {
         port3.voltage = jsonContent["p3"][0].voltage
         port3.current = jsonContent["p3"][0].current
         port3.ipv4 = config.cams.charlie.ip
+        port3.ipv4enabled = config.cams.charlie.enabled
         port3.pass = config.cams.charlie.pass
         port3.user = config.cams.charlie.user
 
         port4.voltage = jsonContent["p4"][0].voltage
         port4.current = jsonContent["p4"][0].current
         port4.ipv4 = config.cams.delta.ip
-        port4.ipv4 = config.cams.delta.ip
+        port4.ipv4enabled = config.cams.delta.enabled
         port4.pass = config.cams.delta.pass
         port4.user = config.cams.delta.user
 
@@ -239,6 +330,7 @@ io.on('connection', socket => {
         port2.voltage = jsonContent["p2"][0].voltage
         port2.current = jsonContent["p2"][0].current
         port2.ipv4 = config.cams.bravo.ip
+        port2.ipv4enabled = config.cams.bravo.enabled
         port2.pass = config.cams.bravo.pass
         port2.user = config.cams.bravo.user
 
@@ -247,6 +339,7 @@ io.on('connection', socket => {
         port1.voltage = jsonContent["p1"][0].voltage
         port1.current = jsonContent["p1"][0].current
         port1.ipv4 = config.cams.alpha.ip
+        port1.ipv4enabled = config.cams.alpha.enabled
         port1.pass = config.cams.alpha.pass
         port1.user = config.cams.alpha.user
 
