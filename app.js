@@ -8,12 +8,21 @@ const cors = require('cors');
 const { Curl } = require('node-libcurl');
 const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
-
+const Stream = require('node-rtsp-stream')
 const app = express();
 let base64 = require('base-64');
 
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
+
+
+setInterval(function() {
+    //TODO:
+    //Try to get images
+    //On error send email
+}, 5000);
+
+
 
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 
@@ -26,7 +35,7 @@ app.get('/', (req, res)=> {
     res.render('index')
 })
 
-app.get('/cam/:num/u/:user/p/:pass',cors(), (req, res) => {
+app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     res.contentType('image/jpeg');
     let name = req.params.num;
     //let password = req.params.pass.toString();
@@ -34,7 +43,8 @@ app.get('/cam/:num/u/:user/p/:pass',cors(), (req, res) => {
     let user = req.params.user
 
     //let username = req.params.user.toString();
-    let src = 'http://' + name + '/SnapshotJPEG';
+    //let src = 'http://' + name + '/SnapshotJPEG';
+    let src = 'http://'+name+'/SnapshotJPEG';
     let result = ""
     const curl = new Curl();
     let close = curl.close.bind(curl);
@@ -51,6 +61,7 @@ app.get('/cam/:num/u/:user/p/:pass',cors(), (req, res) => {
             close();
         })
         .on('error', function(e) {
+            console.error(e)
             close();
         })
         .perform();
@@ -132,6 +143,16 @@ let ports = [p1, p2, p3, p4];
 
 function getcamurl() {
 }
+
+/*let stream1 = new Stream({
+    name: 'cam1',
+    streamUrl: 'rtsp://admin:S0larr1g@192.168.1.10/h265/ch1/main/av_stream',
+    wsPort: 9999,
+    ffmpegOptions: { // options ffmpeg flags
+        '-stats': '', // an option with no neccessary value uses a blank string
+        '-r': 30 // options with required values specify the value after the key
+    }
+})*/
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 io.on('connection', socket => {
@@ -265,7 +286,13 @@ io.on('connection', socket => {
         });
     })
 
-
+    socket.on('set_p4state', data => {
+        config.cams.delta.enabled = data;
+        sp.ports[3].ipv4enabled = data;
+        fs.writeFile('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+    })
 
     socket.on('get_hostname', data => {
         

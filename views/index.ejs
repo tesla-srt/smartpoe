@@ -56,7 +56,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-lg-3 col-6 p-4">
 
-        <i id="p1" class="fas fa-ethernet fa-3x mb-2 text-muted"></i><br />
+        <i id="p1" class="fas fa-ethernet fa-3x mb-2 text-muted" data-toggle="tooltip" data-placement="bottom" title="Click to REBOOT"></i><br />
         <strong>Lan 2</strong>
         <div class="col-md-12" style="">
           <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -156,8 +156,8 @@
 <!-- End Refresh Moal -->
 
 <!-- Begin Cam 1 Settings Modal -->
-<div class="modal modal-xl" id="cam1settings" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+<div class="modal" id="cam1settings" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-primary">Camera #1 Settings</h5>
@@ -191,8 +191,8 @@
 <!-- End Cam 1 Settings Modal -->
 
 <!-- Begin Cam 2 Settings Modal -->
-<div class="modal modal-xl" id="cam2settings" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+<div class="modal" id="cam2settings" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-primary">Camera #2 Settings</h5>
@@ -226,8 +226,8 @@
 <!-- End Cam 2 Settings Modal -->
 
 <!-- Begin Cam 3 Settings Modal -->
-<div class="modal modal-xl" id="cam3settings" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+<div class="modal" id="cam3settings" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-primary">Camera #3 Settings</h5>
@@ -259,6 +259,115 @@
   </div>
 </div>
 <!-- End Cam 3 Settings Modal -->
+
+<!-- Begin Cam 4 Settings Modal -->
+<div class="modal" id="cam4settings" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #4 Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="checkbox" class="cstate" id="c4state" data-toggle="toggle" data-size="sm" data-on="Enabled" data-off="Disabled">
+        <br>
+        <div class="form-group">
+          <label for="c4ip" class="text-primary">Camera IP:</label>
+          <input type="text" class="form-control" placeholder="Enter IP" id="c4ip">
+        </div>
+        <div class="form-group">
+          <label for="c4u" class="text-primary">Username:</label>
+          <input type="text" class="form-control" placeholder="admin" id="c4u">
+        </div>
+        <div class="form-group">
+          <label for="c4p" class="text-primary">Password:</label>
+          <input type="password" class="form-control"  id="c4p">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="c4save" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 4 Settings Modal -->
+
+<!-- Begin Cam 1 Live View Modal -->
+<div class="modal" id="cam1live" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #1 Live</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="c1live" class="col-lg" src="/img/img404.jpg">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 1 Live View Modal -->
+
+<!-- Begin Cam 2 Live View Modal -->
+<div class="modal" id="cam2live" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #2 Live</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img class="col-lg" id="c2live" src="/img/img404.jpg">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 2 Live View Modal -->
+
+
+<!-- Begin Cam 3 Live View Modal -->
+<div class="modal" id="cam3live" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #3 Live</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="c3live" class="col-lg" src="/img/img404.jpg">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 3 Live View Modal -->
+
+
+<!-- Begin Cam 4 Live View Modal -->
+<div class="modal" id="cam4live" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">Camera #4 Live</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img id="c4live" class="col-lg" src="/img/img404.jpg">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Cam 4 Live View Modal -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>

@@ -226,14 +226,14 @@ let c1EditBtn = document.querySelector('#c1edit');
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
         portInfo = data;
-        let p1 = data.ports[0];
-        let p2 = data.ports[1];
-        let p3 = data.ports[2];
-        let p4 = data.ports[3];
-        p1vfield.innerHTML = parseFloat(data.ports[0].voltage).toPrecision(4) + '&nbsp;V'
-        p2vfield.innerHTML = parseFloat(data.ports[1].voltage).toPrecision(4) + '&nbsp;V'
-        p3vfield.innerHTML = parseFloat(data.ports[2].voltage).toPrecision(4) + '&nbsp;V'
-        p4vfield.innerHTML = parseFloat(data.ports[3].voltage).toPrecision(4) + '&nbsp;V'
+        let p1 = portInfo.ports[0];
+        let p2 = portInfo.ports[1];
+        let p3 = portInfo.ports[2];
+        let p4 = portInfo.ports[3];
+        p1vfield.innerHTML = parseFloat(p1.voltage).toPrecision(4) + '&nbsp;V'
+        p2vfield.innerHTML = parseFloat(p2.voltage).toPrecision(4) + '&nbsp;V'
+        p3vfield.innerHTML = parseFloat(p3.voltage).toPrecision(4) + '&nbsp;V'
+        p4vfield.innerHTML = parseFloat(p4.voltage).toPrecision(4) + '&nbsp;V'
         let p1Icon = document.querySelector('#p1');
         let p2Icon = document.querySelector('#p2');
         let p3Icon = document.querySelector('#p3');
@@ -249,7 +249,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         p3IpField.innerHTML = p3.ipv4
         p4IpField.innerHTML = p4.ipv4
 
-        if (data.temp == "N/A") {
+        if (portInfo.temp == "N/A") {
             timeout = changeInterval(socket);
             socket.emit('update', '');
             console.log(`NEW TIMEOUT: ` + timeout);
@@ -258,12 +258,11 @@ let c1EditBtn = document.querySelector('#c1edit');
 
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
-
-        p1.camUrl = `/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
-        p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
-
+        //TODO: Replace with relative URL in prod.
+        p1.camUrl = `http://192.168.1.145:3001/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        p2.camUrl = `http://192.168.1.145:3001/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        p3.camUrl = `http://192.168.1.145:3001/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p4.camUrl = `http://192.168.1.145:3001/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
         $("#cam1").on("error", handleError).attr('src', p1.camUrl);
         $("#cam2").on("error", handleError).attr('src', p2.camUrl);
         $("#cam3").on("error", handleError).attr('src', p3.camUrl);
@@ -273,6 +272,27 @@ let c1EditBtn = document.querySelector('#c1edit');
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
         guiUpdate(p3Icon, p3OnBtn, p3OffBtn, p3);
         guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
+
+        if(!portInfo.ports[0].ipv4enabled) {
+            $('#cam1').toggleClass('invisible', true);
+        } else {
+            $('#cam1').toggleClass('invisible', false);
+        }
+        if(!portInfo.ports[1].ipv4enabled) {
+            $('#cam2').toggleClass('invisible', true);
+        } else {
+            $('#cam2').toggleClass('invisible', false);
+        }
+        if(!portInfo.ports[2].ipv4enabled) {
+            $('#cam3').toggleClass('invisible', true);
+        } else {
+            $('#cam3').toggleClass('invisible', false);
+        }
+        if(!portInfo.ports[3].ipv4enabled) {
+            $('#cam4').toggleClass('invisible', true);
+        } else {
+            $('#cam4').toggleClass('invisible', false);
+        }
 
     })
 
@@ -405,6 +425,31 @@ let c1EditBtn = document.querySelector('#c1edit');
         }
     });
 
+
+    $('#c4edit').on("click", function(){
+        updateModals();
+        $("#cam4settings").modal('show');
+    });
+
+    $('#c4save').on("click", function(){
+
+        if ($('#c4ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
+            alert('invalid IP address');
+            return;
+        } else if ($('#c4u').val().length < 1 || $('#c4p').val().length < 1) {
+            alert('Username/Password cannot be blank.')
+            return;
+        }
+        else {
+            socket.emit('set_p4state', $('#c4state').prop('checked'));
+            socket.emit('set_p4ip', $('#c4ip').val());
+            socket.emit('set_p4u', $('#c4u').val());
+            socket.emit('set_p4p', $('#c4p').val());
+            $("#cam4settings").modal('hide');
+
+        }
+    });
+
     $('#cam1settings').on('hide.bs.modal', function () {
         timeout = funInterval(socket);
     })
@@ -491,21 +536,45 @@ function updateModals() {
 
 
     if (p4.ipv4enabled) {
-        $('#c4state').bootstrapToggle('enable');
+        $('#c4state').bootstrapToggle('on');
     } else {
-        $('#c4state').bootstrapToggle('disable');
+        $('#c4state').bootstrapToggle('off');
     }
+    $('#c4ip').val(p4.ipv4);
+    $('#c4u').val(p4.user);
+    $('#c4p').val(p4.pass);
 
 }
 
 function handleError() {
-    this.src = ResolveUrl("/img/img404.jpg");
+    this.src = "/img/img404.jpg";
 }
 
 $(function() {
+    $('[data-toggle="tooltip"]').tooltip()
     $('.cstate').parent().css("width", "100px");
     $('img').on("error", function () {
-        this.src = ResolveUrl("/img/img404.jpg");
+        this.src = "/img/img404.jpg";
+    });
+
+
+    /********
+     * Events
+     *********/
+    $('#cam1').on("click", function(){
+        $('#cam1live').modal('show');
+    });
+
+    $('#cam2').on("click", function(){
+        $('#cam2live').modal('show');
+    });
+
+    $('#cam3').on("click", function(){
+        $('#cam4live').modal('show');
+    });
+
+    $('#cam4').on("click", function(){
+        $('#cam4live').modal('show');
     });
 });
 
