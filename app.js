@@ -20,6 +20,7 @@ setInterval(function() {
     //TODO:
     //Try to get images
     //On error send email
+
 }, 5000);
 
 
