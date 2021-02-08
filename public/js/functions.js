@@ -533,8 +533,8 @@ let c1EditBtn = document.querySelector('#c1edit');
         }
 
     });
-
-    let player1 = new JSMpeg.Player('ws://127.0.0.0.1:3001/live/'+portInfo.ports[0].ipv4+'/u/'+portInfo.ports[0].user+'/p/'+portInfo.ports[0].pass, {
+    let stream1 = 'ws://127.0.0.0.1:3001/live/'+ portInfo.ports[0].ipv4 +'/u/'+ portInfo.ports[0].user +'/p/'+ portInfo.ports[0].pass;
+    let player1 = new JSMpeg.Player(stream1, {
         canvas: document.getElementById('cam1canvas'),
         audio: false,
         onStalled: function() {
