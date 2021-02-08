@@ -536,7 +536,7 @@ let c1EditBtn = document.querySelector('#c1edit');
 
     $('#cam1').on("click", function () {
         socket.emit('restart_stream',{ stream: 0 });
-        let player1 = new JSMpeg.Player('ws://127.0.0.1:10024', {
+        let player1 = new JSMpeg.Player('ws://192.168.1.170:10024', {
             canvas: document.getElementById('cam1canvas'),
             audio: false,
             onStalled: function() {
