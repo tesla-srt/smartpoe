@@ -263,10 +263,25 @@ let c1EditBtn = document.querySelector('#c1edit');
         p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
         p3.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
-        $("#cam1").on("error", handleError).attr('src', p1.camUrl);
-        $("#cam2").on("error", handleError).attr('src', p2.camUrl);
-        $("#cam3").on("error", handleError).attr('src', p3.camUrl);
-        $("#cam4").on("error", handleError).attr('src', p4.camUrl);
+
+        p1.streamUrl = `/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        $('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
+        p2.streamUrl = `/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        p3.streamUrl = `/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p4.streamUrl = `/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+
+        if (p1.ipv4enabled) {
+            $("#cam1").on("error", handleError).attr('src', p1.camUrl);
+        }
+        if(p2.ipv4enabled) {
+            $("#cam2").on("error", handleError).attr('src', p2.camUrl);
+        }
+        if(p3.ipv4enabled) {
+            $("#cam3").on("error", handleError).attr('src', p3.camUrl);
+        }
+        if(p4.ipv4enabled) {
+            $("#cam4").on("error", handleError).attr('src', p4.camUrl);
+        }
 
         //stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
 
@@ -539,8 +554,8 @@ let c1EditBtn = document.querySelector('#c1edit');
 
     $('#cam1').on("click", function () {
         //socket.emit('restart_stream',{ stream: 0 });
-        var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
-        new JSMpeg.Player(streamstring, {
+        //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
+        new JSMpeg.Player('http://192.168.1.170' + p1.streamUrl, {
             canvas: document.getElementById('cam1canvas'),
             audio: false
             /*        onStalled: function() {
