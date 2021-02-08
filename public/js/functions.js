@@ -553,7 +553,7 @@ let c1EditBtn = document.querySelector('#c1edit');
     });
 
     console.log('ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '');
-    var streamstring  = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
+    var streamstring  = 'ws://127.0.0..1:3001/live/192.168.1.172/u/admin/p/S0larr1g';
     let player1 = new JSMpeg.Player(streamstring, {
         canvas: document.getElementById('cam1canvas'),
         audio: false
