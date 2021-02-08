@@ -112,6 +112,7 @@ const sp = {
     location: config.info.location,
     temp: 0.0,
     totalWatts: 0.00,
+    serverAddress: server.address().address,
     ports: [
         {
             voltage: 0.00,
@@ -120,7 +121,7 @@ const sp = {
             ipv4: config.cams.alpha.ip,
             ipv4enabled: false,
             user: config.cams.alpha.user,
-            pass: config.cams.alpha.pass
+            pass: config.cams.alpha.pass,
         },
         {
             voltage: 0.00,
