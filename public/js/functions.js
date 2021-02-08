@@ -575,7 +575,8 @@ let c1EditBtn = document.querySelector('#c1edit');
         new JSMpeg.Player(p1.streamUrl, {
             canvas: document.getElementById('cam1canvas'),
             audio: false,
-            videoBufferSize: 1024*1024
+            videoBufferSize: 1024*1024,
+            disableWebAssembly: true
             /*        onStalled: function() {
                         console.log('stalled');
                         socket.emit('restart_stream',{ stream: 0 });
