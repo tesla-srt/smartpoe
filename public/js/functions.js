@@ -628,7 +628,8 @@ $(function () {
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
 
     console.log(stream1);
-    let player1 = new JSMpeg.Player(stream1, {
+    let port1 = portInfo.ports[0];
+    let player1 = new JSMpeg.Player('ws://127.0.0..1:3001/live/'+ port1.ipv4 +'/u/'+ port1.user +'/p/'+ port1.pass + '', {
         canvas: document.getElementById('cam1canvas'),
         audio: false
         /*        onStalled: function() {
