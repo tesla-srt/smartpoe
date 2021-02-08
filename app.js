@@ -76,6 +76,44 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     //curl.on('error', close);
 });
 
+
+app.get('/live/:num/u/:user/p/:pass', (req, res) => {
+    let name = req.params.num;
+    //let password = req.params.pass.toString();
+    let pass = req.params.pass
+    let user = req.params.user
+
+    //let username = req.params.user.toString();
+    //let src = 'http://' + name + '/SnapshotJPEG';
+    let src = 'rtsp://'+name+':554/MediaInput/h265';
+    let result = ""
+    const curl = new Curl();
+    let close = curl.close.bind(curl);
+    curl.enable(CurlFeature.Raw)
+    curl.setOpt('URL', src);
+    curl.setOpt('HTTPAUTH', CurlAuth.Digest);
+    //curl.setOpt('RETURNTRANSFER', 1);
+    curl.setOpt('COOKIEJAR','bin/cookies.txt');
+    curl.setOpt('COOKIEFILE','bin/cookies.txt');
+    curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
+    curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
+    if (!fs.existsSync('bin/cookies.txt')) {
+        fs.writeFileSync('bin/cookies.txt','')
+    }
+    curl
+        .on('end', function(code, body, headers) {
+            res.send(body);
+            curl.close();
+        })
+        .on('error', function(e) {
+            console.error(e)
+            curl.close.bind(curl);
+        })
+        .perform();
+    //curl.on('end', close);
+    //curl.on('error', close);
+});
+
 const server = app.listen(3001,'0.0.0.0')
 
 //initialize socket for the server
@@ -470,10 +508,10 @@ io.on('connection', socket => {
     socket.on('restart_steam', data => {
         switch(data.stream) {
             case "0":
-                sp.ports[0].stream =  new Stream({
+                sp.ports[0].stream = new Stream({
                     name: 'Cam 1',
                     //TODO
-                    streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
+                    streamUrl: 'rtsp://' + sp.ports[0].user + ':' + sp.ports[0].pass + '@'+ sp.ports[0].ipv4 + ':554/MediaInput/h265',
                     //streamUrl: 'rtsp://127.0.0.1:8550/',
                     wsPort: 10024,
                     ffmpegOptions: { // options ffmpeg flags
@@ -482,13 +520,13 @@ io.on('connection', socket => {
                 })
                 break;
             case "1":
-                sp.ports[1].stream.startMpeg1Stream()
+                //sp.ports[1].stream.startMpeg1Stream()
                 break;
             case "2":
-                sp.ports[2].stream.startMpeg1Stream()
+                //sp.ports[2].stream.startMpeg1Stream()
                 break;
             case "3":
-                sp.ports[3].stream.startMpeg1Stream()
+                //sp.ports[3].stream.startMpeg1Stream()
                 break;
         }
     })
