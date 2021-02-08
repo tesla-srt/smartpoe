@@ -8,7 +8,7 @@ user = "admin"
 pass = "S0larr1g"
 
 [cams.bravo]
-enabled = true
+enabled = false
 ip = "127.0.0.1"
 user = "admin"
 pass = "S0larr1g"

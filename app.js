@@ -118,8 +118,8 @@ const sp = {
             stream: new Stream({
                 name: 'Cam 1',
                 //TODO
-                //streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
-                streamUrl: 'rtsp://localhost:8550/',
+                streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
+                //streamUrl: 'rtsp://localhost:8550/',
                 wsPort: 10024,
                 ffmpegOptions: { // options ffmpeg flags
                     '-r': 30, // options with required values specify the value after the key

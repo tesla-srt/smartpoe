@@ -259,10 +259,10 @@ let c1EditBtn = document.querySelector('#c1edit');
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
         //TODO: Replace with relative URL in prod.
-        p1.camUrl = `http://192.168.1.145:3001/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
-        p2.camUrl = `http://192.168.1.145:3001/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.camUrl = `http://192.168.1.145:3001/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        p4.camUrl = `http://192.168.1.145:3001/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+        p1.camUrl = `/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        p3.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
         $("#cam1").on("error", handleError).attr('src', p1.camUrl);
         $("#cam2").on("error", handleError).attr('src', p2.camUrl);
         $("#cam3").on("error", handleError).attr('src', p3.camUrl);
