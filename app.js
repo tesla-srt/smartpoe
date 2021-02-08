@@ -14,7 +14,7 @@ let base64 = require('base-64');
 
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
-
+const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 
 setInterval(function() {
     //TODO:
@@ -25,7 +25,9 @@ setInterval(function() {
 
 
 
-const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
+
+
+
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -52,18 +54,22 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
     curl.setOpt('HTTPAUTH', CurlAuth.Digest);
+    curl.setOpt('RETURNTRANSFER', 1);
+    curl.setOpt('COOKIEJAR','bin/cookies.txt');
+    curl.setOpt('COOKIEFILE','bin/cookies.txt');
     curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
-
     curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
-
+    if (!fs.existsSync('bin/cookies.txt')) {
+        fs.writeFileSync('bin/cookies.txt')
+    }
     curl
         .on('end', function(code, body, headers) {
             res.send(body);
-            close();
+            curl.close();
         })
         .on('error', function(e) {
             console.error(e)
-            close();
+            curl.close.bind(curl);
         })
         .perform();
     //curl.on('end', close);
@@ -105,42 +111,51 @@ const sp = {
             voltage: 0.00,
             current: 0.00,
             watts: 0.00,
-            ipv4: "0.0.0.0",
+            ipv4: config.cams.alpha.ip,
             ipv4enabled: false,
-            user: "",
-            pass: ""
+            user: config.cams.alpha.user,
+            pass: config.cams.alpha.pass,
+            stream: new Stream({
+                name: 'Cam 1',
+                //TODO
+                //streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
+                streamUrl: 'rtsp://localhost:8550/',
+                wsPort: 10024,
+                ffmpegOptions: { // options ffmpeg flags
+                    '-r': 30, // options with required values specify the value after the key
+                }
+            })
         },
         {
             voltage: 0.00,
             current: 0.00,
             watts: 0.00,
-            ipv4: "0.0.0.0",
+            ipv4: config.cams.bravo.ip,
             ipv4enabled: false,
-            user: "",
-            pass: ""
+            user: config.cams.bravo.user,
+            pass: config.cams.bravo.pass
         },
         {
             voltage: 0.00,
             current: 0.00,
             watts: 0.00,
-            ipv4: "0.0.0.0",
+            ipv4: config.cams.charlie.ip,
             ipv4enabled: false,
-            user: "",
-            pass: ""
+            user: config.cams.charlie.user,
+            pass: config.cams.charlie.pass
         },
         {
             voltage: 0.00,
             current: 0.00,
             watts: 0.00,
-            ipv4: "0.0.0.0",
+            ipv4: config.cams.delta.ip,
             ipv4enabled: false,
-            user: "",
-            pass: ""
+            user: config.cams.delta.user,
+            pass: config.cams.delta.pass
         }]
 }
 
 let ports = [p1, p2, p3, p4];
-
 
 function getcamurl() {
 }
@@ -319,7 +334,7 @@ io.on('connection', socket => {
             try {
                 jsonContent = JSON.parse(data)
             } catch (ex) {
-                console.log(`error: ` + ex )
+                return;
             }
             //console.log(`updated`)
         });
@@ -333,7 +348,7 @@ io.on('connection', socket => {
                     jsonContent = JSON.parse(chunk.toString())
                 }
                 catch(err) {
-                    console.error(err)
+                    return;
                 }
 
             });
@@ -344,6 +359,7 @@ io.on('connection', socket => {
         let port2 = sp.ports[1];
         let port3 = sp.ports[2];
         let port4 = sp.ports[3];
+        let streams = new Array(sp.ports.length);
         sp.temp = jsonContent.temp;
         sp.location = config.info.location;
 
@@ -387,6 +403,8 @@ io.on('connection', socket => {
         port4.watts = (port4.current / 1000) * port4.voltage;
 
         sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
+
+        //sp.ports[0].stream.pipeStreamToSocketServer();
         //io.sockets.emit('receive_log', sp.location)
         io.sockets.emit('receive_update', sp);
         //io.sockets.emit('receive_temp', sp.temp);
@@ -458,5 +476,33 @@ io.on('connection', socket => {
             io.sockets.emit('device_off_busy', {port: msg.port})
         });
     })
+
+    socket.on('restart_steam', data => {
+        switch(data.stream) {
+            case "0":
+                sp.ports[0].stream.stop()
+                sp.ports[0].stream =  new Stream({
+                    name: 'Cam 1',
+                    //TODO
+                    //streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
+                    streamUrl: 'rtsp://127.0.0.1:8550/',
+                    wsPort: 10024,
+                    ffmpegOptions: { // options ffmpeg flags
+                        '-r': 30, // options with required values specify the value after the key
+                    }
+                })
+                break;
+            case "1":
+                sp.ports[1].stream.startMpeg1Stream()
+                break;
+            case "2":
+                sp.ports[2].stream.startMpeg1Stream()
+                break;
+            case "3":
+                sp.ports[3].stream.startMpeg1Stream()
+                break;
+        }
+    })
+
 })
 

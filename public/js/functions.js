@@ -273,22 +273,22 @@ let c1EditBtn = document.querySelector('#c1edit');
         guiUpdate(p3Icon, p3OnBtn, p3OffBtn, p3);
         guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
 
-        if(!portInfo.ports[0].ipv4enabled) {
+        if (!portInfo.ports[0].ipv4enabled) {
             $('#cam1').toggleClass('invisible', true);
         } else {
             $('#cam1').toggleClass('invisible', false);
         }
-        if(!portInfo.ports[1].ipv4enabled) {
+        if (!portInfo.ports[1].ipv4enabled) {
             $('#cam2').toggleClass('invisible', true);
         } else {
             $('#cam2').toggleClass('invisible', false);
         }
-        if(!portInfo.ports[2].ipv4enabled) {
+        if (!portInfo.ports[2].ipv4enabled) {
             $('#cam3').toggleClass('invisible', true);
         } else {
             $('#cam3').toggleClass('invisible', false);
         }
-        if(!portInfo.ports[3].ipv4enabled) {
+        if (!portInfo.ports[3].ipv4enabled) {
             $('#cam4').toggleClass('invisible', true);
         } else {
             $('#cam4').toggleClass('invisible', false);
@@ -359,14 +359,14 @@ let c1EditBtn = document.querySelector('#c1edit');
         timeout = funInterval(socket)
     })
 
-    $('#c1edit').on("click", function(){
+    $('#c1edit').on("click", function () {
         updateModals();
         $("#cam1settings").modal('show');
     });
 
 
     //TODO: Admin/Pass Validation != null
-    $('#c1save').on("click", function(){
+    $('#c1save').on("click", function () {
         if ($('#c1ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('invalid IP address');
             return;
@@ -380,12 +380,12 @@ let c1EditBtn = document.querySelector('#c1edit');
         }
     });
 
-    $('#c2edit').on("click", function(){
+    $('#c2edit').on("click", function () {
         updateModals();
         $("#cam2settings").modal('show');
     });
 
-    $('#c2save').on("click", function(){
+    $('#c2save').on("click", function () {
 
         if ($('#c2ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('invalid IP address');
@@ -401,12 +401,12 @@ let c1EditBtn = document.querySelector('#c1edit');
     });
 
 
-    $('#c3edit').on("click", function(){
+    $('#c3edit').on("click", function () {
         updateModals();
         $("#cam3settings").modal('show');
     });
 
-    $('#c3save').on("click", function(){
+    $('#c3save').on("click", function () {
 
         if ($('#c3ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('invalid IP address');
@@ -414,8 +414,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         } else if ($('#c3u').val().length < 1 || $('#c3p').val().length < 1) {
             alert('Username/Password cannot be blank.')
             return;
-        }
-    else {
+        } else {
             socket.emit('set_p3state', $('#c3state').prop('checked'));
             socket.emit('set_p3ip', $('#c3ip').val());
             socket.emit('set_p3u', $('#c3u').val());
@@ -426,27 +425,24 @@ let c1EditBtn = document.querySelector('#c1edit');
     });
 
 
-    $('#c4edit').on("click", function(){
+    $('#c4edit').on("click", function () {
         updateModals();
         $("#cam4settings").modal('show');
     });
 
-    $('#c4save').on("click", function(){
-
+    $('#c4save').on("click", function () {
         if ($('#c4ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('invalid IP address');
             return;
         } else if ($('#c4u').val().length < 1 || $('#c4p').val().length < 1) {
             alert('Username/Password cannot be blank.')
             return;
-        }
-        else {
+        } else {
             socket.emit('set_p4state', $('#c4state').prop('checked'));
             socket.emit('set_p4ip', $('#c4ip').val());
             socket.emit('set_p4u', $('#c4u').val());
             socket.emit('set_p4p', $('#c4p').val());
             $("#cam4settings").modal('hide');
-
         }
     });
 
@@ -465,6 +461,51 @@ let c1EditBtn = document.querySelector('#c1edit');
     $('#cam4settings').on('hide.bs.modal', function () {
         timeout = funInterval(socket);
     })
+
+    $('i#p1').on('click', function () {
+        $(this).toggleClass('blink', true);
+        $('#loadMe').modal('show');
+        socket.emit('port_off', {port: 0});
+        setTimeout(function () {
+            socket.emit('port_on', {port: 0});
+            $(this).toggleClass('blink', false);
+
+        }, 15000);
+    });
+
+    $('i#p2').on('click', function () {
+        $(this).toggleClass('blink', true);
+        $('#loadMe').modal('show');
+        socket.emit('port_off', {port: 1});
+        setTimeout(function () {
+            socket.emit('port_on', {port: 1});
+            $(this).toggleClass('blink', false);
+
+        }, 15000);
+    });
+
+    $('i#p3').on('click', function () {
+        $(this).toggleClass('blink', true);
+        $('#loadMe').modal('show');
+        socket.emit('port_off', {port: 2});
+        setTimeout(function () {
+            socket.emit('port_on', {port: 2});
+            $(this).toggleClass('blink', false);
+
+        }, 15000);
+    });
+
+
+    $('i#p4').on('click', function () {
+        $(this).toggleClass('blink', true);
+        $('#loadMe').modal('show');
+        socket.emit('port_off', {port: 3});
+        setTimeout(function () {
+            socket.emit('port_on', {port: 3});
+            $(this).toggleClass('blink', false);
+
+        }, 15000);
+    });
 
 
     $(".edit").click(function (e) {
@@ -493,6 +534,41 @@ let c1EditBtn = document.querySelector('#c1edit');
 
     });
 
+
+   let player1 = new JSMpeg.Player('ws://127.0.0.1:10024', {
+        canvas: document.getElementById('cam1canvas'),
+        audio: false,
+        onStalled: function() {
+            console.log('stalled');
+            socket.emit('restart_stream',{ stream: 0 });
+        },
+       onEnded: function() {
+           console.log('stalled');
+           socket.emit('restart_stream',{ stream: 0 });
+       },
+       onSourceCompleted:  function() {
+           console.log('stalled');
+           socket.emit('restart_stream',{ stream: 0 });
+       }
+    })
+
+    $('#cam1').on("click", function () {
+        socket.emit('restart_stream',{ stream: 0 });
+        $('#cam1live').modal('show');
+    });
+
+    $('#cam2').on("click", function () {
+        $('#cam2live').modal('show');
+    });
+
+    $('#cam3').on("click", function () {
+        $('#cam3live').modal('show');
+    });
+
+    $('#cam4').on("click", function () {
+        $('#cam4live').modal('show');
+    });
+
 })()
 
 
@@ -503,10 +579,11 @@ function updateModals() {
     let p4 = portInfo.ports[3];
 
     if (p1.ipv4enabled) {
-        $('cam1').show();
+/*        $('#cam1').toggleClass('invisible', false)
+            .fadeIn();*/
         $('#c1state').bootstrapToggle('on');
     } else {
-        $('cam1').hide();
+        // $('#cam1').toggleClass('invisible', true);
         $('#c1state').bootstrapToggle('off');
     }
     $('#c1ip').val(p1.ipv4);
@@ -516,9 +593,13 @@ function updateModals() {
     if (p2.ipv4enabled) {
         //TODO: DON #cam2, 3, 4
         // $('cam2').show();
+        /*$('#cam2').toggleClass('invisible', false)
+            .fadeIn();*/
         $('#c2state').bootstrapToggle('on');
     } else {
         //$('cam2').hide();
+/*        $('#cam2').toggleClass('invisible', true)
+            .fadeOut();*/
         $('#c2state').bootstrapToggle('off');
     }
     $('#c2ip').val(p2.ipv4);
@@ -526,8 +607,12 @@ function updateModals() {
     $('#c2p').val(p2.pass);
 
     if (p3.ipv4enabled) {
+ /*       $('#cam3').toggleClass('invisible', false)
+            .fadeIn();*/
         $('#c3state').bootstrapToggle('on');
     } else {
+     /*   $('#cam3').toggleClass('invisible', true)
+            .fadeOut();*/
         $('#c3state').bootstrapToggle('off');
     }
     $('#c3ip').val(p3.ipv4);
@@ -536,8 +621,12 @@ function updateModals() {
 
 
     if (p4.ipv4enabled) {
+        /*$('#cam4').toggleClass('invisible', false)
+            .fadeIn();*/
         $('#c4state').bootstrapToggle('on');
     } else {
+      /*  $('#cam4').toggleClass('invisible', true)
+            .fadeOut();*/
         $('#c4state').bootstrapToggle('off');
     }
     $('#c4ip').val(p4.ipv4);
@@ -550,32 +639,20 @@ function handleError() {
     this.src = "/img/img404.jpg";
 }
 
-$(function() {
+$(function () {
     $('[data-toggle="tooltip"]').tooltip()
     $('.cstate').parent().css("width", "100px");
-    $('img').on("error", function () {
-        this.src = "/img/img404.jpg";
-    });
+    $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
 
 
     /********
      * Events
      *********/
-    $('#cam1').on("click", function(){
-        $('#cam1live').modal('show');
+    $('img').on("error", function () {
+        this.src = "/img/img404.jpg";
     });
 
-    $('#cam2').on("click", function(){
-        $('#cam2live').modal('show');
-    });
 
-    $('#cam3').on("click", function(){
-        $('#cam4live').modal('show');
-    });
-
-    $('#cam4').on("click", function(){
-        $('#cam4live').modal('show');
-    });
 });
 
 
