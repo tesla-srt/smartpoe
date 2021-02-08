@@ -1,4 +1,4 @@
-var p1, p2 , p3, p4, p1c, p2c, p3c, p4c, i1, timeout,stream1, stream2, stream3,  stream4;
+var p1, p2 , p3, p4, p1c, p2c, p3c, p4c, i1, timeout, stream1, stream2, stream3,  stream4;
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
@@ -552,8 +552,9 @@ let c1EditBtn = document.querySelector('#c1edit');
         $('#cam4live').modal('show');
     });
 
-    console.log(stream1.toString());
-    let player1 = new JSMpeg.Player(stream1 + '', {
+    console.log('ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '');
+    var streamstring  = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
+    let player1 = new JSMpeg.Player(streamstring, {
         canvas: document.getElementById('cam1canvas'),
         audio: false
         /*        onStalled: function() {
