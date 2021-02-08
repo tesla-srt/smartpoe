@@ -34,7 +34,7 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
     let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265`
     proxy({
         url: uri,
-        verbose: true
+        verbose: false
     })(ws)
 });
 
