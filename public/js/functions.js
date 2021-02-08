@@ -1,4 +1,4 @@
-var p1, p2 , p3, p4, p1c, p2c, p3c, p4c, i1, timeout, stream1, stream2, stream3,  stream4;
+var p1c, p2c, p3c, p4c, i1, timeout, stream1, stream2, stream3,  stream4;
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
@@ -268,7 +268,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         $("#cam3").on("error", handleError).attr('src', p3.camUrl);
         $("#cam4").on("error", handleError).attr('src', p4.camUrl);
 
-        stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
+        //stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
 
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
@@ -295,7 +295,8 @@ let c1EditBtn = document.querySelector('#c1edit');
         } else {
             $('#cam4').toggleClass('invisible', false);
         }
-        var streamstring  = 'ws://127.0.0..1:3001/live/192.168.1.172/u/admin/p/S0larr1g';
+        //var streamstring  = 'ws://127.0.0.1:3001/live/192.168.1.172/u/admin/p/S0larr1g';
+        var streamstring  = 'ws://127.0.0.1:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
         new JSMpeg.Player(streamstring, {
             canvas: document.getElementById('cam1canvas'),
             audio: false
