@@ -574,7 +574,8 @@ let c1EditBtn = document.querySelector('#c1edit');
         //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
         new JSMpeg.Player(p1.streamUrl, {
             canvas: document.getElementById('cam1canvas'),
-            audio: false
+            audio: false,
+            disableGl: true
             /*        onStalled: function() {
                         console.log('stalled');
                         socket.emit('restart_stream',{ stream: 0 });
