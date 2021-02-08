@@ -296,23 +296,7 @@ let c1EditBtn = document.querySelector('#c1edit');
             $('#cam4').toggleClass('invisible', false);
         }
         //var streamstring  = 'ws://127.0.0.1:3001/live/192.168.1.172/u/admin/p/S0larr1g';
-        var streamstring  = 'ws://127.0.0.1:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
-        new JSMpeg.Player(streamstring, {
-            canvas: document.getElementById('cam1canvas'),
-            audio: false
-            /*        onStalled: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onEnded: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onSourceCompleted:  function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    }*/
-        })
+
 
     })
 
@@ -554,7 +538,24 @@ let c1EditBtn = document.querySelector('#c1edit');
     });
 
     $('#cam1').on("click", function () {
-        socket.emit('restart_stream',{ stream: 0 });
+        //socket.emit('restart_stream',{ stream: 0 });
+        var streamstring  = 'ws://127.0.0.1:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
+        new JSMpeg.Player(streamstring, {
+            canvas: document.getElementById('cam1canvas'),
+            audio: false
+            /*        onStalled: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onEnded: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onSourceCompleted:  function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    }*/
+        })
         $('#cam1live').modal('show');
     });
 
