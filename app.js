@@ -29,12 +29,13 @@ setInterval(function() {
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) =>
+app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
+    let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265`
     proxy({
-        url: `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265`,
+        url: uri,
         verbose: true
-    })(ws),
-);
+    })(ws)
+});
 
 app.get('/', (req, res)=> {
     res.header("Access-Control-Allow-Origin", "*");
