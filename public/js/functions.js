@@ -268,7 +268,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         $("#cam3").on("error", handleError).attr('src', p3.camUrl);
         $("#cam4").on("error", handleError).attr('src', p4.camUrl);
 
-        stream1 = 'ws://127.0.0.0.1:3001/live/'+ portInfo.ports[0].ipv4 +'/u/'+ portInfo.ports[0].user +'/p/'+ portInfo.ports[0].pass;
+        stream1 = 'ws://127.0.0.0.1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
 
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
@@ -627,7 +627,7 @@ $(function () {
     $('.cstate').parent().css("width", "100px");
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
 
-
+    console.log(stream1);
     let player1 = new JSMpeg.Player(stream1, {
         canvas: document.getElementById('cam1canvas'),
         audio: false
