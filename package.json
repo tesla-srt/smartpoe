@@ -22,6 +22,7 @@
     "node-libcurl": "^2.3.0",
     "node-rtsp-stream": "^0.0.9",
     "node-rtsp-stream-jsmpeg": "^0.0.2",
+    "rtsp-relay": "^1.1.2",
     "socket.io": "^3.0.4",
     "toml": "^3.0.0",
     "toml-js": "^0.0.8"

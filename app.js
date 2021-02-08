@@ -10,6 +10,7 @@ const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
 const Stream = require('node-rtsp-stream')
 const app = express();
+const { proxy } = require('rtsp-relay')(app);
 let base64 = require('base-64');
 
 var fs = require("fs");
@@ -25,12 +26,14 @@ setInterval(function() {
 
 
 
-
-
-
-
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
+
+app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) =>
+    proxy({
+        url: `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/feed`,
+    })(ws),
+);
 
 app.get('/', (req, res)=> {
     res.header("Access-Control-Allow-Origin", "*");
