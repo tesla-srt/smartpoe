@@ -468,7 +468,15 @@ let c1EditBtn = document.querySelector('#c1edit');
         timeout = funInterval(socket);
     })
 
+    $('#cam1live').on('hide.bs.modal', function () {
+        timeout = funInterval(socket);
+    })
+
     $('#cam2settings').on('hide.bs.modal', function () {
+        timeout = funInterval(socket);
+    })
+
+    $('#cam2live').on('hide.bs.modal', function () {
         timeout = funInterval(socket);
     })
 
@@ -476,7 +484,15 @@ let c1EditBtn = document.querySelector('#c1edit');
         timeout = funInterval(socket);
     })
 
+    $('#cam3live').on('hide.bs.modal', function () {
+        timeout = funInterval(socket);
+    })
+
     $('#cam4settings').on('hide.bs.modal', function () {
+        timeout = funInterval(socket);
+    })
+
+    $('#cam4live').on('hide.bs.modal', function () {
         timeout = funInterval(socket);
     })
 
@@ -553,6 +569,7 @@ let c1EditBtn = document.querySelector('#c1edit');
     });
 
     $('#cam1').on("click", function () {
+        clearInterval(i1)
         //socket.emit('restart_stream',{ stream: 0 });
         //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
         new JSMpeg.Player(p1.streamUrl, {
