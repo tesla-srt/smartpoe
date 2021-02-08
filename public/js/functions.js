@@ -268,7 +268,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         $("#cam3").on("error", handleError).attr('src', p3.camUrl);
         $("#cam4").on("error", handleError).attr('src', p4.camUrl);
 
-        stream1 = 'ws://127.0.0.0.1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
+        stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
 
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
