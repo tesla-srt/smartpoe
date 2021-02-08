@@ -31,7 +31,7 @@ app.use(express.static('public'))
 
 app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) =>
     proxy({
-        url: `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/feed`,
+        url: `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265`,
     })(ws),
 );
 
@@ -51,44 +51,6 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     //let username = req.params.user.toString();
     //let src = 'http://' + name + '/SnapshotJPEG';
     let src = 'http://'+name+'/SnapshotJPEG';
-    let result = ""
-    const curl = new Curl();
-    let close = curl.close.bind(curl);
-    curl.enable(CurlFeature.Raw)
-    curl.setOpt('URL', src);
-    curl.setOpt('HTTPAUTH', CurlAuth.Digest);
-    //curl.setOpt('RETURNTRANSFER', 1);
-    curl.setOpt('COOKIEJAR','bin/cookies.txt');
-    curl.setOpt('COOKIEFILE','bin/cookies.txt');
-    curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
-    curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
-    if (!fs.existsSync('bin/cookies.txt')) {
-        fs.writeFileSync('bin/cookies.txt','')
-    }
-    curl
-        .on('end', function(code, body, headers) {
-            res.send(body);
-            curl.close();
-        })
-        .on('error', function(e) {
-            console.error(e)
-            curl.close.bind(curl);
-        })
-        .perform();
-    //curl.on('end', close);
-    //curl.on('error', close);
-});
-
-
-app.get('/live/:num/u/:user/p/:pass', (req, res) => {
-    let name = req.params.num;
-    //let password = req.params.pass.toString();
-    let pass = req.params.pass
-    let user = req.params.user
-
-    //let username = req.params.user.toString();
-    //let src = 'http://' + name + '/SnapshotJPEG';
-    let src = 'rtsp://'+name+':554/MediaInput/h265';
     let result = ""
     const curl = new Curl();
     let close = curl.close.bind(curl);
