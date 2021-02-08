@@ -264,7 +264,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         p3.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        p1.streamUrl = `/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        p1.streamUrl = `ws:///live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
         $('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
         p2.streamUrl = `/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
         p3.streamUrl = `/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
