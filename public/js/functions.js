@@ -296,25 +296,6 @@ let c1EditBtn = document.querySelector('#c1edit');
 
     })
 
-    let stream1 = 'ws://127.0.0.0.1:3001/live/'+ portInfo.ports[0].ipv4 +'/u/'+ portInfo.ports[0].user +'/p/'+ portInfo.ports[0].pass;
-    let player1 = new JSMpeg.Player(stream1, {
-        canvas: document.getElementById('cam1canvas'),
-        audio: false,
-        onStalled: function() {
-            console.log('stalled');
-            socket.emit('restart_stream',{ stream: 0 });
-        },
-        onEnded: function() {
-            console.log('stalled');
-            socket.emit('restart_stream',{ stream: 0 });
-        },
-        onSourceCompleted:  function() {
-            console.log('stalled');
-            socket.emit('restart_stream',{ stream: 0 });
-        }
-    })
-
-
     /**********
      * BUTTONS *
      **********/
@@ -557,8 +538,6 @@ let c1EditBtn = document.querySelector('#c1edit');
         $('#cam1live').modal('show');
     });
 
-
-
     $('#cam2').on("click", function () {
         $('#cam2live').modal('show');
     });
@@ -653,6 +632,26 @@ $(function () {
     $('img').on("error", function () {
         this.src = "/img/img404.jpg";
     });
+
+    let stream1 = 'ws://127.0.0.0.1:3001/live/'+ portInfo.ports[0].ipv4 +'/u/'+ portInfo.ports[0].user +'/p/'+ portInfo.ports[0].pass;
+    let player1 = new JSMpeg.Player(stream1, {
+        canvas: document.getElementById('cam1canvas'),
+        audio: false
+/*        onStalled: function() {
+            console.log('stalled');
+            socket.emit('restart_stream',{ stream: 0 });
+        },
+        onEnded: function() {
+            console.log('stalled');
+            socket.emit('restart_stream',{ stream: 0 });
+        },
+        onSourceCompleted:  function() {
+            console.log('stalled');
+            socket.emit('restart_stream',{ stream: 0 });
+        }*/
+    })
+
+
 
 
 });
