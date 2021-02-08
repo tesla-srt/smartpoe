@@ -552,7 +552,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         $('#cam4live').modal('show');
     });
 
-
+    console.log(stream1.toString());
     let player1 = new JSMpeg.Player(stream1 + '', {
         canvas: document.getElementById('cam1canvas'),
         audio: false
