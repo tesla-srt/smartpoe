@@ -508,7 +508,7 @@ io.on('connection', socket => {
     socket.on('restart_steam', data => {
         switch(data.stream) {
             case "0":
-                sp.ports[0].stream = new Stream({
+                /*sp.ports[0].stream = new Stream({
                     name: 'Cam 1',
                     //TODO
                     streamUrl: 'rtsp://' + sp.ports[0].user + ':' + sp.ports[0].pass + '@'+ sp.ports[0].ipv4 + ':554/MediaInput/h265',
@@ -517,7 +517,7 @@ io.on('connection', socket => {
                     ffmpegOptions: { // options ffmpeg flags
                         '-r': 30, // options with required values specify the value after the key
                     }
-                })
+                })*/
                 break;
             case "1":
                 //sp.ports[1].stream.startMpeg1Stream()
