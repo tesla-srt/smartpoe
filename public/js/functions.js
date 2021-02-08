@@ -1,4 +1,4 @@
-var p1c, p2c, p3c, p4c, i1, timeout;
+var p1c, p2c, p3c, p4c, i1, timeout,stream1,stream2,stream3,stream4;
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
@@ -267,6 +267,8 @@ let c1EditBtn = document.querySelector('#c1edit');
         $("#cam2").on("error", handleError).attr('src', p2.camUrl);
         $("#cam3").on("error", handleError).attr('src', p3.camUrl);
         $("#cam4").on("error", handleError).attr('src', p4.camUrl);
+
+        stream1 = 'ws://127.0.0.0.1:3001/live/'+ portInfo.ports[0].ipv4 +'/u/'+ portInfo.ports[0].user +'/p/'+ portInfo.ports[0].pass;
 
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
         guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
@@ -626,31 +628,29 @@ $(function () {
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
 
 
+    let player1 = new JSMpeg.Player(stream1, {
+        canvas: document.getElementById('cam1canvas'),
+        audio: false
+        /*        onStalled: function() {
+                    console.log('stalled');
+                    socket.emit('restart_stream',{ stream: 0 });
+                },
+                onEnded: function() {
+                    console.log('stalled');
+                    socket.emit('restart_stream',{ stream: 0 });
+                },
+                onSourceCompleted:  function() {
+                    console.log('stalled');
+                    socket.emit('restart_stream',{ stream: 0 });
+                }*/
+    })
+
     /********
      * Events
      *********/
     $('img').on("error", function () {
         this.src = "/img/img404.jpg";
     });
-
-    let stream1 = 'ws://127.0.0.0.1:3001/live/'+ portInfo.ports[0].ipv4 +'/u/'+ portInfo.ports[0].user +'/p/'+ portInfo.ports[0].pass;
-    let player1 = new JSMpeg.Player(stream1, {
-        canvas: document.getElementById('cam1canvas'),
-        audio: false
-/*        onStalled: function() {
-            console.log('stalled');
-            socket.emit('restart_stream',{ stream: 0 });
-        },
-        onEnded: function() {
-            console.log('stalled');
-            socket.emit('restart_stream',{ stream: 0 });
-        },
-        onSourceCompleted:  function() {
-            console.log('stalled');
-            socket.emit('restart_stream',{ stream: 0 });
-        }*/
-    })
-
 
 
 
