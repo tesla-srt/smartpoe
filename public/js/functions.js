@@ -1,4 +1,4 @@
-var p1c, p2c, p3c, p4c, i1, timeout,stream1,stream2,stream3,stream4;
+var p1, p2 , p3, p4, p1c, p2c, p3c, p4c, i1, timeout,stream1, stream2, stream3,  stream4;
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
@@ -226,10 +226,10 @@ let c1EditBtn = document.querySelector('#c1edit');
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
         portInfo = data;
-        let p1 = portInfo.ports[0];
-        let p2 = portInfo.ports[1];
-        let p3 = portInfo.ports[2];
-        let p4 = portInfo.ports[3];
+        p1 = portInfo.ports[0];
+        p2 = portInfo.ports[1];
+        p3 = portInfo.ports[2];
+        p4 = portInfo.ports[3];
         p1vfield.innerHTML = parseFloat(p1.voltage).toPrecision(4) + '&nbsp;V'
         p2vfield.innerHTML = parseFloat(p2.voltage).toPrecision(4) + '&nbsp;V'
         p3vfield.innerHTML = parseFloat(p3.voltage).toPrecision(4) + '&nbsp;V'
@@ -552,6 +552,26 @@ let c1EditBtn = document.querySelector('#c1edit');
         $('#cam4live').modal('show');
     });
 
+
+    let player1 = new JSMpeg.Player('ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '', {
+        canvas: document.getElementById('cam1canvas'),
+        audio: false
+        /*        onStalled: function() {
+                    console.log('stalled');
+                    socket.emit('restart_stream',{ stream: 0 });
+                },
+                onEnded: function() {
+                    console.log('stalled');
+                    socket.emit('restart_stream',{ stream: 0 });
+                },
+                onSourceCompleted:  function() {
+                    console.log('stalled');
+                    socket.emit('restart_stream',{ stream: 0 });
+                }*/
+    })
+
+
+
 })()
 
 
@@ -627,24 +647,6 @@ $(function () {
     $('.cstate').parent().css("width", "100px");
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
 
-    console.log(stream1);
-    let port1 = portInfo.ports[0];
-    let player1 = new JSMpeg.Player('ws://127.0.0..1:3001/live/'+ port1.ipv4 +'/u/'+ port1.user +'/p/'+ port1.pass + '', {
-        canvas: document.getElementById('cam1canvas'),
-        audio: false
-        /*        onStalled: function() {
-                    console.log('stalled');
-                    socket.emit('restart_stream',{ stream: 0 });
-                },
-                onEnded: function() {
-                    console.log('stalled');
-                    socket.emit('restart_stream',{ stream: 0 });
-                },
-                onSourceCompleted:  function() {
-                    console.log('stalled');
-                    socket.emit('restart_stream',{ stream: 0 });
-                }*/
-    })
 
     /********
      * Events
