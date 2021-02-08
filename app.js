@@ -32,6 +32,7 @@ app.use(express.static('public'))
 app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) =>
     proxy({
         url: `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265`,
+        verbose: true
     })(ws),
 );
 
