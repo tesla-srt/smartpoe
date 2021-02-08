@@ -8,9 +8,8 @@ const cors = require('cors');
 const { Curl } = require('node-libcurl');
 const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
-const Stream = require('node-rtsp-stream')
+//const Stream = require('node-rtsp-stream')
 const app = express();
-const { proxy } = require('rtsp-relay')(app);
 let base64 = require('base-64');
 
 var fs = require("fs");
@@ -28,8 +27,8 @@ setInterval(function() {
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
-
-app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
+const { proxy } = require('rtsp-relay')(app);
+app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
     let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265`
     proxy({
         url: uri,
