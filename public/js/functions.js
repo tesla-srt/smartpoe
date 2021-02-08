@@ -534,28 +534,28 @@ let c1EditBtn = document.querySelector('#c1edit');
 
     });
 
-
-   let player1 = new JSMpeg.Player('ws://127.0.0.1:10024', {
-        canvas: document.getElementById('cam1canvas'),
-        audio: false,
-        onStalled: function() {
-            console.log('stalled');
-            socket.emit('restart_stream',{ stream: 0 });
-        },
-       onEnded: function() {
-           console.log('stalled');
-           socket.emit('restart_stream',{ stream: 0 });
-       },
-       onSourceCompleted:  function() {
-           console.log('stalled');
-           socket.emit('restart_stream',{ stream: 0 });
-       }
-    })
-
     $('#cam1').on("click", function () {
         socket.emit('restart_stream',{ stream: 0 });
+        let player1 = new JSMpeg.Player('ws://127.0.0.1:10024', {
+            canvas: document.getElementById('cam1canvas'),
+            audio: false,
+            onStalled: function() {
+                console.log('stalled');
+                socket.emit('restart_stream',{ stream: 0 });
+            },
+            onEnded: function() {
+                console.log('stalled');
+                socket.emit('restart_stream',{ stream: 0 });
+            },
+            onSourceCompleted:  function() {
+                console.log('stalled');
+                socket.emit('restart_stream',{ stream: 0 });
+            }
+        })
         $('#cam1live').modal('show');
     });
+
+
 
     $('#cam2').on("click", function () {
         $('#cam2live').modal('show');

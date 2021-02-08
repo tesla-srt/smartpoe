@@ -54,13 +54,13 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
     curl.setOpt('HTTPAUTH', CurlAuth.Digest);
-    curl.setOpt('RETURNTRANSFER', 1);
+    //curl.setOpt('RETURNTRANSFER', 1);
     curl.setOpt('COOKIEJAR','bin/cookies.txt');
     curl.setOpt('COOKIEFILE','bin/cookies.txt');
     curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
     curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
     if (!fs.existsSync('bin/cookies.txt')) {
-        fs.writeFileSync('bin/cookies.txt')
+        fs.writeFileSync('bin/cookies.txt','')
     }
     curl
         .on('end', function(code, body, headers) {
@@ -114,17 +114,7 @@ const sp = {
             ipv4: config.cams.alpha.ip,
             ipv4enabled: false,
             user: config.cams.alpha.user,
-            pass: config.cams.alpha.pass,
-            stream: new Stream({
-                name: 'Cam 1',
-                //TODO
-                streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
-                //streamUrl: 'rtsp://localhost:8550/',
-                wsPort: 10024,
-                ffmpegOptions: { // options ffmpeg flags
-                    '-r': 30, // options with required values specify the value after the key
-                }
-            })
+            pass: config.cams.alpha.pass
         },
         {
             voltage: 0.00,
@@ -480,12 +470,11 @@ io.on('connection', socket => {
     socket.on('restart_steam', data => {
         switch(data.stream) {
             case "0":
-                sp.ports[0].stream.stop()
                 sp.ports[0].stream =  new Stream({
                     name: 'Cam 1',
                     //TODO
-                    //streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
-                    streamUrl: 'rtsp://127.0.0.1:8550/',
+                    streamUrl: 'rtsp://' + config.cams.alpha.user + ':' + config.cams.alpha.pass + '@'+ config.cams.alpha.ip + ':554/MediaInput/h265',
+                    //streamUrl: 'rtsp://127.0.0.1:8550/',
                     wsPort: 10024,
                     ffmpegOptions: { // options ffmpeg flags
                         '-r': 30, // options with required values specify the value after the key
