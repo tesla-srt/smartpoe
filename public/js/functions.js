@@ -264,11 +264,11 @@ let c1EditBtn = document.querySelector('#c1edit');
         p3.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        p1.streamUrl = `ws:///live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        p1.streamUrl = `ws://127.0.0.1:3001/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
         $('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
-        p2.streamUrl = `/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.streamUrl = `/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        p4.streamUrl = `/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+        p2.streamUrl = `ws://127.0.0.1:3001/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        p3.streamUrl = `ws://127.0.0.1:3001/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p4.streamUrl = `ws://127.0.0.1:3001/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled) {
             $("#cam1").on("error", handleError).attr('src', p1.camUrl);
