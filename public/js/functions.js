@@ -579,7 +579,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         clearInterval(i1)
         //socket.emit('restart_stream',{ stream: 0 });
         //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
-        new JSMpeg.Player(p1.streamUrl, {
+        new JSMpeg.Player(portInfo.ports[0].streamUrl, {
             canvas: document.getElementById('cam1canvas'),
             audio: false,
             videoBufferSize: 512 * 1024
