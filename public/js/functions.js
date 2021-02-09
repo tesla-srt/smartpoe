@@ -1,4 +1,4 @@
-var p1c, p2c, p3c, p4c, i1, timeout, stream1, stream2, stream3, stream4;
+var p1c, p2c, p3c, p4c, i1, timeout;
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
@@ -35,7 +35,7 @@ let serverAddress = '';
 if (window.location.host.indexOf('127.0.0.1') > -1) {
     serverAddress = "127.0.0.1:3001";
 } else {
-    serverAddress = window.location.host;
+    serverAddress = '166.161.225.29:3001';
 }
 
 (function connect() {
@@ -741,13 +741,13 @@ $(function () {
      * Events
      *********/
     $('img').on("error", function () {
-        this.src = "/img/img404.jpg";
+        this.src = "/img/img404.png";
     });
 
 
 });
 function handleError() {
-    this.src = "/img/img404.jpg";
+    this.src = "/img/img404.png";
 }
 
 /**

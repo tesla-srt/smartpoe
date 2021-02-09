@@ -3,24 +3,24 @@ location = "SRT-HQ"
 
 [cams.alpha]
 enabled = true
-ip = "192.168.1.10"
+ip = "192.168.1.172"
 user = "admin"
 pass = "S0larr1g"
 
 [cams.bravo]
-enabled = false
+enabled = true
 ip = "127.0.0.1"
 user = "admin"
 pass = "S0larr1g"
 
 [cams.charlie]
-enabled = false
+enabled = true
 ip = "0.0.0.0"
 user = "admin"
 pass = "S0larr1g"
 
 [cams.delta]
-enabled = false
+enabled = true
 ip = "192.168.1.0"
 user = "admin"
 pass = "S0larr1g"
