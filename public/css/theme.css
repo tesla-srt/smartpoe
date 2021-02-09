@@ -136,6 +136,13 @@ dl {font-weight: 400 !important; }
 
 .card-title, .card-header { font-weight: 400 !important; }
 
+.card-header .fa {
+  transition: .3s transform ease-in-out;
+}
+.card-header .collapsed .fa {
+  transform: rotate(90deg);
+}
+
 #p1on.active, #p2on.active, #p3on.active, #p4on.active {color: #6cff02 !important;}
 
 #p1off.active, #p2off.active, #p3off.active, #p4off.active {color: #ff270a !important;}
