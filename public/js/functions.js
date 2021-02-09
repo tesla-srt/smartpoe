@@ -764,7 +764,7 @@ $(function () {
     $('.cstate').parent().css("width", "100px");
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
 
-
+    $('.collapse').collapse({toggle: false});
     /********
      * Events
      *********/
