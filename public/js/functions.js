@@ -270,7 +270,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         p4.camUrl = `http://${serverAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         p1.streamUrl = `ws://${serverAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
-        $('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
+        //$('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
         p2.streamUrl = `ws://${serverAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
         p3.streamUrl = `ws://${serverAddress}live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         p4.streamUrl = `ws://${serverAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
