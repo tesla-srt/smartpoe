@@ -272,20 +272,37 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         p1.streamUrl = `ws://${serverAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
         //$('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
         p2.streamUrl = `ws://${serverAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.streamUrl = `ws://${serverAddress}live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p3.streamUrl = `ws://${serverAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         p4.streamUrl = `ws://${serverAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled) {
-            $("#cam1").on("error", handleError).attr('src', p1.camUrl);
+            $("#cam1").on("error", handleError)
+                .on("load", function() {
+                    $(this).removeClass('disabled');
+                })
+                .attr('src', p1.camUrl);
+
         }
         if (p2.ipv4enabled) {
-            $("#cam2").on("error", handleError).attr('src', p2.camUrl);
+            $("#cam2").on("error", handleError)
+                .on("load", function() {
+                $(this).removeClass('disabled');
+            })
+                .attr('src', p2.camUrl);
         }
         if (p3.ipv4enabled) {
-            $("#cam3").on("error", handleError).attr('src', p3.camUrl);
+            $("#cam3").on("error", handleError)
+                .on("load", function() {
+                    $(this).removeClass('disabled');
+                })
+                .attr('src', p3.camUrl);
         }
         if (p4.ipv4enabled) {
-            $("#cam4").on("error", handleError).attr('src', p4.camUrl);
+            $("#cam4").on("error", handleError)
+                .on("load", function() {
+                    $(this).removeClass('disabled');
+                })
+                .attr('src', p4.camUrl);
         }
 
         //stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
@@ -317,6 +334,9 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         }
 
     })
+
+
+
 
     /**********
      * BUTTONS *
@@ -576,93 +596,101 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     });
 
     $('#cam1').on("click", function () {
-        clearInterval(i1)
-        //socket.emit('restart_stream',{ stream: 0 });
-        //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
-        new JSMpeg.Player(portInfo.ports[0].streamUrl, {
-            canvas: document.getElementById('cam1canvas'),
-            audio: false,
-            videoBufferSize: 512 * 1024
-            /*        onStalled: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onEnded: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onSourceCompleted:  function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    }*/
-        })
-        $('#cam1live').modal('show');
+        if ($(this).hasClass('disabled') == false) {
+            clearInterval(i1)
+            //socket.emit('restart_stream',{ stream: 0 });
+            //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
+            new JSMpeg.Player(portInfo.ports[0].streamUrl, {
+                canvas: document.getElementById('cam1canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+                /*        onStalled: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onEnded: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onSourceCompleted:  function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        }*/
+            })
+            $('#cam1live').modal('show');
+        }
     });
 
     $('#cam2').on("click", function () {
-        clearInterval(i1)
-        new JSMpeg.Player(p2.streamUrl, {
-            canvas: document.getElementById('cam2canvas'),
-            audio: false,
-            videoBufferSize: 512 * 1024
-            /*        onStalled: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onEnded: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onSourceCompleted:  function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    }*/
-        })
-        $('#cam2live').modal('show');
+        if ($(this).hasClass('disabled') == false) {
+            clearInterval(i1)
+            new JSMpeg.Player(portInfo.ports[1].streamUrl, {
+                canvas: document.getElementById('cam2canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+                /*        onStalled: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onEnded: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onSourceCompleted:  function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        }*/
+            })
+            $('#cam2live').modal('show');
+        }
     });
 
     $('#cam3').on("click", function () {
-        clearInterval(i1)
-        new JSMpeg.Player(p3.streamUrl, {
-            canvas: document.getElementById('cam3canvas'),
-            audio: false,
-            videoBufferSize: 512 * 1024
-            /*        onStalled: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onEnded: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onSourceCompleted:  function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    }*/
-        })
-        $('#cam3live').modal('show');
+        if ($(this).hasClass('disabled') == false) {
+            clearInterval(i1)
+            new JSMpeg.Player(portInfo.ports[2].streamUrl, {
+                canvas: document.getElementById('cam3canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+                /*        onStalled: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onEnded: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onSourceCompleted:  function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        }*/
+            })
+            $('#cam3live').modal('show');
+        }
     });
 
     $('#cam4').on("click", function () {
-        clearInterval(i1)
-        new JSMpeg.Player(p4.streamUrl, {
-            canvas: document.getElementById('cam4canvas'),
-            audio: false,
-            videoBufferSize: 512 * 1024
-            /*        onStalled: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onEnded: function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    },
-                    onSourceCompleted:  function() {
-                        console.log('stalled');
-                        socket.emit('restart_stream',{ stream: 0 });
-                    }*/
-        })
-        $('#cam4live').modal('show');
+        if ($(this).hasClass('disabled') == false) {
+            clearInterval(i1)
+            new JSMpeg.Player(portInfo.ports[3].streamUrl, {
+                canvas: document.getElementById('cam4canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+                /*        onStalled: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onEnded: function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        },
+                        onSourceCompleted:  function() {
+                            console.log('stalled');
+                            socket.emit('restart_stream',{ stream: 0 });
+                        }*/
+            })
+            $('#cam4live').modal('show');
+        }
     });
 
     //console.log('ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '');
@@ -740,15 +768,13 @@ $(function () {
     /********
      * Events
      *********/
-    $('img').on("error", function () {
-        this.src = "/img/img404.png";
-    });
+/*    $('#cam1').on("error", handleError);
+    $('#cam2').on("error", handleError);
+    $('#cam3').on("error", handleError);
+    $('#cam4').on("error", handleError);*/
 
 
 });
-function handleError() {
-    this.src = "/img/img404.png";
-}
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
