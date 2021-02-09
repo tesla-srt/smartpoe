@@ -230,10 +230,10 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
         portInfo = data;
-        p1 = portInfo.ports[0];
-        p2 = portInfo.ports[1];
-        p3 = portInfo.ports[2];
-        p4 = portInfo.ports[3];
+        let p1 = portInfo.ports[0];
+        let p2 = portInfo.ports[1];
+        let p3 = portInfo.ports[2];
+        let p4 = portInfo.ports[3];
         p1vfield.innerHTML = parseFloat(p1.voltage).toPrecision(4) + '&nbsp;V'
         p2vfield.innerHTML = parseFloat(p2.voltage).toPrecision(4) + '&nbsp;V'
         p3vfield.innerHTML = parseFloat(p3.voltage).toPrecision(4) + '&nbsp;V'
@@ -313,8 +313,6 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         } else {
             $('#cam4').toggleClass('invisible', false);
         }
-        //var streamstring  = 'ws://127.0.0.1:3001/live/192.168.1.172/u/admin/p/S0larr1g';
-
 
     })
 
@@ -582,7 +580,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         new JSMpeg.Player(p1.streamUrl, {
             canvas: document.getElementById('cam1canvas'),
             audio: false,
-            videoBufferSize: 2048 * 2048
+            videoBufferSize: 512 * 1024
             /*        onStalled: function() {
                         console.log('stalled');
                         socket.emit('restart_stream',{ stream: 0 });
@@ -604,7 +602,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         new JSMpeg.Player(p2.streamUrl, {
             canvas: document.getElementById('cam2canvas'),
             audio: false,
-            videoBufferSize: 2048 * 2048
+            videoBufferSize: 512 * 1024
             /*        onStalled: function() {
                         console.log('stalled');
                         socket.emit('restart_stream',{ stream: 0 });
@@ -626,7 +624,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         new JSMpeg.Player(p3.streamUrl, {
             canvas: document.getElementById('cam3canvas'),
             audio: false,
-            videoBufferSize: 2048 * 2048
+            videoBufferSize: 512 * 1024
             /*        onStalled: function() {
                         console.log('stalled');
                         socket.emit('restart_stream',{ stream: 0 });
@@ -648,7 +646,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         new JSMpeg.Player(p4.streamUrl, {
             canvas: document.getElementById('cam4canvas'),
             audio: false,
-            videoBufferSize: 2048 * 2048
+            videoBufferSize: 512 * 1024
             /*        onStalled: function() {
                         console.log('stalled');
                         socket.emit('restart_stream',{ stream: 0 });

@@ -3,7 +3,7 @@ location = "SRT-HQ"
 
 [cams.alpha]
 enabled = true
-ip = "192.168.1.172"
+ip = "192.168.1.10"
 user = "admin"
 pass = "S0larr1g"
 
