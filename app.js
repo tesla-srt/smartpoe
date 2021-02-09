@@ -83,7 +83,7 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
 });
 
 const server = app.listen(3001,'0.0.0.0')
-
+console.log(server.address())
 //initialize socket for the server
 const io = socketio(server)
 const p1 = {
@@ -112,7 +112,7 @@ const sp = {
     location: config.info.location,
     temp: 0.0,
     totalWatts: 0.00,
-    serverAddress: server.address().address,
+    serverAddress: '',
     ports: [
         {
             voltage: 0.00,

@@ -1,4 +1,4 @@
-var p1c, p2c, p3c, p4c, i1, timeout, stream1, stream2, stream3,  stream4;
+var p1c, p2c, p3c, p4c, i1, timeout, stream1, stream2, stream3, stream4;
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
@@ -31,6 +31,10 @@ let editButton = document.querySelector('.edit');
 let portInfo = "";
 
 let c1EditBtn = document.querySelector('#c1edit');
+let serverAddress = "192.168.1.170:3001"
+if (window.location.host.indexOf('127.0.0.1') > -1) {
+    serverAddress = "127.0.0.1:3001";
+}
 
 (function connect() {
     $(".loading-modal").modal('hide');
@@ -258,28 +262,27 @@ let c1EditBtn = document.querySelector('#c1edit');
 
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
-        //TODO: Replace with relative URL in prod.
-        p1.camUrl = `/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
-        p2.camUrl = `/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.camUrl = `/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        p4.camUrl = `/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+        p1.camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        p2.camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        p3.camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p4.camUrl = `http://${serverAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        p1.streamUrl = `ws://${portInfo.serverAddress}:3001/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        p1.streamUrl = `ws://${serverAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
         $('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
-        p2.streamUrl = `ws://127.0.0.1:3001/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.streamUrl = `ws://127.0.0.1:3001/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        p4.streamUrl = `ws://127.0.0.1:3001/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+        p2.streamUrl = `ws://${serverAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        p3.streamUrl = `ws://${serverAddress}live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        p4.streamUrl = `ws://${serverAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled) {
             $("#cam1").on("error", handleError).attr('src', p1.camUrl);
         }
-        if(p2.ipv4enabled) {
+        if (p2.ipv4enabled) {
             $("#cam2").on("error", handleError).attr('src', p2.camUrl);
         }
-        if(p3.ipv4enabled) {
+        if (p3.ipv4enabled) {
             $("#cam3").on("error", handleError).attr('src', p3.camUrl);
         }
-        if(p4.ipv4enabled) {
+        if (p4.ipv4enabled) {
             $("#cam4").on("error", handleError).attr('src', p4.camUrl);
         }
 
@@ -382,11 +385,12 @@ let c1EditBtn = document.querySelector('#c1edit');
         $("#cam1settings").modal('show');
     });
 
-
-    //TODO: Admin/Pass Validation != null
     $('#c1save').on("click", function () {
         if ($('#c1ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('invalid IP address');
+            return;
+        } else if ($('#c3u').val().length < 1 || $('#c3p').val().length < 1) {
+            alert('Username/Password cannot be blank.')
             return;
         } else {
             socket.emit('set_p1state', $('#c1state').prop('checked'));
@@ -407,6 +411,9 @@ let c1EditBtn = document.querySelector('#c1edit');
 
         if ($('#c2ip').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('invalid IP address');
+            return;
+        } else if ($('#c2u').val().length < 1 || $('#c2p').val().length < 1) {
+            alert('Username/Password cannot be blank.')
             return;
         } else {
             socket.emit('set_p2state', $('#c2state').prop('checked'));
@@ -575,7 +582,7 @@ let c1EditBtn = document.querySelector('#c1edit');
         new JSMpeg.Player(p1.streamUrl, {
             canvas: document.getElementById('cam1canvas'),
             audio: false,
-            videoBufferSize: 2048*2048
+            videoBufferSize: 2048 * 2048
             /*        onStalled: function() {
                         console.log('stalled');
                         socket.emit('restart_stream',{ stream: 0 });
@@ -593,19 +600,72 @@ let c1EditBtn = document.querySelector('#c1edit');
     });
 
     $('#cam2').on("click", function () {
+        clearInterval(i1)
+        new JSMpeg.Player(p2.streamUrl, {
+            canvas: document.getElementById('cam2canvas'),
+            audio: false,
+            videoBufferSize: 2048 * 2048
+            /*        onStalled: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onEnded: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onSourceCompleted:  function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    }*/
+        })
         $('#cam2live').modal('show');
     });
 
     $('#cam3').on("click", function () {
+        clearInterval(i1)
+        new JSMpeg.Player(p3.streamUrl, {
+            canvas: document.getElementById('cam3canvas'),
+            audio: false,
+            videoBufferSize: 2048 * 2048
+            /*        onStalled: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onEnded: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onSourceCompleted:  function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    }*/
+        })
         $('#cam3live').modal('show');
     });
 
     $('#cam4').on("click", function () {
+        clearInterval(i1)
+        new JSMpeg.Player(p4.streamUrl, {
+            canvas: document.getElementById('cam4canvas'),
+            audio: false,
+            videoBufferSize: 2048 * 2048
+            /*        onStalled: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onEnded: function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    },
+                    onSourceCompleted:  function() {
+                        console.log('stalled');
+                        socket.emit('restart_stream',{ stream: 0 });
+                    }*/
+        })
         $('#cam4live').modal('show');
     });
 
     //console.log('ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '');
-
 
 
 })()
@@ -618,8 +678,8 @@ function updateModals() {
     let p4 = portInfo.ports[3];
 
     if (p1.ipv4enabled) {
-/*        $('#cam1').toggleClass('invisible', false)
-            .fadeIn();*/
+        /*        $('#cam1').toggleClass('invisible', false)
+                    .fadeIn();*/
         $('#c1state').bootstrapToggle('on');
     } else {
         // $('#cam1').toggleClass('invisible', true);
@@ -630,15 +690,13 @@ function updateModals() {
     $('#c1p').val(p1.pass);
 
     if (p2.ipv4enabled) {
-        //TODO: DON #cam2, 3, 4
-        // $('cam2').show();
         /*$('#cam2').toggleClass('invisible', false)
             .fadeIn();*/
         $('#c2state').bootstrapToggle('on');
     } else {
         //$('cam2').hide();
-/*        $('#cam2').toggleClass('invisible', true)
-            .fadeOut();*/
+        /*        $('#cam2').toggleClass('invisible', true)
+                    .fadeOut();*/
         $('#c2state').bootstrapToggle('off');
     }
     $('#c2ip').val(p2.ipv4);
@@ -646,12 +704,12 @@ function updateModals() {
     $('#c2p').val(p2.pass);
 
     if (p3.ipv4enabled) {
- /*       $('#cam3').toggleClass('invisible', false)
-            .fadeIn();*/
+        /*       $('#cam3').toggleClass('invisible', false)
+                   .fadeIn();*/
         $('#c3state').bootstrapToggle('on');
     } else {
-     /*   $('#cam3').toggleClass('invisible', true)
-            .fadeOut();*/
+        /*   $('#cam3').toggleClass('invisible', true)
+               .fadeOut();*/
         $('#c3state').bootstrapToggle('off');
     }
     $('#c3ip').val(p3.ipv4);
@@ -664,8 +722,8 @@ function updateModals() {
             .fadeIn();*/
         $('#c4state').bootstrapToggle('on');
     } else {
-      /*  $('#cam4').toggleClass('invisible', true)
-            .fadeOut();*/
+        /*  $('#cam4').toggleClass('invisible', true)
+              .fadeOut();*/
         $('#c4state').bootstrapToggle('off');
     }
     $('#c4ip').val(p4.ipv4);
@@ -690,7 +748,6 @@ $(function () {
     $('img').on("error", function () {
         this.src = "/img/img404.jpg";
     });
-
 
 
 });
