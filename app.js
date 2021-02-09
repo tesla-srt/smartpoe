@@ -33,7 +33,7 @@ app.use(express.static('public'))
 
 const {proxy} = require('rtsp-relay')(app);
 app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
-    let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265?ch=2`
+    let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
     //let uri = `rtsp://127.0.0.1:8554/`
     proxy({
         url: uri,
