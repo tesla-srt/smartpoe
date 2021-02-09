@@ -668,7 +668,6 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
 
 })()
 
-
 function updateModals() {
     let p1 = portInfo.ports[0];
     let p2 = portInfo.ports[1];
@@ -730,10 +729,6 @@ function updateModals() {
 
 }
 
-function handleError() {
-    this.src = "/img/img404.jpg";
-}
-
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
     $('.cstate').parent().css("width", "100px");
@@ -749,7 +744,9 @@ $(function () {
 
 
 });
-
+function handleError() {
+    this.src = "/img/img404.jpg";
+}
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
