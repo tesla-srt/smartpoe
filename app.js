@@ -37,9 +37,9 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
     let uri = `rtsp://127.0.0.1:8554/`
     proxy({
         url: uri,
-        verbose: false,
+        verbose: false
         //TODO: TEST
-        additionalFlags: ['-preset', 'ultrafast', '-b:v', '128k']
+        //additionalFlags: ['-preset', 'ultrafast', '-b:v', '128k']
     })(ws)
 });
 
