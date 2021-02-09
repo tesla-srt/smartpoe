@@ -31,9 +31,11 @@ let editButton = document.querySelector('.edit');
 let portInfo = "";
 
 let c1EditBtn = document.querySelector('#c1edit');
-let serverAddress = "192.168.1.170:3001"
+let serverAddress = '';
 if (window.location.host.indexOf('127.0.0.1') > -1) {
     serverAddress = "127.0.0.1:3001";
+} else {
+    serverAddress = window.location.host;
 }
 
 (function connect() {
