@@ -53,6 +53,8 @@ app.get('/', (req, res) => {
  */
 app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     res.contentType('image/jpeg');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     let name = req.params.num;
     let pass = req.params.pass
     let user = req.params.user
