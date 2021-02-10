@@ -29,11 +29,12 @@ setInterval(function () {
  */
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
-const server = app.listen(3001, '0.0.0.0')
+const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
 //initialize socket for the server
 const io = socketio(server)
-const {proxy} = require('rtsp-relay')(app);
+
 app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
+    const {proxy} = require('rtsp-relay')(app);
     let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
     //let uri = `rtsp://127.0.0.1:8554/`
     proxy({
