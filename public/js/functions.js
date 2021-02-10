@@ -37,7 +37,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
 } else {
     serverAddress = '166.161.225.29:3001';
 }
-let login = false;
+let login = true;
 
 window.mobileCheck = function() {
     let check = false;
@@ -365,6 +365,14 @@ window.mobileCheck = function() {
     })
 
 
+    if(window.mobileCheck()) {
+        $('#menu').removeClass('dropdown-menu-right')
+            .addClass('dropdown-menu-left');
+        $("<br><a href='#' id='p1alt'><small>REBOOT</small></a>").insertAfter("#p1");
+        $("<br><a href='#' id='p2alt'><small>REBOOT</small></a>").insertAfter("#p2");
+        $("<br><a href='#' id='p3alt'><small>REBOOT</small></a>").insertAfter("#p3");
+        $("<br><a href='#' id='p4alt'><small>REBOOT</small></a>").insertAfter("#p4");
+    }
 
 
     /**********
@@ -556,7 +564,7 @@ window.mobileCheck = function() {
         timeout = funInterval(socket);
     })
 
-    $('#p1').on('click', function () {
+    $('#p1, #p1alt').on('click', function () {
         clearInterval(i1)
         $(this).toggleClass('blink', true);
         $('#cam1').attr('src', 'img/reboot.png');
@@ -569,7 +577,7 @@ window.mobileCheck = function() {
         }, 10000);
     });
 
-    $('#p2').on('click', function () {
+    $('#p2, #p2alt').on('click', function () {
         clearInterval(i1)
         $(this).toggleClass('blink', true);
         $('#cam2').attr('src', 'img/reboot.png');
@@ -583,7 +591,7 @@ window.mobileCheck = function() {
         }, 10000);
     });
 
-    $('#p3').on('click', function () {
+    $('#p3, #p3alt').on('click', function () {
         clearInterval(i1)
         $(this).toggleClass('blink', true);
         $('#cam3').attr('src', 'img/reboot.png');
@@ -597,7 +605,7 @@ window.mobileCheck = function() {
     });
 
 
-    $('#p4').on('click', function () {
+    $('#p4, #p4alt').on('click', function () {
         clearInterval(i1)
         $(this).toggleClass('blink', true);
         $('#cam4').attr('src', 'img/reboot.png');
@@ -822,15 +830,6 @@ $(function () {
     $('.cstate').parent().css("width", "100px");
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
     $('.collapse').collapse({toggle: false});
-
-    if(window.mobileCheck()) {
-        $('#menu').removeClass('dropdown-menu-right')
-            .addClass('dropdown-menu-left');
-        $("<br><a href='#' id='p1'>REBOOT</a>").insertAfter("#p1");
-        $("<br><a href='#' id='p2'>REBOOT</a>").insertAfter("#p2");
-        $("<br><a href='#' id='p3'>REBOOT</a>").insertAfter("#p3");
-        $("<br><a href='#' id='p4'>REBOOT</a>").insertAfter("#p4");
-    }
 
 
     /********

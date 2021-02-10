@@ -595,7 +595,11 @@ io.on('connection', socket => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " ON";
         let bin = spawn(cmd, {shell: true})
         bin.stdout.on('data', function (data) {
+            try {
             jsonContent = JSON.parse(data);
+            } catch(e) {
+                console.error(e);
+            }
             console.log(`port_on_busy: ` + msg.port)
             io.sockets.emit('device_on_busy', {port: msg.port})
         });
@@ -605,7 +609,11 @@ io.on('connection', socket => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " OFF";
         let bin = spawn(cmd, {shell: true})
         bin.stdout.on('data', function (data) {
-            jsonContent = JSON.parse(data);
+            try {
+                jsonContent = JSON.parse(data);
+            } catch(e) {
+                console.error(e);
+            }
             console.log(`port_off_busy: ` + msg.port)
             io.sockets.emit('device_off_busy', {port: msg.port})
         });
