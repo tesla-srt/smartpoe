@@ -29,7 +29,9 @@ setInterval(function () {
  */
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
-
+const server = app.listen(3001, '0.0.0.0')
+//initialize socket for the server
+const io = socketio(server)
 
 const {proxy} = require('rtsp-relay')(app);
 app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
@@ -85,10 +87,7 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
         .perform();
 });
 
-const server = app.listen(3001, '0.0.0.0')
-console.log(server.address())
-//initialize socket for the server
-const io = socketio(server)
+
 const p1 = {
     current: 0.00,
     voltage: 0.00,

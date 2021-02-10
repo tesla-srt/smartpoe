@@ -42,8 +42,8 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     $(".loading-modal").modal('hide');
     let socket = io()
 
-    const tMin = 2000;
-    const tMax = 6000;
+    const tMin = 3000;
+    const tMax = 8000;
 
     timeout = funInterval(socket);
 
@@ -249,6 +249,11 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         p2cfield.innerHTML = parseFloat(p2.current).toPrecision(4) + '&nbsp;mA';
         p3cfield.innerHTML = parseFloat(p3.current).toPrecision(4) + '&nbsp;mA';
         p4cfield.innerHTML = parseFloat(p4.current).toPrecision(4) + '&nbsp;mA';
+
+        $('#p1w').html(parseFloat(p1.watts).toFixed(2) + '&nbsp;W');
+        $('#p2w').html(parseFloat(p2.watts).toFixed(2) + '&nbsp;W');
+        $('#p3w').html(parseFloat(p3.watts).toFixed(2) + '&nbsp;W');
+        $('#p4w').html(parseFloat(p4.watts).toFixed(2) + '&nbsp;W');
 
         p1IpField.innerHTML = p1.ipv4
         p2IpField.innerHTML = p2.ipv4
@@ -532,9 +537,8 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         setTimeout(function () {
             socket.emit('port_on', {port: 0});
             $(this).toggleClass('blink', false);
-            timeout = funInterval(socket);
-
-        }, 5000);
+            window.location.reload(true);
+        }, 10000);
     });
 
     $('i#p2').on('click', function () {
@@ -546,7 +550,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         setTimeout(function () {
             socket.emit('port_on', {port: 1});
             $(this).toggleClass('blink', false);
-            timeout = funInterval(socket);
+            window.location.reload(true);
 
         }, 10000);
     });
@@ -560,8 +564,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         setTimeout(function () {
             socket.emit('port_on', {port: 2});
             $(this).toggleClass('blink', false);
-            timeout = funInterval(socket);
-
+            window.location.reload(true);
         }, 10000);
     });
 
@@ -575,8 +578,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         setTimeout(function () {
             socket.emit('port_on', {port: 3});
             $(this).toggleClass('blink', false);
-            timeout = funInterval(socket);
-
+            window.location.reload(true);
         }, 15000);
     });
 
