@@ -368,10 +368,10 @@ window.mobileCheck = function() {
     if(window.mobileCheck()) {
         $('#menu').removeClass('dropdown-menu-right')
             .addClass('dropdown-menu-left');
-        $("<br><a href='#' id='p1alt'><small>REBOOT</small></a>").insertAfter("#p1");
+        /*$("<br><a href='#' id='p1alt'><small>REBOOT</small></a>").insertAfter("#p1");
         $("<br><a href='#' id='p2alt'><small>REBOOT</small></a>").insertAfter("#p2");
         $("<br><a href='#' id='p3alt'><small>REBOOT</small></a>").insertAfter("#p3");
-        $("<br><a href='#' id='p4alt'><small>REBOOT</small></a>").insertAfter("#p4");
+        $("<br><a href='#' id='p4alt'><small>REBOOT</small></a>").insertAfter("#p4");*/
     }
 
 
@@ -825,7 +825,7 @@ function updateModals() {
 }
 
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('.cstate').parent().css("width", "100px");
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
@@ -872,7 +872,8 @@ function guiUpdate(iconField, onField, offField, sp) {
             .removeClass("text-warning")
             .removeClass("fal")
             .addClass("fas")
-            .addClass("text-secondary");
+            .addClass("text-secondary")
+            .next('span').removeClass('invisible');;
         if (sp.current > 0) {
             $(onField).toggleClass("active", true);
             $(offField).toggleClass("active", false);
@@ -889,7 +890,8 @@ function guiUpdate(iconField, onField, offField, sp) {
                 .removeClass("text-warning")
                 .removeClass("fas")
                 .addClass("fal")
-                .removeClass("blink");
+                .removeClass("blink")
+                .next('span').addClass('invisible');
         }
         $(onField).toggleClass("active", false);
         $(offField).toggleClass("active", true);
