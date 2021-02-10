@@ -524,46 +524,58 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     })
 
     $('i#p1').on('click', function () {
+        clearInterval(i1)
         $(this).toggleClass('blink', true);
+        $('#cam1').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 0});
         setTimeout(function () {
             socket.emit('port_on', {port: 0});
             $(this).toggleClass('blink', false);
+            timeout = funInterval(socket);
 
-        }, 15000);
+        }, 5000);
     });
 
     $('i#p2').on('click', function () {
+        clearInterval(i1)
         $(this).toggleClass('blink', true);
+        $('#cam2').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 1});
         setTimeout(function () {
             socket.emit('port_on', {port: 1});
             $(this).toggleClass('blink', false);
+            timeout = funInterval(socket);
 
-        }, 15000);
+        }, 10000);
     });
 
     $('i#p3').on('click', function () {
+        clearInterval(i1)
         $(this).toggleClass('blink', true);
+        $('#cam3').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 2});
         setTimeout(function () {
             socket.emit('port_on', {port: 2});
             $(this).toggleClass('blink', false);
+            timeout = funInterval(socket);
 
-        }, 15000);
+        }, 10000);
     });
 
 
     $('i#p4').on('click', function () {
+        clearInterval(i1)
         $(this).toggleClass('blink', true);
+        $('#cam4').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 3});
         setTimeout(function () {
             socket.emit('port_on', {port: 3});
             $(this).toggleClass('blink', false);
+            timeout = funInterval(socket);
 
         }, 15000);
     });
