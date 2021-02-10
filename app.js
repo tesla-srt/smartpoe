@@ -29,10 +29,12 @@ setInterval(function () {
  */
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
-const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
+
 //initialize socket for the server
 const {proxy} = require('rtsp-relay')(app);
+const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
 const io = socketio(server)
+
 
 app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
     let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
@@ -43,12 +45,18 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
         //TODO: TEST
         additionalFlags: ['-preset', 'ultrafast', '-b:v', '128k']
     })(ws)
-});
+})
 
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.render('index')
+})
+
+app.get('/401', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.send('<h1>Invalid Login </h1>');
 })
 
 /**
@@ -115,7 +123,7 @@ const sp = {
     location: config.info.location,
     temp: 0.0,
     totalWatts: 0.00,
-    serverAddress: '',
+    pin: config.info.pin,
     ports: [
         {
             voltage: 0.00,
@@ -428,6 +436,21 @@ io.on('connection', socket => {
             config.cams.delta.enabled = data;
         }
         sp.ports[3].ipv4enabled = data;
+        fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
+            if (err) return console.log(err);
+        });
+        //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
+    })
+
+    socket.on('set_pin', data => {
+        try {
+            config.info.pin = data.trim();
+        } catch (ex) {
+            console.error(`ERROR: ${ex}`)
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
+            config.info.pin = data.trim();
+        }
+        sp.pin = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
             if (err) return console.log(err);
         });

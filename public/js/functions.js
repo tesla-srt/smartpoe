@@ -37,9 +37,11 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
 } else {
     serverAddress = '166.161.225.29:3001';
 }
+let login = false;
 
 (function connect() {
     $(".loading-modal").modal('hide');
+
     let socket = io()
 
     const tMin = 3000;
@@ -232,6 +234,22 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
         portInfo = data;
+        let loginPrompt = '';
+        if (!login) {
+
+            do{
+                loginPrompt = prompt('Please Enter Password: ');
+            }while(loginPrompt == null || loginPrompt == "" );
+
+            var md5 = $.md5(loginPrompt);
+            console.log(md5);
+            if (md5 !== portInfo.pin) {
+                window.location.replace("/401");
+            } else {
+                login = true;
+            }
+        }
+
         let p1 = portInfo.ports[0];
         let p2 = portInfo.ports[1];
         let p3 = portInfo.ports[2];
@@ -528,6 +546,10 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         timeout = funInterval(socket);
     })
 
+    $('#loginmodal').on('hide.bs.modal', function () {
+        timeout = funInterval(socket);
+    })
+
     $('i#p1').on('click', function () {
         clearInterval(i1)
         $(this).toggleClass('blink', true);
@@ -707,6 +729,21 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         }
     });
 
+    $('#setpassword').on("click", function () {
+            clearInterval(i1)
+            $('#loginmodal').modal('show');
+    });
+
+    $('#newpass').on("click", function () {
+        let a = $('#login');
+        if(a.val() == null || a.val() == "") {
+            alert('Please Enter a password');
+        } else {
+            socket.emit('set_pin', $.md5(a.val()));
+            $('#loginmodal').modal('hide');
+        }
+    });
+
     //console.log('ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '');
 
 
@@ -775,9 +812,9 @@ function updateModals() {
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
+
     $('.cstate').parent().css("width", "100px");
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
-
     $('.collapse').collapse({toggle: false});
     /********
      * Events

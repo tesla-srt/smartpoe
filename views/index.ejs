@@ -45,7 +45,7 @@
                         <a data-toggle="collapse" href="#collapse" data-target="#collapse"><i
                                     class="fa fa-chevron-down pull-right"></i></a></div>
                     <div class="card-body" id="collapse" class="collapse show" aria-labelledby="heading-example">
-                        <h5 class="card-title">PoE Info</h5>
+                        <h5 class="card-title">PoE Info &nbsp;-&nbsp;<a href="#" id="setpassword"><small>Change Password</small></a></h5>
                         <dl class="row card-text">
                             <dt class="col-sm-3">Hostname</dt>
                             <dd class="col-sm-9 text-light" id="hostname"><!----></dd>
@@ -410,12 +410,34 @@
 </div>
 <!-- End Cam 4 Live View Modal -->
 
+<!-- Begin Login Modal -->
+<div class="modal" id="loginmodal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary">Smart PoE Login</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="login" class="text-primary">Password:</label>
+                    <input type="password" class="form-control" id="login">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="newpass" class="btn btn-primary">Change Password</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Login Modal -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
 <script src="/js/fontawesome.js"></script>
 <script src="/js/socket.io.js"></script>
 <script src="/js/bootstrap4-toggle.min.js"></script>
+<script src="/js/jquery.md5.js"></script>
 <script src="/js/jsmpeg.min.js"></script>
 <script src="/js/functions.js"></script>
 </body>
