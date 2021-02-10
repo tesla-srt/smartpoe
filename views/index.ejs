@@ -24,10 +24,7 @@
 <body>
 <nav class="navbar navbar-dark bg-primary">
     <div class="navbar-nav">
-
         <a href="http://tn.gov/tbi.html" target="_blank"><img class="nav-item" src="./img/logo-full.png"/></a>
-
-
     </div>
     <div class="container d-flex ml-auto justify-content-center">
         <a class="navbar-brand lead mb-0" href="#">
@@ -35,6 +32,15 @@
             <b> ImagePoint</b><sup><i class="far fa-xs fa-copyright"></i></sup> <b>- Smart PoE</b>
         </a>
     </div>
+    <li class="nav-item dropdown list-unstyled">
+        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Options
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" id="menu" aria-labelledby="navbarDropdown">
+            <a href="#" id="setpassword" class="dropdown-item">Change Password</a>
+        </div>
+    </li>
 </nav>
 <div class="py-3 text-center">
     <div class="container container-fluid">
@@ -43,9 +49,9 @@
                 <div class="card text-white bg-info mb-3" id="sysinfo">
                     <div class="card-header">Cellular Sentry Status
                         <a data-toggle="collapse" href="#collapse" data-target="#collapse"><i
-                                    class="fa fa-chevron-down pull-right"></i></a></div>
+                                    class="fa fa-chevron-down pull-right text-light"></i></a></div>
                     <div class="card-body" id="collapse" class="collapse show" aria-labelledby="heading-example">
-                        <h5 class="card-title">PoE Info &nbsp;-&nbsp;<a href="#" id="setpassword"><small>Change Password</small></a></h5>
+                        <h5 class="card-title">PoE Info</h5>
                         <dl class="row card-text">
                             <dt class="col-sm-3">Hostname</dt>
                             <dd class="col-sm-9 text-light" id="hostname"><!----></dd>
@@ -68,7 +74,6 @@
 
         <div class="row d-flex justify-content-center">
             <div class="col-lg-3 col-6 p-4">
-
                 <i id="p1" class="fas fa-ethernet fa-3x mb-2 text-muted" data-toggle="tooltip" data-placement="bottom"
                    title="Click to REBOOT"></i><br/>
                 <strong>Lan 2</strong>
