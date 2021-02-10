@@ -33,6 +33,13 @@ const server = app.listen(3001, '0.0.0.0')
 //initialize socket for the server
 const io = socketio(server)
 
+app.get('/', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.render('index')
+})
+
+
 const {proxy} = require('rtsp-relay')(app);
 app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
     let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
@@ -45,11 +52,6 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
     })(ws)
 });
 
-app.get('/', (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.render('index')
-})
 /**
  *
  */
@@ -81,8 +83,8 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
             curl.close();
         })
         .on('error', function (e) {
-            console.error(e)
-            curl.close.bind(curl);
+            //console.error(e)
+            curl.close();
         })
         .perform();
 });
