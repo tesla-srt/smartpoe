@@ -37,7 +37,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
 } else {
     serverAddress = '166.161.225.29:3001';
 }
-let login = true;
+let login = false;
 
 window.mobileCheck = function() {
     let check = false;
