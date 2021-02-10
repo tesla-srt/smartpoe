@@ -236,16 +236,16 @@ let login = false;
         portInfo = data;
         let loginPrompt = '';
         if (!login) {
-
             do{
                 loginPrompt = prompt('Please Enter Password: ');
             }while(loginPrompt == null || loginPrompt == "" );
 
             var md5 = $.md5(loginPrompt);
-            console.log(md5);
+
             if (md5 !== portInfo.pin) {
                 window.location.replace("/401");
             } else {
+                console.log(`${md5} = ${portInfo.pin} ---> LOGIN OK`);
                 login = true;
             }
         }
