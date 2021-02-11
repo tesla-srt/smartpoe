@@ -882,7 +882,8 @@ function guiUpdate(iconField, onField, offField, sp) {
             .removeClass("text-warning")
             .removeClass("fal")
             .addClass("fas")
-            .addClass("text-secondary");
+            .addClass("text-secondary")
+            .next('span').removeClass('invisible');
         if (sp.current > 0) {
             $(onField).toggleClass("active", true);
             $(offField).toggleClass("active", false);
@@ -899,7 +900,8 @@ function guiUpdate(iconField, onField, offField, sp) {
                 .removeClass("text-warning")
                 .removeClass("fas")
                 .addClass("fal")
-                .removeClass("blink");
+                .removeClass("blink")
+                .next('span').addClass('invisible');
         }
         $(onField).toggleClass("active", false);
         $(offField).toggleClass("active", true);
