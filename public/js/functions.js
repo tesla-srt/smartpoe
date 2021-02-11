@@ -568,13 +568,13 @@ window.mobileCheck = function() {
 
     $('#p1, #p1alt').on('click', function () {
         clearInterval(i1)
-        $(this).toggleClass('blink', true);
+        $('#p1').toggleClass('blink', true);
         $('#cam1').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 0});
         setTimeout(function () {
             socket.emit('port_on', {port: 0});
-            $(this).toggleClass('blink', false);
+            $('#p1').toggleClass('blink', false);
             $('#loadMe').modal('hide');
             timeout = funInterval(socket);
             //window.location.reload(true);
@@ -583,13 +583,13 @@ window.mobileCheck = function() {
 
     $('#p2, #p2alt').on('click', function () {
         clearInterval(i1)
-        $(this).toggleClass('blink', true);
+        $('#p2').toggleClass('blink', true);
         $('#cam2').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 1});
         setTimeout(function () {
             socket.emit('port_on', {port: 1});
-            $(this).toggleClass('blink', false);
+            $('#p2').toggleClass('blink', false);
             $('#loadMe').modal('hide');
             timeout = funInterval(socket);
             //window.location.reload(true);
@@ -599,13 +599,13 @@ window.mobileCheck = function() {
 
     $('#p3, #p3alt').on('click', function () {
         clearInterval(i1)
-        $(this).toggleClass('blink', true);
+        $('#p3').toggleClass('blink', true);
         $('#cam3').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 2});
         setTimeout(function () {
             socket.emit('port_on', {port: 2});
-            $(this).toggleClass('blink', false);
+            $('#p3').toggleClass('blink', false);
             $('#loadMe').modal('hide');
             timeout = funInterval(socket);
             // window.location.reload(true);
@@ -615,13 +615,13 @@ window.mobileCheck = function() {
 
     $('#p4, #p4alt').on('click', function () {
         clearInterval(i1)
-        $(this).toggleClass('blink', true);
+        $('#p4').toggleClass('blink', true);
         $('#cam4').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 3});
         setTimeout(function () {
             socket.emit('port_on', {port: 3});
-            $(this).toggleClass('blink', false);
+            $('#p4').toggleClass('blink', false);
             $('#loadMe').modal('hide');
             timeout = funInterval(socket);
             // window.location.reload(true);
@@ -882,8 +882,7 @@ function guiUpdate(iconField, onField, offField, sp) {
             .removeClass("text-warning")
             .removeClass("fal")
             .addClass("fas")
-            .addClass("text-secondary")
-            .next('span').removeClass('invisible');;
+            .addClass("text-secondary");
         if (sp.current > 0) {
             $(onField).toggleClass("active", true);
             $(offField).toggleClass("active", false);
@@ -900,8 +899,7 @@ function guiUpdate(iconField, onField, offField, sp) {
                 .removeClass("text-warning")
                 .removeClass("fas")
                 .addClass("fal")
-                .removeClass("blink")
-                .next('span').addClass('invisible');
+                .removeClass("blink");
         }
         $(onField).toggleClass("active", false);
         $(offField).toggleClass("active", true);
