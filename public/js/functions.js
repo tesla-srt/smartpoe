@@ -575,6 +575,8 @@ window.mobileCheck = function() {
         setTimeout(function () {
             socket.emit('port_on', {port: 0});
             $(this).toggleClass('blink', false);
+            $('#loadMe').modal('hide');
+            timeout = funInterval(socket);
             //window.location.reload(true);
         }, 10000);
     });
@@ -588,6 +590,8 @@ window.mobileCheck = function() {
         setTimeout(function () {
             socket.emit('port_on', {port: 1});
             $(this).toggleClass('blink', false);
+            $('#loadMe').modal('hide');
+            timeout = funInterval(socket);
             //window.location.reload(true);
 
         }, 10000);
@@ -602,7 +606,9 @@ window.mobileCheck = function() {
         setTimeout(function () {
             socket.emit('port_on', {port: 2});
             $(this).toggleClass('blink', false);
-           // window.location.reload(true);
+            $('#loadMe').modal('hide');
+            timeout = funInterval(socket);
+            // window.location.reload(true);
         }, 10000);
     });
 
@@ -616,7 +622,9 @@ window.mobileCheck = function() {
         setTimeout(function () {
             socket.emit('port_on', {port: 3});
             $(this).toggleClass('blink', false);
-           // window.location.reload(true);
+            $('#loadMe').modal('hide');
+            timeout = funInterval(socket);
+            // window.location.reload(true);
         }, 10000);
     });
 
