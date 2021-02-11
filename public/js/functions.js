@@ -37,7 +37,7 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
 } else {
     serverAddress = '166.161.225.29:3001';
 }
-let login = false;
+let login = getCookie('login');
 
 window.mobileCheck = function() {
     let check = false;
@@ -241,7 +241,7 @@ window.mobileCheck = function() {
         $("#loadMe").modal('hide');
         portInfo = data;
         let loginPrompt = '';
-        if (!login) {
+        if (!login || (login == null || login == "")) {
             do{
                 loginPrompt = prompt('Please Enter Password: ');
             }while(loginPrompt == null || loginPrompt == "" );
@@ -253,6 +253,7 @@ window.mobileCheck = function() {
             } else {
                 console.log(`${md5} = ${portInfo.pin} ---> LOGIN OK`);
                 login = true;
+                setCookie('login', 'true',  0.5);
             }
         }
 
@@ -293,10 +294,11 @@ window.mobileCheck = function() {
 
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
-        p1.camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
-        p2.camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        p4.camUrl = `http://${serverAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+        let d = new Date();
+        p1.camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
+        p2.camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
+        p3.camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
+        p4.camUrl = `http://${serverAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}?${d}`;
 
         p1.streamUrl = `ws://${serverAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
         //$('#cam1').attr('data-url', 'ws://192.168.1.170' + p1.streamUrl);
@@ -897,4 +899,26 @@ function guiUpdate(iconField, onField, offField, sp) {
         $(offField).toggleClass("active", true);
     }
 
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }
