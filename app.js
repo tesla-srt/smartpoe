@@ -456,7 +456,7 @@ io.on('connection', socket => {
 
     socket.on('update', data => {
 
-        let bin = spawn(updatecmd);
+        let bin = spawn(updatecmd, {shell: true});
 
         bin.stdout.on('data', async function (data) {
             //console.log(data)
