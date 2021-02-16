@@ -260,6 +260,7 @@ io.on('connection', socket => {
 
     socket.on('set_p2ip', data => {
         try {
+            console.log('ok')
             config.cams.bravo.ip = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
@@ -671,16 +672,5 @@ io.on('connection', socket => {
                 break;
         }
     })
-
-    function toDegreesMinutesAndSeconds(coordinate) {
-        let absolute = Math.abs(coordinate);
-        let degrees = Math.floor(absolute);
-        let minutesNotTruncated = (absolute - degrees) * 60;
-        let minutes = Math.floor(minutesNotTruncated);
-        let seconds = Math.floor((minutesNotTruncated - minutes) * 60);
-
-        return degrees + " " + minutes + " " + seconds;
-    }
-
 })
 

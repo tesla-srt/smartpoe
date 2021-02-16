@@ -11,13 +11,13 @@ pass = "S0larr1g"
 
 [cams.bravo]
 enabled = true
-ip = "127.0.0.1"
+ip = "192.168.0.10"
 user = "admin"
 pass = "S0larr1g"
 
 [cams.charlie]
 enabled = true
-ip = "0.0.0.0"
+ip = "192.168.0.10"
 user = "admin"
 pass = "S0larr1g"
 
