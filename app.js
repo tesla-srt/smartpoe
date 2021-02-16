@@ -455,7 +455,7 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
-
+        console.log('request update')
         let bin = spawn(updatecmd, {shell: true});
 
         bin.stdout.on('data',  function (data) {
@@ -482,6 +482,7 @@ io.on('connection', socket => {
 
         });
         config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
+        console.log('ok')
         let port1 = sp.ports[0];
         let port2 = sp.ports[1];
         let port3 = sp.ports[2];
@@ -624,59 +625,59 @@ io.on('connection', socket => {
                 break;
         }
     })
+})
 
-    function getCoords() {
-        try {
-            let bin2 = spawn(latcmd, {shell: true});
+function getCoords() {
+    try {
+        let bin2 = spawn(latcmd, {shell: true});
 
-            bin2.stdout.on('data', function (data) {
-                let lat = data.toString();
-                //let lon = "07405.854056W";
-                let brk = lat.indexOf('.') - 2;
-                if (brk < 0) {
-                    brk = 0;
-                }
-                let minutes = lat.substr(brk, lat.length - 1);
-                minutes = parseFloat(minutes)
-                let degrees = lat.substr(0, brk);
-                degrees = parseInt(degrees)
-                let newLat = parseFloat(degrees + (minutes / 60));
-                if (lat.indexOf("S") > 0) {
-                    newLat = (-1 * newLat);
-                }
-                sp.lat = newLat
-            });
-        } catch(err) {
-            console.error(err);
-        }
-
-        /**
-         * GPS Coords
-         */
-        try {
-            let bin1 = spawn(loncmd, {shell: true});
-
-            bin1.stdout.on('data', function (data) {
-                let lon = data.toString();
-                //let lon = "07405.854056W";
-                let brk = lon.indexOf('.') - 2;
-                if (brk < 0) {
-                    brk = 0;
-                }
-                let minutes = lon.substr(brk, lon.length - 1);
-                minutes = parseFloat(minutes)
-                let degrees = lon.substr(0, brk);
-                degrees = parseInt(degrees)
-                let newLon = parseFloat(degrees + (minutes / 60));
-                if (lon.indexOf("W") > 0) {
-                    newLon = (-1 * newLon);
-                }
-                sp.lon = newLon
-            });
-        } catch(err) {
-            console.error(err);
-        }
+        bin2.stdout.on('data', function (data) {
+            let lat = data.toString();
+            //let lon = "07405.854056W";
+            let brk = lat.indexOf('.') - 2;
+            if (brk < 0) {
+                brk = 0;
+            }
+            let minutes = lat.substr(brk, lat.length - 1);
+            minutes = parseFloat(minutes)
+            let degrees = lat.substr(0, brk);
+            degrees = parseInt(degrees)
+            let newLat = parseFloat(degrees + (minutes / 60));
+            if (lat.indexOf("S") > 0) {
+                newLat = (-1 * newLat);
+            }
+            sp.lat = newLat
+        });
+    } catch(err) {
+        console.error(err);
     }
 
-})
+    /**
+     * GPS Coords
+     */
+    try {
+        let bin1 = spawn(loncmd, {shell: true});
+
+        bin1.stdout.on('data', function (data) {
+            let lon = data.toString();
+            //let lon = "07405.854056W";
+            let brk = lon.indexOf('.') - 2;
+            if (brk < 0) {
+                brk = 0;
+            }
+            let minutes = lon.substr(brk, lon.length - 1);
+            minutes = parseFloat(minutes)
+            let degrees = lon.substr(0, brk);
+            degrees = parseInt(degrees)
+            let newLon = parseFloat(degrees + (minutes / 60));
+            if (lon.indexOf("W") > 0) {
+                newLon = (-1 * newLon);
+            }
+            sp.lon = newLon
+        });
+    } catch(err) {
+        console.error(err);
+    }
+}
+
 
