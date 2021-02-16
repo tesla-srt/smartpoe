@@ -238,9 +238,22 @@ window.mobileCheck = function () {
         locationField.innerHTML = data
     })
 
+    socket.on('receive_coords', data => {
+        portInfo = data;
+        let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
+        if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
+            $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
+                .removeClass('text-danger');
+
+        } else {
+            $('#gpslink').html('GPS Signal Lost...')
+                .addClass('text-danger');
+            socket.emit('get_coords', '');
+        }
+    })
+
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
-        clearInterval(i1)
         portInfo = data;
         let loginPrompt = '';
         if (!login || (login == null || login == "")) {
@@ -378,7 +391,6 @@ window.mobileCheck = function () {
             $('#cam4').toggleClass('invisible', false);
         }
 
-        timeout = funInterval(socket);
     })
 
 

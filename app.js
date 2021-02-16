@@ -540,7 +540,7 @@ io.on('connection', socket => {
 
     socket.on('get_coords', data => {
         getCoords()
-        io.sockets.emit('receive_update', sp);
+        io.sockets.emit('receive_coords', sp);
     })
 
 
