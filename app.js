@@ -454,7 +454,7 @@ io.on('connection', socket => {
         });
     })
 
-    socket.on('update', async data => {
+    socket.on('update', data => {
 
         let bin = spawn(updatecmd, {shell: true});
 
@@ -481,7 +481,7 @@ io.on('connection', socket => {
             });
 
         });
-        config = await toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
+        config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
         let port1 = sp.ports[0];
         let port2 = sp.ports[1];
         let port3 = sp.ports[2];
