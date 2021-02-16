@@ -110,7 +110,7 @@ const p4 = {
 }
 
 const sp = {
-    version: config.info.version,
+    version: '',
     hostname: '',
     location: config.info.location,
     temp: 0.0,
@@ -542,6 +542,7 @@ io.on('connection', socket => {
         try {
             sp.temp = jsonContent.temp;
             sp.location = config.info.location;
+            sp.version = config.info.version;
             port3.ipv4 = config.cams.charlie.ip
             port3.ipv4enabled = config.cams.charlie.enabled
             port3.pass = config.cams.charlie.pass
