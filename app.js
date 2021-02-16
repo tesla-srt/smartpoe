@@ -497,7 +497,7 @@ io.on('connection', socket => {
                 let degrees = lat.substr(0, brk);
                 degrees = parseInt(degrees)
                 let newLat = parseFloat(degrees + (minutes / 60));
-                if (lat.indexOf("W") > 0) {
+                if (lat.indexOf("S") > 0) {
                     newLat = (-1 * newLat);
                 }
                 sp.lat = newLat
