@@ -468,6 +468,7 @@ io.on('connection', socket => {
                 console.log(`fallback: local file`)
                 try {
                     jsonContent =  JSON.parse(chunk.toString())
+                    myEmitter.emit('firstSpawn-finished');
                 } catch (err) {
                     return;
                 }
@@ -482,6 +483,7 @@ io.on('connection', socket => {
             try {
                 console.log('Port Info Updated')
                 jsonContent = JSON.parse(stuff)
+                myEmitter.emit('firstSpawn-finished');
             } catch (ex) {
                 return;
             }
@@ -491,7 +493,6 @@ io.on('connection', socket => {
             if (parseInt(exitCode) !== 0) {
                 //Handle non-zero exit
             }
-            myEmitter.emit('firstSpawn-finished');
         })
 
         myEmitter.on('firstSpawn-finished', () => {
