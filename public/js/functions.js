@@ -392,7 +392,7 @@ window.mobileCheck = function () {
         } else {
             $('#gpslink').html('GPS Signal Lost...')
                 .addClass('text-danger');
-            //socket.emit('get_coords', '');
+            socket.emit('get_coords', '');
         }
     })
 
