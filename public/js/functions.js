@@ -72,7 +72,6 @@ window.mobileCheck = function () {
     }
 
     // clearInterval(i1);
-
     socket.emit('get_hostname', '');
     socket.emit('update', '');
 
@@ -290,6 +289,7 @@ window.mobileCheck = function () {
         if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
             $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
                 .removeClass('text-danger');
+            socket.emit('get_coords', '');
         } else {
             $('#gpslink').html('GPS Signal Lost...')
                 .addClass('text-danger');

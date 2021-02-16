@@ -470,10 +470,10 @@ io.on('connection', socket => {
 
         bin.stderr.on('data', function (data) {
             let stream = fs.createReadStream('bin/all.json')
-            stream.on('data', async function (chunk) {
+            stream.on('data',  function (chunk) {
                 console.log(`fallback: local file`)
                 try {
-                    jsonContent = await JSON.parse(chunk.toString())
+                    jsonContent =  JSON.parse(chunk.toString())
                 } catch (err) {
                     return;
                 }
@@ -534,59 +534,13 @@ io.on('connection', socket => {
 
         sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
 
-        /**
-         * GPS Coords
-         */
-        try {
-            let bin1 = spawn(loncmd, {shell: true});
-
-            bin1.stdout.on('data', function (data) {
-                let lon = data.toString();
-                //let lon = "07405.854056W";
-                let brk = lon.indexOf('.') - 2;
-                if (brk < 0) {
-                    brk = 0;
-                }
-                let minutes = lon.substr(brk, lon.length - 1);
-                minutes = parseFloat(minutes)
-                let degrees = lon.substr(0, brk);
-                degrees = parseInt(degrees)
-                let newLon = parseFloat(degrees + (minutes / 60));
-                if (lon.indexOf("W") > 0) {
-                    newLon = (-1 * newLon);
-                }
-                sp.lon = newLon
-            });
-        } catch(err) {
-            console.error(err);
-        }
-
-        try {
-            let bin2 = spawn(latcmd, {shell: true});
-
-            bin2.stdout.on('data', function (data) {
-                let lat = data.toString();
-                //let lon = "07405.854056W";
-                let brk = lat.indexOf('.') - 2;
-                if (brk < 0) {
-                    brk = 0;
-                }
-                let minutes = lat.substr(brk, lat.length - 1);
-                minutes = parseFloat(minutes)
-                let degrees = lat.substr(0, brk);
-                degrees = parseInt(degrees)
-                let newLat = parseFloat(degrees + (minutes / 60));
-                if (lat.indexOf("S") > 0) {
-                    newLat = (-1 * newLat);
-                }
-                sp.lat = newLat
-            });
-        } catch(err) {
-            console.error(err);
-        }
-
         io.sockets.emit('receive_update', sp);
 
+    })
+
+    socket.on('get_coords', data => {
+        getCoords()
+        io.sockets.emit('receive_update', sp);
     })
 
 
@@ -670,5 +624,59 @@ io.on('connection', socket => {
                 break;
         }
     })
+
+    function getCoords() {
+        try {
+            let bin2 = spawn(latcmd, {shell: true});
+
+            bin2.stdout.on('data', function (data) {
+                let lat = data.toString();
+                //let lon = "07405.854056W";
+                let brk = lat.indexOf('.') - 2;
+                if (brk < 0) {
+                    brk = 0;
+                }
+                let minutes = lat.substr(brk, lat.length - 1);
+                minutes = parseFloat(minutes)
+                let degrees = lat.substr(0, brk);
+                degrees = parseInt(degrees)
+                let newLat = parseFloat(degrees + (minutes / 60));
+                if (lat.indexOf("S") > 0) {
+                    newLat = (-1 * newLat);
+                }
+                sp.lat = newLat
+            });
+        } catch(err) {
+            console.error(err);
+        }
+
+        /**
+         * GPS Coords
+         */
+        try {
+            let bin1 = spawn(loncmd, {shell: true});
+
+            bin1.stdout.on('data', function (data) {
+                let lon = data.toString();
+                //let lon = "07405.854056W";
+                let brk = lon.indexOf('.') - 2;
+                if (brk < 0) {
+                    brk = 0;
+                }
+                let minutes = lon.substr(brk, lon.length - 1);
+                minutes = parseFloat(minutes)
+                let degrees = lon.substr(0, brk);
+                degrees = parseInt(degrees)
+                let newLon = parseFloat(degrees + (minutes / 60));
+                if (lon.indexOf("W") > 0) {
+                    newLon = (-1 * newLon);
+                }
+                sp.lon = newLon
+            });
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
 })
 
