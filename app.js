@@ -454,11 +454,11 @@ io.on('connection', socket => {
         });
     })
 
-    socket.on('update', data => {
+    socket.on('update', async data => {
         console.log('request update')
         let bin = spawn(updatecmd, {shell: true});
 
-        bin.stdout.on('data',  async function (data) {
+        await bin.stdout.on('data',  async function (data) {
             let stuff = await data.toString();
             try {
                 console.log('Port Info Updated')
