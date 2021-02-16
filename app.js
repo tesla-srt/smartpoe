@@ -459,7 +459,7 @@ io.on('connection', socket => {
         let bin = spawn(updatecmd, {shell: true});
 
         await bin.stdout.on('data',   function (data) {
-            let stuff = await data.toString();
+            let stuff = data.toString();
             try {
                 console.log('Port Info Updated')
                 jsonContent = JSON.parse(stuff)
