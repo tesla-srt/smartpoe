@@ -461,6 +461,7 @@ io.on('connection', socket => {
         bin.stdout.on('data',  function (data) {
             //console.log(data)
             try {
+                console.log('Port Info Updated')
                 jsonContent = JSON.parse(data)
             } catch (ex) {
                 return;
@@ -482,7 +483,7 @@ io.on('connection', socket => {
 
         });
         config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
-        console.log('ok')
+        console.log('Config Loaded')
         let port1 = sp.ports[0];
         let port2 = sp.ports[1];
         let port3 = sp.ports[2];
@@ -536,6 +537,7 @@ io.on('connection', socket => {
         sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
 
         io.sockets.emit('receive_update', sp);
+        console.log('update completed')
 
     })
 
