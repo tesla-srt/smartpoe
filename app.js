@@ -458,10 +458,10 @@ io.on('connection', socket => {
 
         let bin = spawn(updatecmd, {shell: true});
 
-        bin.stdout.on('data', function (data) {
+        bin.stdout.on('data', async function (data) {
             //console.log(data)
             try {
-                jsonContent = JSON.parse(data)
+                jsonContent = await JSON.parse(data)
             } catch (ex) {
                 return;
             }
@@ -470,10 +470,10 @@ io.on('connection', socket => {
 
         bin.stderr.on('data', function (data) {
             let stream = fs.createReadStream('bin/all.json')
-            stream.on('data', function (chunk) {
+            stream.on('data', async function (chunk) {
                 console.log(`fallback: local file`)
                 try {
-                    jsonContent = JSON.parse(chunk.toString())
+                    jsonContent = await JSON.parse(chunk.toString())
                 } catch (err) {
                     return;
                 }
