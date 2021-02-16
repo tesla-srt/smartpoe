@@ -15,18 +15,9 @@ let base64 = require('base-64');
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
+const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
+const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
 
-setInterval(function () {
-    //TODO:
-    //Try to get images
-    //On error send email
-
-}, 5000);
-
-
-/*
-    @function on()
- */
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -124,6 +115,8 @@ const sp = {
     temp: 0.0,
     totalWatts: 0.00,
     pin: config.info.pin,
+    lat: '',
+    lon: '',
     ports: [
         {
             voltage: 0.00,
@@ -165,21 +158,59 @@ const sp = {
 
 let ports = [p1, p2, p3, p4];
 
-function getcamurl() {
-}
-
-/*let stream1 = new Stream({
-    name: 'cam1',
-    streamUrl: 'rtsp://admin:S0larr1g@192.168.1.10/h265/ch1/main/av_stream',
-    wsPort: 9999,
-    ffmpegOptions: { // options ffmpeg flags
-        '-stats': '', // an option with no neccessary value uses a blank string
-        '-r': 30 // options with required values specify the value after the key
-    }
-})*/
-
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 io.on('connection', socket => {
+
+    /**
+     * GPS Coords
+     */
+    try {
+        let bin = spawn(loncmd, {shell: true});
+
+        bin.stdout.on('data', function (data) {
+            let lon = data.trim();
+            //let lon = "07405.854056W";
+            let brk = lon.indexOf('.') - 2;
+            if (brk < 0) {
+                brk = 0;
+            }
+            let minutes = lon.substr(brk, lon.length - 1);
+            minutes = parseFloat(minutes)
+            let degrees = lon.substr(0, brk);
+            degrees = parseInt(degrees)
+            let newLon = parseFloat(degrees + (minutes / 60));
+            if (lon.indexOf("W") > 0) {
+                newLon = (-1 * newLon);
+            }
+            sp.lon = newLon
+        });
+    } catch(err) {
+        console.error(err);
+    }
+
+    try {
+        let bin = spawn(latcmd, {shell: true});
+
+        bin.stdout.on('data', function (data) {
+            let lat = data.trim();
+            //let lon = "07405.854056W";
+            let brk = lat.indexOf('.') - 2;
+            if (brk < 0) {
+                brk = 0;
+            }
+            let minutes = lat.substr(brk, lat.length - 1);
+            minutes = parseFloat(minutes)
+            let degrees = lat.substr(0, brk);
+            degrees = parseInt(degrees)
+            let newLat = parseFloat(degrees + (minutes / 60));
+            if (lat.indexOf("W") > 0) {
+                newLat = (-1 * newLat);
+            }
+            sp.lat = newLat
+        });
+    } catch(err) {
+        console.error(err);
+    }
 
     io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
@@ -635,6 +666,16 @@ io.on('connection', socket => {
                 break;
         }
     })
+
+    function toDegreesMinutesAndSeconds(coordinate) {
+        let absolute = Math.abs(coordinate);
+        let degrees = Math.floor(absolute);
+        let minutesNotTruncated = (absolute - degrees) * 60;
+        let minutes = Math.floor(minutesNotTruncated);
+        let seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+
+        return degrees + " " + minutes + " " + seconds;
+    }
 
 })
 
