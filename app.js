@@ -538,7 +538,7 @@ io.on('connection', socket => {
          * GPS Coords
          */
         try {
-            let bin1 = spawn(loncmd);
+            let bin1 = spawn(loncmd, {shell: true});
 
             bin1.stdout.on('data', function (data) {
                 let lon = data.toString();
@@ -562,7 +562,7 @@ io.on('connection', socket => {
         }
 
         try {
-            let bin2 = spawn(latcmd);
+            let bin2 = spawn(latcmd, {shell: true});
 
             bin2.stdout.on('data', function (data) {
                 let lat = data.toString();
