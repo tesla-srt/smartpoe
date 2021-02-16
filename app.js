@@ -260,7 +260,6 @@ io.on('connection', socket => {
 
     socket.on('set_p2ip', data => {
         try {
-            console.log('ok')
             config.cams.bravo.ip = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
