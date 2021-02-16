@@ -284,9 +284,14 @@ window.mobileCheck = function() {
         p2IpField.innerHTML = p2.ipv4
         p3IpField.innerHTML = p3.ipv4
         p4IpField.innerHTML = p4.ipv4
-
         let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
-        $('#gpslink').html("<a href='"+ gpslink +"' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>");
+        if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
+            $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
+                .removeClass('text-danger');
+        } else {
+            $('#gpslink').html('GPS Signal Lost...')
+                .addClass('text-danger');
+        }
 
         if (portInfo.temp == "N/A") {
             timeout = changeInterval(socket);
