@@ -3,6 +3,9 @@ let ejs = require('ejs')
 const socketio = require('socket.io')
 const {spawn} = require("child_process")
 const {exec} = require("child_process")
+const execSync = require("child_process").execSync
+const events = require('events');
+const myEmitter = new events.EventEmitter();
 const toml = require('toml-js');
 const cors = require('cors');
 const {Curl} = require('node-libcurl');
@@ -454,21 +457,10 @@ io.on('connection', socket => {
         });
     })
 
-    socket.on('update', async data => {
+    socket.on('update', data => {
         console.log('request update')
+
         let bin = spawn(updatecmd, {shell: true});
-
-        await bin.stdout.on('data',   function (data) {
-            let stuff = data.toString();
-            try {
-                console.log('Port Info Updated')
-                jsonContent = JSON.parse(stuff)
-                jsonContent = JSON.parse(stuff)
-            } catch (ex) {
-                return;
-            }
-        });
-
 
         bin.stderr.on('data', function (data) {
             let stream = fs.createReadStream('bin/all.json')
@@ -483,6 +475,27 @@ io.on('connection', socket => {
             });
 
         });
+
+
+        bin.stdout.on('data',   function (data) {
+            let stuff = data.toString();
+            try {
+                console.log('Port Info Updated')
+                jsonContent = JSON.parse(stuff)
+            } catch (ex) {
+                return;
+            }
+        });
+
+        bin.on('exit' , (exitCode) => {
+            if (parseInt(exitCode) !== 0) {
+                //Handle non-zero exit
+            }
+            myEmitter.emit('firstSpawn-finished');
+        })
+
+        myEmitter.on('firstSpawn-finished', () => {
+
         config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
         console.log('Config Loaded')
         let port1 = sp.ports[0];
@@ -539,6 +552,7 @@ io.on('connection', socket => {
 
         io.sockets.emit('receive_update', sp);
         console.log('update completed')
+        })
 
     })
 
