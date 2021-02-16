@@ -3,9 +3,10 @@ let ejs = require('ejs')
 const socketio = require('socket.io')
 const {spawn} = require("child_process")
 const {exec} = require("child_process")
-const execSync = require("child_process").execSync
+var execSync = require('exec-sync');
 const events = require('events');
 const myEmitter = new events.EventEmitter();
+process.setMaxListeners(1000);
 const toml = require('toml-js');
 const cors = require('cors');
 const {Curl} = require('node-libcurl');
@@ -459,9 +460,29 @@ io.on('connection', socket => {
 
     socket.on('update', data => {
         console.log('request update')
+        try {
+            let bin = execSync(updatecmd);
+            try {
+                jsonContent = JSON.parse(bin)
+                console.log('Port Info Updated')
+                myEmitter.emit('firstSpawn-finished');
+            } catch (ex) {
+                console.log(ex)
+            }
+        } catch (e) {
+            let stream = fs.createReadStream('bin/all.json')
+            stream.on('data',  function (chunk) {
+                console.log(`fallback: local file`)
+                try {
+                    jsonContent =  JSON.parse(chunk.toString())
+                    myEmitter.emit('firstSpawn-finished');
+                } catch (err) {
+                    console.log(err)
+                }
 
-        let bin = spawn(updatecmd, {shell: true});
-
+            });
+        }
+/*
         bin.stderr.on('data', function (data) {
             let stream = fs.createReadStream('bin/all.json')
             stream.on('data',  function (chunk) {
@@ -470,30 +491,23 @@ io.on('connection', socket => {
                     jsonContent =  JSON.parse(chunk.toString())
                     myEmitter.emit('firstSpawn-finished');
                 } catch (err) {
-                    return;
+                    console.log(err)
                 }
 
             });
-
         });
+*/
 
-
-        bin.stdout.on('data',   function (data) {
-            let stuff = data.toString();
+/*        bin.stdout.on('data',   function (data) {
             try {
+                jsonContent = JSON.parse(data)
                 console.log('Port Info Updated')
-                jsonContent = JSON.parse(stuff)
                 myEmitter.emit('firstSpawn-finished');
             } catch (ex) {
-                return;
+                console.log(ex)
             }
-        });
+        });*/
 
-        bin.on('exit' , (exitCode) => {
-            if (parseInt(exitCode) !== 0) {
-                //Handle non-zero exit
-            }
-        })
 
         myEmitter.on('firstSpawn-finished', () => {
 
