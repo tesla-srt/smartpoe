@@ -240,6 +240,7 @@ window.mobileCheck = function () {
 
     socket.on('receive_update', data => {
         $("#loadMe").modal('hide');
+        clearInterval(i1)
         portInfo = data;
         let loginPrompt = '';
         if (!login || (login == null || login == "")) {
@@ -377,6 +378,7 @@ window.mobileCheck = function () {
             $('#cam4').toggleClass('invisible', false);
         }
 
+        timeout = funInterval(socket);
     })
 
 
