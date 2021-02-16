@@ -293,6 +293,8 @@ window.mobileCheck = function() {
                 .addClass('text-danger');
         }
 
+        $('#version').html(portInfo.version);
+
         if (portInfo.temp == "N/A") {
             timeout = changeInterval(socket);
             socket.emit('update', '');

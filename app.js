@@ -110,6 +110,7 @@ const p4 = {
 }
 
 const sp = {
+    version: config.info.version,
     hostname: '',
     location: config.info.location,
     temp: 0.0,
