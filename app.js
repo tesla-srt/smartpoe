@@ -458,10 +458,10 @@ io.on('connection', socket => {
 
         let bin = spawn(updatecmd, {shell: true});
 
-        bin.stdout.on('data', async function (data) {
+        bin.stdout.on('data',  function (data) {
             //console.log(data)
             try {
-                jsonContent = await JSON.parse(data)
+                jsonContent = JSON.parse(data)
             } catch (ex) {
                 return;
             }
