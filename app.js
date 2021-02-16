@@ -454,7 +454,7 @@ io.on('connection', socket => {
         });
     })
 
-    socket.on('update', data => {
+    socket.on('update', async data => {
 
         let bin = spawn(updatecmd, {shell: true});
 
@@ -481,7 +481,7 @@ io.on('connection', socket => {
             });
 
         });
-        config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
+        config = await toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
         let port1 = sp.ports[0];
         let port2 = sp.ports[1];
         let port3 = sp.ports[2];
@@ -538,9 +538,9 @@ io.on('connection', socket => {
          * GPS Coords
          */
         try {
-            let bin = spawn(loncmd, {shell: true});
+            let bin1 = spawn(loncmd, {shell: true});
 
-            bin.stdout.on('data', function (data) {
+            bin1.stdout.on('data', function (data) {
                 let lon = data.toString();
                 //let lon = "07405.854056W";
                 let brk = lon.indexOf('.') - 2;
@@ -562,9 +562,9 @@ io.on('connection', socket => {
         }
 
         try {
-            let bin = spawn(latcmd, {shell: true});
+            let bin2 = spawn(latcmd, {shell: true});
 
-            bin.stdout.on('data', function (data) {
+            bin2.stdout.on('data', function (data) {
                 let lat = data.toString();
                 //let lon = "07405.854056W";
                 let brk = lat.indexOf('.') - 2;
