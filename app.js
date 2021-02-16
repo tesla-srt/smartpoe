@@ -3,7 +3,7 @@ let ejs = require('ejs')
 const socketio = require('socket.io')
 const {spawn} = require("child_process")
 const {exec} = require("child_process")
-var execSync = require('exec-sync');
+const execSync = require("child_process").execSync
 const events = require('events');
 const myEmitter = new events.EventEmitter();
 process.setMaxListeners(1000);
@@ -31,8 +31,8 @@ const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
 const io = socketio(server)
 
 
-app.ws('/live/:cameraIP/u/:user/p/:pass', async (ws, req) => {
-    let uri =`rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
+app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
+    let uri = `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
     //let uri = `rtsp://127.0.0.1:8554/`
     proxy({
         url: uri,
@@ -459,114 +459,94 @@ io.on('connection', socket => {
     })
 
     socket.on('update', data => {
+        let bin = spawn(updatecmd, {shell: true});
         console.log('request update')
-        try {
-            let bin = execSync(updatecmd);
-            try {
-                jsonContent = JSON.parse(bin)
-                console.log('Port Info Updated')
-                myEmitter.emit('firstSpawn-finished');
-            } catch (ex) {
-                console.log(ex)
-            }
-        } catch (e) {
-            let stream = fs.createReadStream('bin/all.json')
-            stream.on('data',  function (chunk) {
-                console.log(`fallback: local file`)
-                try {
-                    jsonContent =  JSON.parse(chunk.toString())
-                    myEmitter.emit('firstSpawn-finished');
-                } catch (err) {
-                    console.log(err)
-                }
-
-            });
-        }
-/*
-        bin.stderr.on('data', function (data) {
-            let stream = fs.createReadStream('bin/all.json')
-            stream.on('data',  function (chunk) {
-                console.log(`fallback: local file`)
-                try {
-                    jsonContent =  JSON.parse(chunk.toString())
-                    myEmitter.emit('firstSpawn-finished');
-                } catch (err) {
-                    console.log(err)
-                }
-
-            });
-        });
-*/
-
-/*        bin.stdout.on('data',   function (data) {
-            try {
-                jsonContent = JSON.parse(data)
-                console.log('Port Info Updated')
-                myEmitter.emit('firstSpawn-finished');
-            } catch (ex) {
-                console.log(ex)
-            }
-        });*/
-
-
-        myEmitter.on('firstSpawn-finished', () => {
 
         config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
         console.log('Config Loaded')
-        let port1 = sp.ports[0];
-        let port2 = sp.ports[1];
-        let port3 = sp.ports[2];
-        let port4 = sp.ports[3];
 
-        try {
-            sp.temp = jsonContent.temp;
-            sp.location = config.info.location;
-            sp.version = config.info.version;
-            port3.ipv4 = config.cams.charlie.ip
-            port3.ipv4enabled = config.cams.charlie.enabled
-            port3.pass = config.cams.charlie.pass
-            port3.user = config.cams.charlie.user
-            port4.ipv4 = config.cams.delta.ip
-            port4.ipv4enabled = config.cams.delta.enabled
-            port4.pass = config.cams.delta.pass
-            port4.user = config.cams.delta.user
-            port2.ipv4 = config.cams.bravo.ip
-            port2.ipv4enabled = config.cams.bravo.enabled
-            port2.pass = config.cams.bravo.pass
-            port2.user = config.cams.bravo.user
-            port1.ipv4 = config.cams.alpha.ip
-            port1.ipv4enabled = config.cams.alpha.enabled
-            port1.pass = config.cams.alpha.pass
-            port1.user = config.cams.alpha.user
+        bin.stderr.on('data', function (data) {
+            fs.readFile('bin/all.json', 'utf8', (err, data) => {
+                if (err) {
 
-        } catch (ex) {
-            console.log(`Error: ${ex}`);
-        }
+                    return
+                }
+                console.log(`fallback: local file`)
+                jsonContent = JSON.parse(data.toString())
+                console.log('Port Info Updated')
 
-        port3.voltage = jsonContent["p3"][0].voltage
-        port3.current = jsonContent["p3"][0].current
+                return;
+            })
 
-        port4.voltage = jsonContent["p4"][0].voltage
-        port4.current = jsonContent["p4"][0].current
+        });
 
 
-        port2.voltage = jsonContent["p2"][0].voltage
-        port2.current = jsonContent["p2"][0].current
+        bin.stdout.on('data', function (data) {
+            let stuff = data.toString();
+            try {
+                console.log('Port Info Updated')
+                jsonContent = JSON.parse(stuff)
+                return;
+            } catch (ex) {
+
+            }
+        });
+
+        bin.on('exit', function () {
+            let port1 = sp.ports[0];
+            let port2 = sp.ports[1];
+            let port3 = sp.ports[2];
+            let port4 = sp.ports[3];
+
+            try {
+                sp.temp = jsonContent.temp;
+                sp.location = config.info.location;
+                sp.version = config.info.version;
+                port3.ipv4 = config.cams.charlie.ip
+                port3.ipv4enabled = config.cams.charlie.enabled
+                port3.pass = config.cams.charlie.pass
+                port3.user = config.cams.charlie.user
+                port4.ipv4 = config.cams.delta.ip
+                port4.ipv4enabled = config.cams.delta.enabled
+                port4.pass = config.cams.delta.pass
+                port4.user = config.cams.delta.user
+                port2.ipv4 = config.cams.bravo.ip
+                port2.ipv4enabled = config.cams.bravo.enabled
+                port2.pass = config.cams.bravo.pass
+                port2.user = config.cams.bravo.user
+                port1.ipv4 = config.cams.alpha.ip
+                port1.ipv4enabled = config.cams.alpha.enabled
+                port1.pass = config.cams.alpha.pass
+                port1.user = config.cams.alpha.user
+
+            } catch (ex) {
+                console.log(`Error: ${ex}`);
+            }
+
+            port3.voltage = jsonContent["p3"][0].voltage
+            port3.current = jsonContent["p3"][0].current
+
+            port4.voltage = jsonContent["p4"][0].voltage
+            port4.current = jsonContent["p4"][0].current
 
 
-        port1.voltage = jsonContent["p1"][0].voltage
-        port1.current = jsonContent["p1"][0].current
+            port2.voltage = jsonContent["p2"][0].voltage
+            port2.current = jsonContent["p2"][0].current
 
 
-        port1.watts = (port1.current / 1000) * port1.voltage;
-        port2.watts = (port2.current / 1000) * port2.voltage;
-        port3.watts = (port3.current / 1000) * port3.voltage;
-        port4.watts = (port4.current / 1000) * port4.voltage;
+            port1.voltage = jsonContent["p1"][0].voltage
+            port1.current = jsonContent["p1"][0].current
 
-        sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
 
-        io.sockets.emit('receive_update', sp);
-        console.log('update completed')
+            port1.watts = (port1.current / 1000) * port1.voltage;
+            port2.watts = (port2.current / 1000) * port2.voltage;
+            port3.watts = (port3.current / 1000) * port3.voltage;
+            port4.watts = (port4.current / 1000) * port4.voltage;
+
+            sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
+
+            io.sockets.emit('receive_update', sp);
+            console.log('update completed')
         })
 
     })
@@ -618,8 +598,8 @@ io.on('connection', socket => {
         let bin = spawn(cmd, {shell: true})
         bin.stdout.on('data', function (data) {
             try {
-            jsonContent = JSON.parse(data);
-            } catch(e) {
+                jsonContent = JSON.parse(data);
+            } catch (e) {
                 console.error(e);
             }
             console.log(`port_on_busy: ` + msg.port)
@@ -633,7 +613,7 @@ io.on('connection', socket => {
         bin.stdout.on('data', function (data) {
             try {
                 jsonContent = JSON.parse(data);
-            } catch(e) {
+            } catch (e) {
                 console.error(e);
             }
             console.log(`port_off_busy: ` + msg.port)
@@ -680,7 +660,7 @@ function getCoords() {
             }
             sp.lat = newLat
         });
-    } catch(err) {
+    } catch (err) {
         console.error(err);
     }
 
@@ -707,7 +687,7 @@ function getCoords() {
             }
             sp.lon = newLon
         });
-    } catch(err) {
+    } catch (err) {
         console.error(err);
     }
 }

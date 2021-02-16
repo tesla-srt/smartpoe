@@ -32,10 +32,13 @@ let portInfo = "";
 
 let c1EditBtn = document.querySelector('#c1edit');
 let serverAddress = '';
+let serverAddress2 = '';
 if (window.location.host.indexOf('127.0.0.1') > -1) {
     serverAddress = "127.0.0.1:3001";
+    serverAddress2 = "127.0.0.1:3002";
 } else {
     serverAddress = '166.161.225.29:3001';
+    serverAddress2 = '166.161.225.29:3002';
 }
 let login = getCookie('login');
 
@@ -253,6 +256,7 @@ window.mobileCheck = function () {
     })
 
     socket.on('receive_update', data => {
+        clearInterval(i1);
         $("#loadMe").modal('hide');
         portInfo = data;
         let loginPrompt = '';
@@ -307,7 +311,7 @@ window.mobileCheck = function () {
         } else {
             $('#gpslink').html('GPS Signal Lost...')
                 .addClass('text-danger');
-            socket.emit('get_coords', '');
+            //socket.emit('get_coords', '');
         }
 
         $('#version').html(portInfo.version);
@@ -390,7 +394,7 @@ window.mobileCheck = function () {
         } else {
             $('#cam4').toggleClass('invisible', false);
         }
-
+        timeout = funInterval(socket);
     })
 
 
