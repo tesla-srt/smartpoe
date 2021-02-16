@@ -168,7 +168,7 @@ io.on('connection', socket => {
         let bin = spawn(loncmd, {shell: true});
 
         bin.stdout.on('data', function (data) {
-            let lon = data;
+            let lon = data.toString();
             //let lon = "07405.854056W";
             let brk = lon.indexOf('.') - 2;
             if (brk < 0) {
@@ -192,7 +192,7 @@ io.on('connection', socket => {
         let bin = spawn(latcmd, {shell: true});
 
         bin.stdout.on('data', function (data) {
-            let lat = data;
+            let lat = data.toString();
             //let lon = "07405.854056W";
             let brk = lat.indexOf('.') - 2;
             if (brk < 0) {
