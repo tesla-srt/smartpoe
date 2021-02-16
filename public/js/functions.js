@@ -285,8 +285,8 @@ window.mobileCheck = function() {
         p3IpField.innerHTML = p3.ipv4
         p4IpField.innerHTML = p4.ipv4
 
-        let gpslink = `http://maps.google.com/maps?q=${sp.lat},${sp.lon}`
-        $('#gpslink').html("<a href='"+ gpslink +"'>" + sp.lat + ", " + sp.lon + "</a>");
+        let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
+        $('#gpslink').html("<a href='"+ gpslink +"'>" + portInfo.lat + ", " + portInfo.lon + "</a>");
 
         if (portInfo.temp == "N/A") {
             timeout = changeInterval(socket);
