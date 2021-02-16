@@ -263,7 +263,7 @@ io.on('connection', socket => {
             config.cams.bravo.ip = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.bravo.ip = data.trim();
         }
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
@@ -277,7 +277,7 @@ io.on('connection', socket => {
             config.cams.bravo.user = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.bravo.user = data.trim();
         }
         sp.ports[1].user = data.trim();
@@ -292,7 +292,7 @@ io.on('connection', socket => {
             config.cams.bravo.pass = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.bravo.pass = data.trim();
         }
         sp.ports[1].pass = data.trim();
@@ -307,7 +307,7 @@ io.on('connection', socket => {
             config.cams.charlie.ip = data;
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.charlie.ip = data;
 
         }
@@ -322,7 +322,7 @@ io.on('connection', socket => {
             config.cams.charlie.user = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.charlie.user = data.trim();
         }
         sp.ports[2].user = data.trim();
@@ -337,7 +337,7 @@ io.on('connection', socket => {
             config.cams.charlie.pass = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.charlie.pass = data.trim();
         }
         sp.ports[2].pass = data.trim();
@@ -352,7 +352,7 @@ io.on('connection', socket => {
             config.cams.charlie.enabled = data;
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.charlie.enabled = data;
 
         }
@@ -369,7 +369,7 @@ io.on('connection', socket => {
             config.cams.delta.ip = data;
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.delta.ip = data;
         }
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
@@ -383,7 +383,7 @@ io.on('connection', socket => {
             config.cams.delta.user = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.delta.user = data.trim();
 
         }
@@ -399,7 +399,7 @@ io.on('connection', socket => {
             config.cams.delta.pass = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.delta.pass = data.trim();
         }
         sp.ports[3].pass = data.trim();
@@ -414,7 +414,7 @@ io.on('connection', socket => {
             config.cams.delta.enabled = data;
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.cams.delta.enabled = data;
         }
         sp.ports[3].ipv4enabled = data;
@@ -429,7 +429,7 @@ io.on('connection', socket => {
             config.info.pin = data.trim();
         } catch (ex) {
             console.error(`ERROR: ${ex}`)
-            config = toml.parse(fs.readFile('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             config.info.pin = data.trim();
         }
         sp.pin = data.trim();
