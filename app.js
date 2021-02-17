@@ -45,6 +45,7 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
         //TODO: TEST
         additionalFlags: ['-preset', 'ultrafast', '-b:v', '128k']
     })(ws)
+    ws.send("ok");
 })
 
 app.get('/', (req, res) => {
@@ -90,7 +91,7 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
             curl.close();
         })
         .on('error', function (e) {
-            //console.error(e)
+            res.send('public/img/img404.png');
             curl.close();
         })
         .perform();
