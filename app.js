@@ -10,14 +10,13 @@ const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
 //const Stream = require('node-rtsp-stream')
 const app = express();
+const streamApp = express();
 let base64 = require('base-64');
 
 process.on('uncaughtException', function (exception) {
     // handle or ignore error
     console.log(exception);
 });
-
-const http = require('http');
 
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
@@ -29,12 +28,12 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 //initialize socket for the server
-const {proxy} = require('rtsp-relay')(app);
+const {proxy} = require('rtsp-relay')(streamApp);
 const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
 const io = socketio(server)
+const streamServer = streamApp.listen(3002, '0.0.0.0')
 
-const streamServer = http.createServer(app);
-app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
+streamApp.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
     let uri = `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
     //let uri = `rtsp://127.0.0.1:8554/`
     proxy({
@@ -45,7 +44,6 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
     })(ws)
     //ws.send("ok");
 })
-streamServer.listen(3002, '0.0.0.0')
 
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
