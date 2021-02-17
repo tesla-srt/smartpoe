@@ -45,7 +45,7 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
         //TODO: TEST
         additionalFlags: ['-preset', 'ultrafast', '-b:v', '128k']
     })(ws)
-    ws.send("ok");
+    //ws.send("ok");
 })
 
 app.get('/', (req, res) => {
