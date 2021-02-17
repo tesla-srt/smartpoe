@@ -23,7 +23,7 @@ pass = "S0larr1g"
 
 [cams.delta]
 enabled = true
-ip = "192.168.1.0"
+ip = "192.168.0.10"
 user = "admin"
 pass = "S0larr1g"
 
