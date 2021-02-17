@@ -316,15 +316,15 @@ window.mobileCheck = function () {
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
         let d = new Date();
-        p1.camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
-        p2.camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
-        p3.camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
-        p4.camUrl = `http://${serverAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}?${d}`;
+        portInfo.ports[0].camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
+        portInfo.ports[1].camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
+        portInfo.ports[2].camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
+        portInfo.ports[3].camUrl = `http://${serverAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}?${d}`;
 
-        p1.streamUrl = `ws://${streamAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
-        p2.streamUrl = `ws://${streamAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        p3.streamUrl = `ws://${streamAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        p4.streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+        portInfo.ports[0].streamUrl = `ws://${streamAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+        portInfo.ports[1].streamUrl = `ws://${streamAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+        portInfo.ports[2].streamUrl = `ws://${streamAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+        portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled) {
             $("#cam1").on("error", handleError)
