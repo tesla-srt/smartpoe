@@ -25,3 +25,4 @@ while a:
 				#Get the Lat and Long
 				print (gpsstring[5] + gpsstring[6])
 				a = False
+				sys.exit(0)
