@@ -327,7 +327,7 @@ window.mobileCheck = function () {
         portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled) {
-            $("#cam1").on("error", handleError)
+            $("#cam1").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 })
@@ -335,21 +335,21 @@ window.mobileCheck = function () {
 
         }
         if (p2.ipv4enabled) {
-            $("#cam2").on("error", handleError)
+            $("#cam2").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 })
                 .attr('src', p2.camUrl);
         }
         if (p3.ipv4enabled) {
-            $("#cam3").on("error", handleError)
+            $("#cam3").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 })
                 .attr('src', p3.camUrl);
         }
         if (p4.ipv4enabled) {
-            $("#cam4").on("error", handleError)
+            $("#cam4").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 })
@@ -875,10 +875,10 @@ $(function () {
     /********
      * Events
      *********/
-    /*    $('#cam1').on("error", handleError);
-        $('#cam2').on("error", handleError);
-        $('#cam3').on("error", handleError);
-        $('#cam4').on("error", handleError);*/
+        $('#cam1').on("error", imgError);
+        $('#cam2').on("error", imgError);
+        $('#cam3').on("error", imgError);
+        $('#cam4').on("error", imgError);
 
 
 });
@@ -959,4 +959,8 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function imgError() {
+    $(this).toggleClass('disabled', true);
 }
