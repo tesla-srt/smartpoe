@@ -16,6 +16,11 @@ const CurlFeature = require("node-libcurl").CurlFeature;
 const app = express();
 let base64 = require('base-64');
 
+process.on('uncaughtException', function (exception) {
+    // handle or ignore error
+    console.log(exception);
+});
+
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
