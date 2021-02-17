@@ -474,8 +474,13 @@ io.on('connection', socket => {
 
                     return
                 }
-                console.log(`fallback: local file`)
-                jsonContent = JSON.parse(data.toString())
+
+                try {
+                    console.log(`fallback: local file`)
+                    jsonContent = JSON.parse(data)
+                } catch (e) {
+                    return
+                }
                 console.log('Port Info Updated')
 
                 return;
