@@ -3,12 +3,8 @@ let ejs = require('ejs')
 const socketio = require('socket.io')
 const {spawn} = require("child_process")
 const {exec} = require("child_process")
-const execSync = require("child_process").execSync
-const events = require('events');
-const myEmitter = new events.EventEmitter();
 process.setMaxListeners(1000);
 const toml = require('toml-js');
-const cors = require('cors');
 const {Curl} = require('node-libcurl');
 const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
@@ -20,6 +16,8 @@ process.on('uncaughtException', function (exception) {
     // handle or ignore error
     console.log(exception);
 });
+
+const http = require('http');
 
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
@@ -35,7 +33,7 @@ const {proxy} = require('rtsp-relay')(app);
 const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
 const io = socketio(server)
 
-
+const streamServer = http.createServer(app);
 app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
     let uri = `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
     //let uri = `rtsp://127.0.0.1:8554/`
@@ -47,6 +45,7 @@ app.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
     })(ws)
     //ws.send("ok");
 })
+streamServer.listen(3002, '0.0.0.0')
 
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
