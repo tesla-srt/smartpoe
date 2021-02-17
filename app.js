@@ -472,14 +472,13 @@ io.on('connection', socket => {
             fs.readFile('bin/all.json', 'utf8', (err, data) => {
                 if (err) {
 
-                    return
                 }
 
                 try {
                     console.log(`fallback: local file`)
                     jsonContent = JSON.parse(data)
                 } catch (e) {
-                    return
+
                 }
                 console.log('Port Info Updated')
 
@@ -505,56 +504,56 @@ io.on('connection', socket => {
             let port2 = sp.ports[1];
             let port3 = sp.ports[2];
             let port4 = sp.ports[3];
+            if (jsonContent.temp != 'N/A') {
+                try {
+                    sp.temp = jsonContent.temp;
+                    sp.location = config.info.location;
+                    sp.version = config.info.version;
+                    port3.ipv4 = config.cams.charlie.ip
+                    port3.ipv4enabled = config.cams.charlie.enabled
+                    port3.pass = config.cams.charlie.pass
+                    port3.user = config.cams.charlie.user
+                    port4.ipv4 = config.cams.delta.ip
+                    port4.ipv4enabled = config.cams.delta.enabled
+                    port4.pass = config.cams.delta.pass
+                    port4.user = config.cams.delta.user
+                    port2.ipv4 = config.cams.bravo.ip
+                    port2.ipv4enabled = config.cams.bravo.enabled
+                    port2.pass = config.cams.bravo.pass
+                    port2.user = config.cams.bravo.user
+                    port1.ipv4 = config.cams.alpha.ip
+                    port1.ipv4enabled = config.cams.alpha.enabled
+                    port1.pass = config.cams.alpha.pass
+                    port1.user = config.cams.alpha.user
 
-            try {
-                sp.temp = jsonContent.temp;
-                sp.location = config.info.location;
-                sp.version = config.info.version;
-                port3.ipv4 = config.cams.charlie.ip
-                port3.ipv4enabled = config.cams.charlie.enabled
-                port3.pass = config.cams.charlie.pass
-                port3.user = config.cams.charlie.user
-                port4.ipv4 = config.cams.delta.ip
-                port4.ipv4enabled = config.cams.delta.enabled
-                port4.pass = config.cams.delta.pass
-                port4.user = config.cams.delta.user
-                port2.ipv4 = config.cams.bravo.ip
-                port2.ipv4enabled = config.cams.bravo.enabled
-                port2.pass = config.cams.bravo.pass
-                port2.user = config.cams.bravo.user
-                port1.ipv4 = config.cams.alpha.ip
-                port1.ipv4enabled = config.cams.alpha.enabled
-                port1.pass = config.cams.alpha.pass
-                port1.user = config.cams.alpha.user
+                } catch (ex) {
+                    console.log(`Error: ${ex}`);
+                }
+                port3.voltage = jsonContent["p3"][0].voltage
+                port3.current = jsonContent["p3"][0].current
 
-            } catch (ex) {
-                console.log(`Error: ${ex}`);
+                port4.voltage = jsonContent["p4"][0].voltage
+                port4.current = jsonContent["p4"][0].current
+
+
+                port2.voltage = jsonContent["p2"][0].voltage
+                port2.current = jsonContent["p2"][0].current
+
+
+                port1.voltage = jsonContent["p1"][0].voltage
+                port1.current = jsonContent["p1"][0].current
+
+
+                port1.watts = (port1.current / 1000) * port1.voltage;
+                port2.watts = (port2.current / 1000) * port2.voltage;
+                port3.watts = (port3.current / 1000) * port3.voltage;
+                port4.watts = (port4.current / 1000) * port4.voltage;
+
+                sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
             }
-
-            port3.voltage = jsonContent["p3"][0].voltage
-            port3.current = jsonContent["p3"][0].current
-
-            port4.voltage = jsonContent["p4"][0].voltage
-            port4.current = jsonContent["p4"][0].current
-
-
-            port2.voltage = jsonContent["p2"][0].voltage
-            port2.current = jsonContent["p2"][0].current
-
-
-            port1.voltage = jsonContent["p1"][0].voltage
-            port1.current = jsonContent["p1"][0].current
-
-
-            port1.watts = (port1.current / 1000) * port1.voltage;
-            port2.watts = (port2.current / 1000) * port2.voltage;
-            port3.watts = (port3.current / 1000) * port3.voltage;
-            port4.watts = (port4.current / 1000) * port4.voltage;
-
-            sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
-
             io.sockets.emit('receive_update', sp);
             console.log('update completed')
+
         })
 
     })
