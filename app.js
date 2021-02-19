@@ -89,7 +89,8 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
         })
         .on('error', function (e) {
             res.status(404);
-            res.sendFile(__dirname + '/public/img/img404.png');
+            //res.sendFile(__dirname + '/public/img/img404.png');
+            res.send('poo');
             curl.close();
         })
         .perform();

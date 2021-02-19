@@ -40,7 +40,6 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     serverAddress = '166.161.225.29:3001';
     streamAddress = '166.161.225.29:3002';
 }
-let login = getCookie('login');
 
 window.mobileCheck = function () {
     let check = false;
@@ -255,6 +254,7 @@ window.mobileCheck = function () {
     })
 
     socket.on('receive_update', data => {
+        let login = getCookie('login');
         $("#loadMe").modal('hide');
         portInfo = data;
         let loginPrompt = '';
