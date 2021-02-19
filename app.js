@@ -463,6 +463,7 @@ io.on('connection', socket => {
     })
 
     socket.on('update', async data => {
+        let okay = false;
         let bin = spawn(updatecmd, {shell: true});
         console.log('request update')
         try {
@@ -472,7 +473,7 @@ io.on('connection', socket => {
             console.log('Config Loading Failed')
         }
 
-        bin.stderr.on('data', function (data) {
+        bin.stderr.on('data', async function (data) {
             fs.readFile('bin/all.json', 'utf8', (err, data) => {
                 if (err) {
                     return
@@ -492,7 +493,7 @@ io.on('connection', socket => {
         });
 
 
-        bin.stdout.on('data', function (data) {
+        bin.stdout.on('data', async function (data) {
             let stuff = data.toString();
             try {
                 console.log('Port Info Updated')
@@ -502,12 +503,13 @@ io.on('connection', socket => {
             }
         });
 
-        bin.on('exit', function () {
+        bin.on('exit', async function () {
+
             let port1 = sp.ports[0];
             let port2 = sp.ports[1];
             let port3 = sp.ports[2];
             let port4 = sp.ports[3];
-            if (jsonContent.temp != 'N/A') {
+            if (jsonContent.temp != 'N/A' && jsonContent.length > 0) {
                 try {
                     sp.temp = jsonContent.temp;
                     sp.location = config.info.location;
@@ -553,9 +555,12 @@ io.on('connection', socket => {
                 port4.watts = (port4.current / 1000) * port4.voltage;
 
                 sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
+                okay = true;
             }
-            io.sockets.emit('receive_update', sp);
-            console.log('update completed')
+            if (okay) {
+                io.sockets.emit('receive_update', sp);
+                console.log('update completed')
+            }
 
         })
 
