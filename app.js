@@ -51,6 +51,10 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
+app.get('/ping/:address', (req, res) => {
+
+})
+
 app.get('/401', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");

@@ -41,7 +41,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right" id="menu" aria-labelledby="navbarDropdown">
             <a href="#" id="setpassword" class="dropdown-item">Change Password</a>
-            <a href="#" id="tools" class="dropdown-item">Tools</a>
+            <a href="#" id="tools" class="dropdown-item" data-toggle="modal" data-target="#toolModal">Tools</a>
         </div>
     </li>
 </nav>
@@ -456,7 +456,7 @@
 <!-- End Login Modal -->
 
 <!-- Begin Tools Modal -->
-<div class="modal" id="tools" tabindex="-1" role="dialog">
+<div class="modal" id="toolModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -466,8 +466,41 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div role="tab-panel">
+                    <ul class="nav nav-pills nav-fill" role="tablist">
+                        <li role="presentation" class="nav-item">
+                            <a href="#pingTab" aria-controls="pingTab" class="nav-link active" role="tab" data-toggle="tab">Ping</a>
+                        </li>
+                        <li role="presentation" class="nav-item">
+                            <a href="#tool2Tab" aria-controls="tool2Tab" class="nav-link" role="tab" data-toggle="tab">Tool #2</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="pingTab">
+                            <div class="form-group row">
+                            </div>
+                            <p class="my-1"><strong>Choose a date then, press update.</strong></p>
 
+                            <div class="form-group row">
+                            </div>
+                            <div class="modal-footer bg-label py-2">
+                                <button type="button" class="btn btn-primary" onClick="">Update</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tool2Tab">
+                            <div class="form-group row">
+
+                            </div>
+                            <div class="modal-footer bg-label py-2">
+                                <button type="button" class="btn btn-primary" onClick="">Update</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>
