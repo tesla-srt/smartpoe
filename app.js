@@ -498,6 +498,7 @@ io.on('connection', socket => {
             try {
                 console.log('Port Info Updated')
                 jsonContent = await JSON.parse(stuff)
+                return
             } catch (ex) {
                 console.log(ex)
             }
