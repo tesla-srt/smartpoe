@@ -260,6 +260,7 @@ window.mobileCheck = function () {
         portInfo = data;
         let loginPrompt = '';
         if (!login || (login == null || login == "")) {
+            clearInterval(i1);
             do {
                 loginPrompt = prompt('Please Enter Password: ');
             } while (loginPrompt == null || loginPrompt == "");
@@ -269,9 +270,10 @@ window.mobileCheck = function () {
             if (md5 !== portInfo.pin) {
                 window.location.replace("/401");
             } else {
-                console.log(`${md5} = ${portInfo.pin} ---> LOGIN OK`);
+                console.log(`${md5} == ${portInfo.pin} ---> LOGIN OK`);
                 login = true;
-                setCookie('login', 'true', 0.5);
+                setCookie('login', 'true', 0.041667); //1hr
+                funInterval(socket);
             }
         }
 
