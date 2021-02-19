@@ -53,7 +53,7 @@ window.mobileCheck = function () {
 (function connect() {
     $(".loading-modal").modal('hide');
 
-    let socket = io()
+    let socket = io({reconnectionDelayMax: 10000});
 
     const tMin = 3000;
     const tMax = 8000;
