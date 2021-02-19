@@ -245,9 +245,8 @@ window.mobileCheck = function () {
         portInfo = data;
         let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
         if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
-            $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
-                .removeClass('text-danger')
-                .addClass('text-primary');
+            $('#gpslink').html("<a href='" + gpslink + "' target='_blank' class='text-primary'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
+                .removeClass('text-danger');
 
         } else {
             $('#gpslink').html('GPS Signal Lost...')
