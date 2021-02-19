@@ -272,7 +272,7 @@ window.mobileCheck = function () {
                 console.log(`${md5} == ${portInfo.pin} ---> LOGIN OK`);
                 login = true;
                 setCookie('login', 'true', 0.041667); //1hr
-                funInterval(socket);
+                timeout = funInterval(socket);
             }
         }
 
