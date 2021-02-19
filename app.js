@@ -478,12 +478,10 @@ io.on('connection', socket => {
                 try {
                     console.log(`fallback: local file`)
                     jsonContent = JSON.parse(data)
+                    console.log('Port Info Updated')
                 } catch (e) {
-
+                    console.log('Fallback Failed');
                 }
-                console.log('Port Info Updated')
-
-                return;
             })
 
         });
@@ -494,9 +492,8 @@ io.on('connection', socket => {
             try {
                 console.log('Port Info Updated')
                 jsonContent = JSON.parse(stuff)
-                return;
             } catch (ex) {
-
+                console.log(ex)
             }
         });
 
