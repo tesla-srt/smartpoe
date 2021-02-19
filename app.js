@@ -473,8 +473,8 @@ io.on('connection', socket => {
             console.log('Config Loading Failed')
         }
 
-        bin.stderr.on('data', async function (data) {
-            fs.readFile('bin/all.json', 'utf8', (err, data) => {
+        bin.stderr.on('data', function (data) {
+            fs.readFile('bin/all.json', 'utf8', async (err, data) => {
                 if (err) {
                     return
                 }
@@ -503,7 +503,7 @@ io.on('connection', socket => {
             }
         });
 
-        bin.on('exit', async function () {
+        bin.on('exit', function () {
 
             let port1 = sp.ports[0];
             let port2 = sp.ports[1];
