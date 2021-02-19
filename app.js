@@ -471,7 +471,7 @@ io.on('connection', socket => {
             console.log('Config Loading Failed')
         }
 
-        bin.stderr.on('data', async function (data) {
+        bin.stderr.on('data', function (data) {
             fs.readFile('bin/all.json', 'utf8', async (err, data) => {
                 if (err) {
                     console.log(err)
