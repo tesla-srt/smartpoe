@@ -462,26 +462,31 @@ io.on('connection', socket => {
         });
     })
 
-    socket.on('update', data => {
+    socket.on('update', async data => {
         let bin = spawn(updatecmd, {shell: true});
         console.log('request update')
-
-        config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
-        console.log('Config Loaded')
+        try {
+            config = await toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
+            console.log('Config Loaded')
+        } catch (e) {
+            console.log('Config Loading Failed')
+        }
 
         bin.stderr.on('data', function (data) {
             fs.readFile('bin/all.json', 'utf8', (err, data) => {
                 if (err) {
-
+                    return
                 }
 
                 try {
                     console.log(`fallback: local file`)
-                    jsonContent = JSON.parse(data)
+                    jsonContent = await JSON.parse(data)
                     console.log('Port Info Updated')
                 } catch (e) {
                     console.log('Fallback Failed');
+                    return
                 }
+                return
             })
 
         });
@@ -491,7 +496,7 @@ io.on('connection', socket => {
             let stuff = data.toString();
             try {
                 console.log('Port Info Updated')
-                jsonContent = JSON.parse(stuff)
+                jsonContent = await JSON.parse(stuff)
             } catch (ex) {
                 console.log(ex)
             }
