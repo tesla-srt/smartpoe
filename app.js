@@ -480,7 +480,7 @@ io.on('connection', socket => {
                 try {
                     console.log(`fallback: local file`)
                     jsonContent = await JSON.parse(data)
-                    console.log('Port Info Updated: local')
+                    console.log('Port Info Updated')
                 } catch (e) {
                     console.log('Fallback Failed');
 
@@ -494,7 +494,7 @@ io.on('connection', socket => {
         bin.stdout.on('data', async function (data) {
             let stuff = await data.toString();
             try {
-                console.log('Port Info Updated: realtime')
+                console.log('Port Info Updated')
                 jsonContent = await JSON.parse(stuff)
             } catch (ex) {
                 console.log(ex)
@@ -614,8 +614,8 @@ io.on('connection', socket => {
 
     })
 
-    socket.on('get_coords', async data => {
-        await getCoords()
+    socket.on('get_coords', data => {
+        getCoords()
         io.sockets.emit('receive_coords', sp);
     })
 
@@ -702,7 +702,7 @@ io.on('connection', socket => {
     })
 })
 
-async function getCoords() {
+function getCoords() {
     try {
         let bin2 = spawn(latcmd, {shell: true});
 
