@@ -488,16 +488,16 @@ io.on('connection', socket => {
 
 
         bin.stdout.on('data', async function (data) {
-            let stuff = await data.toString();
+            //let stuff = await data.toString();
             try {
                 console.log('JSON Parsed: realtime')
-                jsonContent = await JSON.parse(stuff)
+                jsonContent = await JSON.parse(data)
             } catch (ex) {
                 console.log(ex)
             }
         });
 
-        bin.on('exit', function () {
+        bin.on('close', function () {
             let port1 = sp.ports[0];
             let port2 = sp.ports[1];
             let port3 = sp.ports[2];
@@ -560,7 +560,7 @@ io.on('connection', socket => {
 
     socket.on('get_coords', async data => {
         await getCoords()
-        io.sockets.emit('receive_coords', sp);
+        io.sockets.emit('update');
     })
 
 

@@ -96,9 +96,8 @@ window.mobileCheck = function () {
         //console.log(data)
         if (data.temp == "N/A") {
             timeout = changeInterval(socket);
-            socket.emit('update', '');
+            //socket.emit('update', '');
             console.log(`NEW TIMEOUT: ` + timeout);
-
         }
         tempfield.innerHTML = data.temp + '&deg;F'
     })
@@ -358,6 +357,20 @@ window.mobileCheck = function () {
                 .attr('src', p4.camUrl);
         }
 
+        try {
+            let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
+            if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
+                $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
+                    .removeClass('text-danger');
+
+            } else {
+                $('#gpslink').html('GPS Signal Lost...')
+                    .addClass('text-danger');
+                setTimeout(socket.emit('get_coords', ''), 15000);
+            }
+        } catch(e) {
+            console.log(e);
+        }
         //stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
 
         guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
