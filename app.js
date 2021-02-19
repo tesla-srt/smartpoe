@@ -452,11 +452,9 @@ io.on('connection', socket => {
         exec("hostname", (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
-                return;
             }
             if (stderr) {
                 console.log(`stderr: ${stderr}`);
-                return;
             }
             sp.hostname = stdout;
         });
@@ -476,7 +474,7 @@ io.on('connection', socket => {
         bin.stderr.on('data', function (data) {
             fs.readFile('bin/all.json', 'utf8', async (err, data) => {
                 if (err) {
-                    return
+                    console.log(err)
                 }
 
                 try {
@@ -485,9 +483,9 @@ io.on('connection', socket => {
                     console.log('Port Info Updated')
                 } catch (e) {
                     console.log('Fallback Failed');
-                    return
+
                 }
-                return
+
             })
 
         });
@@ -498,14 +496,12 @@ io.on('connection', socket => {
             try {
                 console.log('Port Info Updated')
                 jsonContent = await JSON.parse(stuff)
-                return
             } catch (ex) {
                 console.log(ex)
             }
         });
 
         bin.on('exit', function () {
-
             let port1 = sp.ports[0];
             let port2 = sp.ports[1];
             let port3 = sp.ports[2];
