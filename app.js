@@ -554,8 +554,8 @@ io.on('connection', socket => {
 
         });
 
-        /* bin.on('exit', async function () {
-             let port1 = sp.ports[0];
+         bin.on('exit', async function () {
+             /*let port1 = sp.ports[0];
              let port2 = sp.ports[1];
              let port3 = sp.ports[2];
              let port4 = sp.ports[3];
@@ -605,12 +605,13 @@ io.on('connection', socket => {
                  } catch (ex) {
                      console.log(`Error: ${ex}`);
                  }
+             }*/
+             if (okay) {
+                 io.sockets.emit('receive_update', sp);
+                 console.log('update completed')
              }
-         })*/
-        if (okay) {
-            io.sockets.emit('receive_update', sp);
-            console.log('update completed')
-        }
+         })
+
     })
 
     socket.on('get_coords', async data => {
