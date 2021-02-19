@@ -492,13 +492,10 @@ io.on('connection', socket => {
 
 
         bin.stdout.on('data', async function (data) {
-            let stuff = data.toString();
+            let stuff = await data.toString();
             try {
                 console.log('Port Info Updated')
-                jsonContent = await JSON.parse(stuff).catch('error', function(e) {
-                    console.log(e);
-                    return
-                })
+                jsonContent = await JSON.parse(stuff)
             } catch (ex) {
                 console.log(ex)
             }
