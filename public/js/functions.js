@@ -246,11 +246,13 @@ window.mobileCheck = function () {
         let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
         if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
             $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
-                .removeClass('text-danger');
+                .removeClass('text-danger')
+                .addClass('text-primary');
 
         } else {
             $('#gpslink').html('GPS Signal Lost...')
-                .addClass('text-danger');
+                .addClass('text-danger')
+                .removeClass('text-primary');
             socket.emit('get_coords', '');
         }
     })

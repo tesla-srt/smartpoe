@@ -71,7 +71,7 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     let src = 'http://' + name + '/SnapshotJPEG';
     let result = ""
     const curl = new Curl();
-    let close = curl.close.bind(curl);
+    //let close = curl.close.bind(curl);
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
     curl.setOpt('HTTPAUTH', CurlAuth.Digest);
@@ -88,7 +88,8 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
             curl.close();
         })
         .on('error', function (e) {
-            res.send('public/img/img404.png');
+            res.status(404)
+            res.sendFile(__dirname + '/public/img/img404.png');
             curl.close();
         })
         .perform();
