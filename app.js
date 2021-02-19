@@ -471,7 +471,7 @@ io.on('connection', socket => {
             console.log('Config Loading Failed')
         }
 
-        bin.stderr.on('data', function (data) {
+        bin.stderr.on('data', async function (data) {
             fs.readFile('bin/all.json', 'utf8', async (err, data) => {
                 if (err) {
                     console.log(err)
@@ -479,7 +479,7 @@ io.on('connection', socket => {
                 try {
                     console.log(`fallback: local file`)
                     jsonContent = await JSON.parse(data)
-                    console.log('Port Info Updated: local')
+                    console.log('JSON Parsed: file')
                 } catch (e) {
                     console.log('Fallback Failed');
                 }
@@ -490,7 +490,7 @@ io.on('connection', socket => {
         bin.stdout.on('data', async function (data) {
             let stuff = await data.toString();
             try {
-                console.log('Port Info Updated: realtime')
+                console.log('JSON Parsed: realtime')
                 jsonContent = await JSON.parse(stuff)
             } catch (ex) {
                 console.log(ex)
@@ -545,6 +545,7 @@ io.on('connection', socket => {
 
                     sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
                     okay = true
+                    console.log('Port Info Updated')
                 } catch (ex) {
                     console.log(`Error: ${ex}`);
                 }
