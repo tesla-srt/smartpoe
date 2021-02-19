@@ -506,7 +506,7 @@ io.on('connection', socket => {
             let port2 = sp.ports[1];
             let port3 = sp.ports[2];
             let port4 = sp.ports[3];
-            if (jsonContent.temp != 'N/A' && jsonContent.length != null) {
+            if (jsonContent.temp != 'N/A') {
                 try {
                     sp.temp = jsonContent.temp;
                     sp.location = config.info.location;
