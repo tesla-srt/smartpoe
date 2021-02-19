@@ -527,7 +527,7 @@ io.on('connection', socket => {
                     port1.ipv4enabled = config.cams.alpha.enabled
                     port1.pass = config.cams.alpha.pass
                     port1.user = config.cams.alpha.user
-
+                    okay = true
                 } catch (ex) {
                     console.log(`Error: ${ex}`);
                 }
