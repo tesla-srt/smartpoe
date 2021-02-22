@@ -235,6 +235,10 @@ window.mobileCheck = function () {
         socket.emit('port_off', {port: data.port})
     })
 
+    socket.on('pingOut', data => {
+        $('#pingout').text(data.toString());
+    })
+
     socket.on('receive_location', data => {
         locationField.innerHTML = data
     })
@@ -425,6 +429,11 @@ window.mobileCheck = function () {
     /**********
      * BUTTONS *
      **********/
+
+    $('#pingSubmit').on("click", function () {
+        socket.emit('ping', $('#pingAdd').val());
+    });
+
     p1OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
         clearInterval(i1)
@@ -615,7 +624,7 @@ window.mobileCheck = function () {
     $('#p1, #p1alt').on('click', function () {
         clearInterval(i1)
         $('#p1').toggleClass('blink', true);
-        $('#cam1').attr('src', 'img/reboot.png');
+        $('img#cam1').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
         socket.emit('port_off', {port: 0});
         setTimeout(function () {
@@ -975,6 +984,16 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function ping(i) {
+    console.log($(i).text());
+    let address = '/ping/' + $(i).text();
+    $.ajax({
+        url: address
+    }).done(function(data) {
+        $(this).text( data.toString() );
+    });
 }
 
 function imgError() {

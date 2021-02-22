@@ -1,7 +1,7 @@
 [info]
 location = "SRT-HQ"
 pin = "81dc9bdb52d04dc20036dbd8313ed055"
-version = "0.2.2-ND"
+version = "0.3.0-ND"
 
 [cams.alpha]
 enabled = true

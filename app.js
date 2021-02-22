@@ -51,10 +51,6 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
-app.get('/ping/:address', (req, res) => {
-
-})
-
 app.get('/401', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -93,8 +89,8 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
         })
         .on('error', function (e) {
             res.status(404);
-            //res.sendFile(__dirname + '/public/img/img404.png');
-            res.send('poo');
+            res.sendFile(__dirname + '/public/img/img404.png');
+            //res.send('poo');
             curl.close();
         })
         .perform();
@@ -178,6 +174,31 @@ io.on('connection', socket => {
 
     io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
+
+    socket.on('ping', data => {
+        var isWin = process.platform === "win32";
+        let options = [];
+        if (isWin) {
+            option = [`${data.toString()}`, '/n', '3']
+        } else {
+            options = [`${data.toString()}`, '-c', '3']
+        }
+        let ping = spawn(`ping`, options, {shell: true})
+
+        let result = '';
+        ping.stdout.on('data', function(data) {
+            result += data +'';
+        })
+
+        ping.stderr.on('data', (data) => {
+            //res.status(0)
+            console.log(data.toString())
+        })
+
+        ping.on('close', function() {
+            io.sockets.emit('pingOut', result)
+        })
+    })
 
     socket.on('set_location', data => {
         try {
