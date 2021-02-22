@@ -210,7 +210,7 @@ io.on('connection', socket => {
         }
         sp.location = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -225,7 +225,7 @@ io.on('connection', socket => {
         }
         sp.ports[0].ipv4 = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
     })
 
@@ -239,7 +239,7 @@ io.on('connection', socket => {
         }
         sp.ports[0].user = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
 
     })
@@ -255,7 +255,7 @@ io.on('connection', socket => {
         }
         sp.ports[0].pass = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -271,7 +271,7 @@ io.on('connection', socket => {
         }
         sp.ports[0].ipv4enabled = data;
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -286,7 +286,7 @@ io.on('connection', socket => {
         }
         sp.ports[1].ipv4enabled = data;
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -301,7 +301,7 @@ io.on('connection', socket => {
             config.cams.bravo.ip = data.trim();
         }
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         // config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -316,7 +316,7 @@ io.on('connection', socket => {
         }
         sp.ports[1].user = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -331,7 +331,7 @@ io.on('connection', socket => {
         }
         sp.ports[1].pass = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -346,7 +346,7 @@ io.on('connection', socket => {
 
         }
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -361,7 +361,7 @@ io.on('connection', socket => {
         }
         sp.ports[2].user = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -376,7 +376,7 @@ io.on('connection', socket => {
         }
         sp.ports[2].pass = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -392,7 +392,7 @@ io.on('connection', socket => {
         }
         sp.ports[2].ipv4enabled = data;
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -407,7 +407,7 @@ io.on('connection', socket => {
             config.cams.delta.ip = data;
         }
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -423,7 +423,7 @@ io.on('connection', socket => {
         }
         sp.ports[3].user = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         // config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -438,7 +438,7 @@ io.on('connection', socket => {
         }
         sp.ports[3].pass = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -453,7 +453,7 @@ io.on('connection', socket => {
         }
         sp.ports[3].ipv4enabled = data;
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
@@ -468,7 +468,7 @@ io.on('connection', socket => {
         }
         sp.pin = data.trim();
         fs.writeFileSync('bin/iptable.txt', toml.dump(config), function (err) {
-            if (err) return console.log(err);
+            if (err) console.log(err);
         });
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
