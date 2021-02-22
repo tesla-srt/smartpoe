@@ -372,7 +372,7 @@ window.mobileCheck = function () {
                     .addClass('text-danger');
                 throw 'Lost GPS';
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             setTimeout(socket.emit('get_coords', ''), 15000);
         }
@@ -622,18 +622,23 @@ window.mobileCheck = function () {
     })
 
     $('#p1, #p1alt').on('click', function () {
+        portInfo.ports[0].isRebooting = true;
         clearInterval(i1)
-        $('#p1').toggleClass('blink', true);
-        $('img#cam1').attr('src', 'img/reboot.png');
-        $('#loadMe').modal('show');
-        socket.emit('port_off', {port: 0});
-        setTimeout(function () {
-            socket.emit('port_on', {port: 0});
-            $('#p1').toggleClass('blink', false);
-            $('#loadMe').modal('hide');
-            timeout = funInterval(socket);
-            //window.location.reload(true);
-        }, 10000);
+        setTimeout(() => {
+            $('#p1').toggleClass('blink', true);
+            $('#cam1').attr('src', 'img/reboot.png');
+            $('#loadMe').modal('show');
+            socket.emit('port_off', {port: 0});
+            setTimeout(function () {
+                socket.emit('port_on', {port: 0});
+                $('#p1').toggleClass('blink', false);
+                $('#loadMe').modal('hide');
+                portInfo.ports[0].isRebooting = false;
+                timeout = funInterval(socket);
+                //window.location.reload(true);
+            }, 10000);
+        }, 1500)
+
     });
 
     $('#p2, #p2alt').on('click', function () {
@@ -900,10 +905,10 @@ $(function () {
     /********
      * Events
      *********/
-        $('#cam1').on("error", imgError);
-        $('#cam2').on("error", imgError);
-        $('#cam3').on("error", imgError);
-        $('#cam4').on("error", imgError);
+    $('#cam1').on("error", imgError);
+    $('#cam2').on("error", imgError);
+    $('#cam3').on("error", imgError);
+    $('#cam4').on("error", imgError);
 
 
 });
@@ -991,8 +996,8 @@ function ping(i) {
     let address = '/ping/' + $(i).text();
     $.ajax({
         url: address
-    }).done(function(data) {
-        $(this).text( data.toString() );
+    }).done(function (data) {
+        $(this).text(data.toString());
     });
 }
 
