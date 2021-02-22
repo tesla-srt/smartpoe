@@ -13,7 +13,7 @@ process.on('message', async (message) => {
     const snap = await getSnap(src, user, pass);
     console.log(snap)
     // send response to master process
-    process.send({ b64: snap });
+    process.send({ b64: `${snap}` });
 });
 
 async function getSnap(s, u, p) {
@@ -33,8 +33,8 @@ async function getSnap(s, u, p) {
     curl
         .on('end', function (code, body, headers) {
             let buffer = Buffer.from(body).toString('base64')
+            result = buffer
             curl.close();
-            return buffer
         })
         .on('error', function (e) {
             //res.status(404);
@@ -42,7 +42,8 @@ async function getSnap(s, u, p) {
             result = buffer
             //res.send('poo');
             curl.close();
-            return result
         })
         .perform();
+
+    console.log(result)
 }
