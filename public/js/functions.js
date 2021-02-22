@@ -321,10 +321,10 @@ window.mobileCheck = function () {
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
         let d = new Date().getTime();
-        portInfo.ports[0].camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
-        portInfo.ports[1].camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
-        portInfo.ports[2].camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
-        portInfo.ports[3].camUrl = `http://${serverAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}?${d}`;
+        portInfo.ports[0].camUrl = `http://${streamAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
+        portInfo.ports[1].camUrl = `http://${streamAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
+        portInfo.ports[2].camUrl = `http://${streamAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
+        portInfo.ports[3].camUrl = `http://${streamAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}?${d}`;
 
         portInfo.ports[0].streamUrl = `ws://${streamAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
         portInfo.ports[1].streamUrl = `ws://${streamAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;

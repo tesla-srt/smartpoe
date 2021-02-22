@@ -60,7 +60,7 @@ app.get('/401', (req, res) => {
 /**
  *
  */
-app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
+streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     res.contentType('image/jpeg');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
