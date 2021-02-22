@@ -33,7 +33,6 @@ async function getSnap(s, u, p) {
     curl
         .on('end', function (code, body, headers) {
             let buffer = Buffer.from(body).toString('base64')
-            console.log(buffer)
             curl.close();
             return buffer
         })

@@ -60,7 +60,7 @@ app.get('/401', (req, res) => {
  *
  */
 streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
-    res.contentType('image/jpeg');
+    res.contentType('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     let name = req.params.num;
