@@ -82,7 +82,7 @@ app.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
     if (!fs.existsSync('bin/cookies.txt')) {
         fs.writeFileSync('bin/cookies.txt', '')
     }
-   await curl
+    curl
         .on('end', function (code, body, headers) {
             res.send(body);
             curl.close();
@@ -184,8 +184,8 @@ io.on('connection', socket => {
         let ping = spawn(`ping`, options, {shell: true})
 
         let result = '';
-        ping.stdout.on('data', function(data) {
-            result += data +'';
+        ping.stdout.on('data', function (data) {
+            result += data + '';
         })
 
         ping.stderr.on('data', (data) => {
@@ -193,7 +193,7 @@ io.on('connection', socket => {
             console.log(data.toString())
         })
 
-        ping.on('close', function() {
+        ping.on('close', function () {
             io.sockets.emit('pingOut', result)
         })
     })
