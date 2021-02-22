@@ -340,7 +340,6 @@ window.mobileCheck = function () {
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 });
-
         }
         if (p2.ipv4enabled && !p2.isRebooting) {
             $.getJSON( portInfo.ports[1].camUrl, function( data ) {

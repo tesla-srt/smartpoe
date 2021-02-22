@@ -59,7 +59,7 @@ app.get('/401', (req, res) => {
 /**
  *
  */
-streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
+streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     res.contentType('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
