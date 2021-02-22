@@ -332,11 +332,11 @@ window.mobileCheck = function () {
         portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled) {
-            $("#cam1").on("error", imgError)
+            $("#cam1 img").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 })
-                .attr('src', p1.camUrl);
+                $('#cam1').html(`<img src='${p1.camUrl}' height='115' width='150'>`);
 
         }
         if (p2.ipv4enabled) {
@@ -402,16 +402,6 @@ window.mobileCheck = function () {
             $('#cam4').toggleClass('invisible', true);
         } else {
             $('#cam4').toggleClass('invisible', false);
-        }
-        let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
-        if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
-            $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
-                .removeClass('text-danger');
-
-        } else {
-            $('#gpslink').html('GPS Signal Lost...')
-                .addClass('text-danger');
-            socket.emit('get_coords', '');
         }
     })
 
