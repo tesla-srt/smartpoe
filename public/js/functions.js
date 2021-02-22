@@ -625,7 +625,8 @@ window.mobileCheck = function () {
      * REBOOT BUTTONS
      */
 
-    $('#p1, #p1alt').on('click', function () {
+    $('#p1, #p1alt').on('click', function (event) {
+        event.stopPropagation();
         portInfo.ports[0].isRebooting = true;
         clearInterval(i1)
         $('#p1').toggleClass('blink', true);
