@@ -335,7 +335,7 @@ window.mobileCheck = function () {
             $.getJSON( portInfo.ports[0].camUrl, function( data ) {
                 $("#cam1").attr('src', `data:image/png;base64, ${data.img}`)
             });
-            
+
             $("#cam1").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');

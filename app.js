@@ -557,7 +557,6 @@ io.on('connection', async socket => {
     socket.on('port_on', msg => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " ON";
         let bin = spawn(cmd, {shell: true})
-        sp.ports[msg.port].isRebooting = false
         bin.stdout.on('data', function (data) {
             try {
                 jsonContent = JSON.parse(data);
@@ -565,8 +564,14 @@ io.on('connection', async socket => {
                 console.error(e);
             }
             console.log(`port_on_busy: ` + msg.port)
+
             io.sockets.emit('device_on_busy', {port: msg.port})
         });
+        bin.on('close', () => {
+            setTimeout(function() {
+                sp.ports[msg.port].isRebooting = false
+            }, 30000)
+        })
     })
 
     socket.on('port_off', msg => {
@@ -582,6 +587,9 @@ io.on('connection', async socket => {
             console.log(`port_off_busy: ` + msg.port)
             io.sockets.emit('device_off_busy', {port: msg.port})
         });
+        bin.on('close', () => {
+            sp.ports[msg.port].isRebooting = true
+        })
     })
 
     socket.on('restart_steam', data => {
