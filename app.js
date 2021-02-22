@@ -3,7 +3,7 @@ let ejs = require('ejs')
 const socketio = require('socket.io')
 const {spawn} = require("child_process")
 const {exec} = require("child_process")
-const { fork } = require('child_process');
+const {fork} = require('child_process');
 process.setMaxListeners(1000);
 const toml = require('toml-js');
 const {Curl} = require('node-libcurl');
@@ -497,7 +497,7 @@ io.on('connection', async socket => {
         }
 
 
-        let bin = spawn(updatecmd, {shell: true});
+        /*let bin = spawn(updatecmd, {shell: true});
         bin.stderr.on('data', async function (data) {
             let foo = fs.readFileSync('bin/all.json', 'utf-8')
             try {
@@ -517,20 +517,20 @@ io.on('connection', async socket => {
                 console.log(ex)
             }
         });
+*/
 
-        bin.on('close', () => {
-            // fork another process
-            const worker = fork('./update.js');
-            //const mails = request.body.emails;
-            // send list of e-mails to forked process
-            worker.send([sp, config, jsonData]);
-            // listen for messages from forked process
-            worker.on('message', (message) => {
-                //config = message[1]
-                sp = message;
-                io.sockets.emit('receive_update', message)
-            })
+        // fork another process
+        const worker = fork('./update.js');
+        //const mails = request.body.emails;
+        // send list of e-mails to forked process
+        worker.send([sp, config]);
+        // listen for messages from forked process
+        worker.on('message', (message) => {
+            //config = message[1]
+            sp = message;
+            io.sockets.emit('receive_update', message)
         })
+
 
     })
 
