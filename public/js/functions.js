@@ -320,7 +320,7 @@ window.mobileCheck = function () {
 
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
-        let d = new Date();
+        let d = new Date().getTime();
         portInfo.ports[0].camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
         portInfo.ports[1].camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
         portInfo.ports[2].camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
