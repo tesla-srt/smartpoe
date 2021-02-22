@@ -629,6 +629,7 @@ io.on('connection', socket => {
     socket.on('port_on', msg => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " ON";
         let bin = spawn(cmd, {shell: true})
+        sp.ports[msg.port].isRebooting = false
         bin.stdout.on('data', function (data) {
             try {
                 jsonContent = JSON.parse(data);
@@ -643,6 +644,7 @@ io.on('connection', socket => {
     socket.on('port_off', msg => {
         let cmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe " + msg.port + " OFF";
         let bin = spawn(cmd, {shell: true})
+        sp.ports[msg.port].isRebooting = true
         bin.stdout.on('data', function (data) {
             try {
                 jsonContent = JSON.parse(data);

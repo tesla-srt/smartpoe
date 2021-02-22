@@ -331,7 +331,7 @@ window.mobileCheck = function () {
         portInfo.ports[2].streamUrl = `ws://${streamAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        if (p1.ipv4enabled) {
+        if (p1.ipv4enabled && !p1.isRebooting) {
             $("#cam1").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
@@ -339,21 +339,21 @@ window.mobileCheck = function () {
                 .attr('src', p1.camUrl);
 
         }
-        if (p2.ipv4enabled) {
+        if (p2.ipv4enabled && !p2.isRebooting) {
             $("#cam2").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 })
                 .attr('src', p2.camUrl);
         }
-        if (p3.ipv4enabled) {
+        if (p3.ipv4enabled && !p3.isRebooting) {
             $("#cam3").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
                 })
                 .attr('src', p3.camUrl);
         }
-        if (p4.ipv4enabled) {
+        if (p4.ipv4enabled && !p4.isRebooting) {
             $("#cam4").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
@@ -630,7 +630,7 @@ window.mobileCheck = function () {
         clearInterval(i1)
         $('#p1').toggleClass('blink', true);
         $('#cam1').attr('src', 'img/reboot.png');
-        /*$('#loadMe').modal('show');
+        $('#loadMe').modal('show');
         socket.emit('port_off', {port: 0});
         setTimeout(function () {
             socket.emit('port_on', {port: 0});
@@ -639,7 +639,7 @@ window.mobileCheck = function () {
             portInfo.ports[0].isRebooting = false;
             timeout = funInterval(socket);
             //window.location.reload(true);
-        }, 10000);*/
+        }, 10000);
 
     });
 
