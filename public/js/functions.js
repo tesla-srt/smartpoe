@@ -621,23 +621,25 @@ window.mobileCheck = function () {
         timeout = funInterval(socket);
     })
 
+    /**
+     * REBOOT BUTTONS
+     */
+
     $('#p1, #p1alt').on('click', function () {
         portInfo.ports[0].isRebooting = true;
         clearInterval(i1)
-        setTimeout(() => {
-            $('#p1').toggleClass('blink', true);
-            $('#cam1').attr('src', 'img/reboot.png');
-            $('#loadMe').modal('show');
-            socket.emit('port_off', {port: 0});
-            setTimeout(function () {
-                socket.emit('port_on', {port: 0});
-                $('#p1').toggleClass('blink', false);
-                $('#loadMe').modal('hide');
-                portInfo.ports[0].isRebooting = false;
-                timeout = funInterval(socket);
-                //window.location.reload(true);
-            }, 10000);
-        }, 1500)
+        $('#p1').toggleClass('blink', true);
+        $('#cam1').attr('src', 'img/reboot.png');
+        /*$('#loadMe').modal('show');
+        socket.emit('port_off', {port: 0});
+        setTimeout(function () {
+            socket.emit('port_on', {port: 0});
+            $('#p1').toggleClass('blink', false);
+            $('#loadMe').modal('hide');
+            portInfo.ports[0].isRebooting = false;
+            timeout = funInterval(socket);
+            //window.location.reload(true);
+        }, 10000);*/
 
     });
 
