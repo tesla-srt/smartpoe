@@ -320,7 +320,7 @@ window.mobileCheck = function () {
 
         tempfield.innerHTML = data.temp + '&deg;F';
         wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
-        let d = new Date();
+        let d = new Date().getTime();
         portInfo.ports[0].camUrl = `http://${serverAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
         portInfo.ports[1].camUrl = `http://${serverAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
         portInfo.ports[2].camUrl = `http://${serverAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
@@ -623,22 +623,20 @@ window.mobileCheck = function () {
 
     $('#p1, #p1alt').on('click', function () {
         portInfo.ports[0].isRebooting = true;
+        let d = new Date().getTime();
         clearInterval(i1)
-        setTimeout(() => {
-            $('#p1').toggleClass('blink', true);
-            $('#cam1').attr('src', 'img/reboot.png');
-            $('#loadMe').modal('show');
-            socket.emit('port_off', {port: 0});
-            setTimeout(function () {
-                socket.emit('port_on', {port: 0});
-                $('#p1').toggleClass('blink', false);
-                $('#loadMe').modal('hide');
-                portInfo.ports[0].isRebooting = false;
-                timeout = funInterval(socket);
-                //window.location.reload(true);
-            }, 10000);
-        }, 1500)
-
+        $('#p1').toggleClass('blink', true);
+        $('#cam1').attr('src', 'img/reboot.png?'+ d);
+        $('#loadMe').modal('show');
+        socket.emit('port_off', {port: 0});
+        setTimeout(function () {
+            socket.emit('port_on', {port: 0});
+            $('#p1').toggleClass('blink', false);
+            $('#loadMe').modal('hide');
+            portInfo.ports[0].isRebooting = false;
+            timeout = funInterval(socket);
+            //window.location.reload(true);
+        }, 10000);
     });
 
     $('#p2, #p2alt').on('click', function () {
