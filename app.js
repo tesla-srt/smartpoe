@@ -169,7 +169,7 @@ const sp = {
 let ports = [p1, p2, p3, p4];
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
-io.on('connection', socket => {
+io.on('connection', async socket => {
     //io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
 
