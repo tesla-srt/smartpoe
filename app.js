@@ -6,9 +6,7 @@ const {exec} = require("child_process")
 const {fork} = require('child_process');
 process.setMaxListeners(1000);
 const toml = require('toml-js');
-const {Curl} = require('node-libcurl');
-const CurlAuth = require("node-libcurl").CurlAuth;
-const CurlFeature = require("node-libcurl").CurlFeature;
+
 //const Stream = require('node-rtsp-stream')
 const app = express();
 const streamApp = express();
@@ -61,7 +59,7 @@ app.get('/401', (req, res) => {
 /**
  *
  */
-streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
+streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
     res.contentType('image/jpeg');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -70,31 +68,13 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     let user = req.params.user
 
     let src = 'http://' + name + '/SnapshotJPEG';
-    let result = ""
-    let curl = new Curl();
-    //let close = curl.close.bind(curl);
-    curl.enable(CurlFeature.Raw)
-    curl.setOpt('URL', src);
-    curl.setOpt('HTTPAUTH', CurlAuth.Digest);
-    curl.setOpt('COOKIEJAR', 'bin/cookies.txt');
-    curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
-    curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
-    curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
-    if (!fs.existsSync('bin/cookies.txt')) {
-        fs.writeFileSync('bin/cookies.txt', '')
-    }
-    curl
-        .on('end', function (code, body, headers) {
-            res.send(body);
-            curl.close();
-        })
-        .on('error', function (e) {
-            //res.status(404);
-            res.sendFile(__dirname + '/public/img/img404.png');
-            //res.send('poo');
-            curl.close();
-        })
-        .perform();
+
+    // fork another process
+    const worker = fork('./snapshot.js');
+    worker.send([src, user, pass]);
+    worker.on('message', (message) => {
+        res.json({ img: message.b64});
+    });
 });
 
 
@@ -530,8 +510,6 @@ io.on('connection', async socket => {
             sp = message;
             io.sockets.emit('receive_update', message)
         })
-
-
     })
 
     socket.on('get_coords', async data => {
