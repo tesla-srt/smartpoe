@@ -179,7 +179,7 @@ io.on('connection', socket => {
         var isWin = process.platform === "win32";
         let options = [];
         if (isWin) {
-            option = [`${data.toString()}`, '/n', '3']
+            options = [`${data.toString()}`, '-n', '3']
         } else {
             options = [`${data.toString()}`, '-c', '3']
         }
