@@ -73,8 +73,8 @@ streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
     const worker = fork('./snapshot.js');
     worker.send([src, user, pass]);
     worker.on('message', (message) => {
-        console.log(message.b64)
-        res.json({ img: message.b64});
+        console.log(message)
+        res.json({ img: message});
     });
 });
 

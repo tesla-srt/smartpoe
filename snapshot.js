@@ -38,5 +38,5 @@ process.on('message', async (message) => {
         .perform();
 
     // send response to master process
-    process.send({ b64: `${result}` });
+    process.send(result);
 });
