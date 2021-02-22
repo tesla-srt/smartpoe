@@ -3,6 +3,7 @@ let ejs = require('ejs')
 const socketio = require('socket.io')
 const {spawn} = require("child_process")
 const {exec} = require("child_process")
+const { fork } = require('child_process');
 process.setMaxListeners(1000);
 const toml = require('toml-js');
 const {Curl} = require('node-libcurl');
@@ -118,7 +119,7 @@ const p4 = {
     watts: 0.00
 }
 
-const sp = {
+var sp = {
     version: '',
     hostname: '',
     location: config.info.location,
@@ -485,99 +486,50 @@ io.on('connection', async socket => {
     })
 
     socket.on('update', async data => {
-        let okay = false;
-        let bin = spawn(updatecmd, {shell: true});
+        let jsonData = '';
         console.log('request update')
         try {
             config = await toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             console.log('Config Loaded')
         } catch (e) {
+            console.error(e)
             console.log('Config Loading Failed')
         }
 
-        bin.stderr.on('data', function (data) {
-            fs.readFile('bin/all.json', 'utf8', async (err, data) => {
-                if (err) {
-                    console.log(err)
-                }
-                try {
-                    console.log(`fallback: local file`)
-                    jsonContent = await JSON.parse(data)
-                    console.log('JSON Parsed: file')
-                } catch (e) {
-                    console.log('Fallback Failed');
-                }
-            })
+
+        let bin = spawn(updatecmd, {shell: true});
+        bin.stderr.on('data', async function (data) {
+            let foo = fs.readFileSync('bin/all.json', 'utf-8')
+            try {
+                console.log(`fallback: local file`)
+                jsonData = await JSON.parse(foo)
+            } catch (e) {
+                console.log('Fallback Failed');
+            }
+
         });
 
-
         bin.stdout.on('data', async function (data) {
-            //let stuff = await data.toString();
             try {
                 console.log('JSON Parsed: realtime')
-                jsonContent = await JSON.parse(data)
+                jsonData = await JSON.parse(data)
             } catch (ex) {
                 console.log(ex)
             }
         });
 
-        bin.on('close', function () {
-            let port1 = sp.ports[0];
-            let port2 = sp.ports[1];
-            let port3 = sp.ports[2];
-            let port4 = sp.ports[3];
-            if (jsonContent.temp != 'N/A') {
-                try {
-                    sp.temp = jsonContent.temp;
-                    sp.location = config.info.location;
-                    sp.version = config.info.version;
-                    port3.ipv4 = config.cams.charlie.ip
-                    port3.ipv4enabled = config.cams.charlie.enabled
-                    port3.pass = config.cams.charlie.pass
-                    port3.user = config.cams.charlie.user
-                    port4.ipv4 = config.cams.delta.ip
-                    port4.ipv4enabled = config.cams.delta.enabled
-                    port4.pass = config.cams.delta.pass
-                    port4.user = config.cams.delta.user
-                    port2.ipv4 = config.cams.bravo.ip
-                    port2.ipv4enabled = config.cams.bravo.enabled
-                    port2.pass = config.cams.bravo.pass
-                    port2.user = config.cams.bravo.user
-                    port1.ipv4 = config.cams.alpha.ip
-                    port1.ipv4enabled = config.cams.alpha.enabled
-                    port1.pass = config.cams.alpha.pass
-                    port1.user = config.cams.alpha.user
-                    port3.voltage = jsonContent["p3"][0].voltage
-                    port3.current = jsonContent["p3"][0].current
-
-                    port4.voltage = jsonContent["p4"][0].voltage
-                    port4.current = jsonContent["p4"][0].current
-
-
-                    port2.voltage = jsonContent["p2"][0].voltage
-                    port2.current = jsonContent["p2"][0].current
-
-
-                    port1.voltage = jsonContent["p1"][0].voltage
-                    port1.current = jsonContent["p1"][0].current
-
-
-                    port1.watts = (port1.current / 1000) * port1.voltage;
-                    port2.watts = (port2.current / 1000) * port2.voltage;
-                    port3.watts = (port3.current / 1000) * port3.voltage;
-                    port4.watts = (port4.current / 1000) * port4.voltage;
-
-                    sp.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
-                    okay = true
-                    console.log('Port Info Updated')
-                } catch (ex) {
-                    console.log(`Error: ${ex}`);
-                }
-            }
-            if (okay) {
-                io.sockets.emit('receive_update', sp);
-                console.log('update completed')
-            }
+        bin.on('close', () => {
+            // fork another process
+            const worker = fork('./update.js');
+            //const mails = request.body.emails;
+            // send list of e-mails to forked process
+            worker.send([sp, config, jsonData]);
+            // listen for messages from forked process
+            worker.on('message', (message) => {
+                //config = message[1]
+                sp = message;
+                io.sockets.emit('receive_update', message)
+            })
         })
 
     })
