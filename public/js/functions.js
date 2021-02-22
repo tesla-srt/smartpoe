@@ -332,11 +332,14 @@ window.mobileCheck = function () {
         portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled && !p1.isRebooting) {
+            $.getJSON( portInfo.ports[0].camUrl, function( data ) {
+                $("#cam1").attr('src', `data:image/png;base64, ${data.img}`)
+            });
+            
             $("#cam1").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                })
-                .attr('src', p1.camUrl);
+                });
 
         }
         if (p2.ipv4enabled && !p2.isRebooting) {
