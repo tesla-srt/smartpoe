@@ -70,7 +70,7 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
 
     let src = 'http://' + name + '/SnapshotJPEG';
     let result = ""
-    const curl = new Curl();
+    let curl = new Curl();
     //let close = curl.close.bind(curl);
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
@@ -170,9 +170,7 @@ let ports = [p1, p2, p3, p4];
 
 var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
 io.on('connection', socket => {
-
-
-    io.sockets.emit('receive_location', sp.location)
+    //io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
 
     socket.on('ping', data => {

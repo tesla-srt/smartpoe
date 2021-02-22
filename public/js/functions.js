@@ -308,7 +308,7 @@ window.mobileCheck = function () {
         p3IpField.innerHTML = p3.ipv4
         p4IpField.innerHTML = p4.ipv4
 
-
+        locationField.innerHTML = portInfo.location;
         $('#version').html(portInfo.version);
 
         if (portInfo.temp == "N/A") {
