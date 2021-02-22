@@ -11,7 +11,7 @@ process.on('message', async (message) => {
     let pass = message[2]
 
     const snap = await getSnap(src, user, pass);
-
+    console.log(snap)
     // send response to master process
     process.send({ b64: snap });
 });
