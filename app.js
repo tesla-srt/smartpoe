@@ -60,7 +60,7 @@ app.get('/401', (req, res) => {
 /**
  *
  */
-app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
+app.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
     res.contentType('image/jpeg');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -82,7 +82,7 @@ app.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     if (!fs.existsSync('bin/cookies.txt')) {
         fs.writeFileSync('bin/cookies.txt', '')
     }
-    curl
+   await curl
         .on('end', function (code, body, headers) {
             res.send(body);
             curl.close();
