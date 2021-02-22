@@ -54,7 +54,7 @@ window.mobileCheck = function () {
 
     let socket = io({reconnectionDelayMax: 10000});
 
-    const tMin = 3000;
+    const tMin = 5000;
     const tMax = 8000;
 
     timeout = funInterval(socket);
