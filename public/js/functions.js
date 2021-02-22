@@ -343,25 +343,37 @@ window.mobileCheck = function () {
 
         }
         if (p2.ipv4enabled && !p2.isRebooting) {
+            $.getJSON( portInfo.ports[1].camUrl, function( data ) {
+                $("#cam2").attr('src', `data:image/png;base64, ${data.img}`)
+            });
+
             $("#cam2").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                })
-                .attr('src', p2.camUrl);
+                });
+
         }
         if (p3.ipv4enabled && !p3.isRebooting) {
+            $.getJSON( portInfo.ports[2].camUrl, function( data ) {
+                $("#cam3").attr('src', `data:image/png;base64, ${data.img}`)
+            });
+
             $("#cam3").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                })
-                .attr('src', p3.camUrl);
+                });
+
         }
         if (p4.ipv4enabled && !p4.isRebooting) {
+            $.getJSON( portInfo.ports[3].camUrl, function( data ) {
+                $("#cam4").attr('src', `data:image/png;base64, ${data.img}`)
+            });
+
             $("#cam4").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                })
-                .attr('src', p4.camUrl);
+                });
+
         }
 
         try {
