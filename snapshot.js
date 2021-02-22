@@ -9,23 +9,15 @@ process.on('message', async (message) => {
     let src = message[0]
     let user = message[1]
     let pass = message[2]
-
-    const snap = await getSnap(src, user, pass);
-    console.log(snap)
-    // send response to master process
-    process.send({ b64: `${snap}` });
-});
-
-async function getSnap(s, u, p) {
     let result = ''
     let curl = new Curl();
 //let close = curl.close.bind(curl);
     curl.enable(CurlFeature.Raw)
-    curl.setOpt('URL', s);
+    curl.setOpt('URL', src);
     curl.setOpt('HTTPAUTH', CurlAuth.Digest);
     curl.setOpt('COOKIEJAR', 'bin/cookies.txt');
     curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
-    curl.setOpt('USERPWD', `${u}:${p}`); //stuff goes in here
+    curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
     curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
     if (!fs.existsSync('bin/cookies.txt')) {
         fs.writeFileSync('bin/cookies.txt', '')
@@ -45,5 +37,6 @@ async function getSnap(s, u, p) {
         })
         .perform();
 
-    console.log(result)
-}
+    // send response to master process
+    process.send({ b64: `${result}` });
+});
