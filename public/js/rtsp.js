@@ -16,7 +16,7 @@
 
       const script = Object.assign(document.createElement('script'), {
         src:
-          'https://cdn.jsdelivr.net/gh/phoboslab/jsmpeg@b5799bf/jsmpeg.min.js',
+          'js/jsmpeg.min.js',
         onload: resolve,
         onerror: reject,
       });
