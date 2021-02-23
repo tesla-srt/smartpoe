@@ -111,6 +111,7 @@ streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
     let curl = new Curl();
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
+    curl.setOpt('CONNECTTIMEOUT', 10)
     curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
     curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
     curl.setOpt('HTTPAUTH', CurlAuth.Digest);
