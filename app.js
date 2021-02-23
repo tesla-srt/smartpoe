@@ -227,7 +227,7 @@ exec("hostname", (error, stdout, stderr) => {
 
 const timer = setInterval(() => {
     io.sockets.emit('update_srv','')
-}, 10000)
+}, 15000) //15sec updates
 var jsonContent = {"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}
 io.on('connection', socket => {
 
