@@ -10,6 +10,11 @@ const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
 //const Stream = require('node-rtsp-stream')
 const app = express();
+const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
+const io = socketio(server)
+app.set('view engine', 'ejs')
+app.use(express.static('public'))
+
 const streamApp = express();
 const updateWorker = fork('./update.js');
 let base64 = require('base-64');
@@ -28,13 +33,8 @@ if (!fs.existsSync(__dirname + '/bin/cookies.txt')) {
     fs.writeFileSync(__dirname + 'bin/cookies.txt', '')
 }
 
-app.set('view engine', 'ejs')
-app.use(express.static('public'))
-
 //initialize socket for the server
-const {proxy} = require('rtsp-relay')(streamApp);
-const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
-const io = socketio(server)
+const {proxy} = require('rtsp-relay')(streamApp)
 const streamServer = streamApp.listen(3002, '0.0.0.0')
 
 streamApp.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {

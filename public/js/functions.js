@@ -400,19 +400,6 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     })
 
 
-    if (window.mobileCheck()) {
-        $('#menu').removeClass('dropdown-menu-right')
-            .addClass('dropdown-menu-left');
-        /*$("<br><a href='#' id='p1alt'><small>REBOOT</small></a>").insertAfter("#p1");
-        $("<br><a href='#' id='p2alt'><small>REBOOT</small></a>").insertAfter("#p2");
-        $("<br><a href='#' id='p3alt'><small>REBOOT</small></a>").insertAfter("#p3");
-        $("<br><a href='#' id='p4alt'><small>REBOOT</small></a>").insertAfter("#p4");*/
-    } else {
-        $('#menu').removeClass('dropdown-menu-left')
-            .addClass('dropdown-menu-right');
-    }
-
-
     /**********
      * BUTTONS *
      **********/
@@ -891,6 +878,17 @@ $(function () {
     $('.toggle-on').removeClass('btn-primary').addClass('btn-secondary');
     $('.collapse').collapse({toggle: false});
 
+    if (window.mobileCheck()) {
+        $('#menu').removeClass('dropdown-menu-right')
+            .addClass('dropdown-menu-left');
+        /*$("<br><a href='#' id='p1alt'><small>REBOOT</small></a>").insertAfter("#p1");
+        $("<br><a href='#' id='p2alt'><small>REBOOT</small></a>").insertAfter("#p2");
+        $("<br><a href='#' id='p3alt'><small>REBOOT</small></a>").insertAfter("#p3");
+        $("<br><a href='#' id='p4alt'><small>REBOOT</small></a>").insertAfter("#p4");*/
+    } else {
+        $('#menu').removeClass('dropdown-menu-left')
+            .addClass('dropdown-menu-right');
+    }
 
     /********
      * Events
@@ -979,16 +977,6 @@ function getCookie(cname) {
         }
     }
     return "";
-}
-
-function ping(i) {
-    console.log($(i).text());
-    let address = '/ping/' + $(i).text();
-    $.ajax({
-        url: address
-    }).done(function (data) {
-        $(this).text(data.toString());
-    });
 }
 
 function imgError() {
