@@ -64,7 +64,7 @@ app.get('/401', (req, res) => {
 /**
  *
  */
-streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
+streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
     res.contentType('image/jpeg');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -86,7 +86,7 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     curl.setOpt('COOKIEJAR', 'bin/cookies.txt');
     curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
 
-    curl
+    await curl
         .on('end', function (code, body, headers) {
             //let buffer = Buffer.from(body).toString('base64')
             //result = buffer
