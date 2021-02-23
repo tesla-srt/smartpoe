@@ -71,7 +71,7 @@ const fetchTimeout = (url, ms, { signal, ...options } = {}) => {
 };
 
 app.get('/test', (req, res) => {
-    //const controller = new AbortController();
+    const controller = new AbortController();
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.set('Content-Type', 'image/jpeg');
@@ -89,7 +89,7 @@ app.get('/test', (req, res) => {
             }
         });*/
 
-    fetch(src).then((response) => res.send(response.blob()));
+    fetch(src,{  credentials: 'include'}).then((response) => res.send(response.blob()));
 })
 
 /**
