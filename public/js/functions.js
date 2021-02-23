@@ -642,7 +642,7 @@ let pauseGui = false;
 
     $('#p1, #p1alt').on('click', function (event) {
         event.stopPropagation();
-        portInfo.ports[0].isRebooting = true;
+        //portInfo.ports[0].isRebooting = true;
         //clearInterval(i1)
         pauseGui = true;
         $('#p1').toggleClass('blink', true);
@@ -653,7 +653,7 @@ let pauseGui = false;
             socket.emit('port_on', {port: 0});
             $('#p1').toggleClass('blink', false);
             $('#loadMe').modal('hide');
-            portInfo.ports[0].isRebooting = false;
+            //portInfo.ports[0].isRebooting = false;
             //timeout = funInterval(socket);
             pauseGui = false;
             //window.location.reload(true);
