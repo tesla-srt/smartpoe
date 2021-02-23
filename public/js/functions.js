@@ -910,7 +910,7 @@ $(function () {
     /********
      * Events
      *********/
-    $('img').error(function(){
+    $('img').on('error', function(){
         $(this).attr('src', 'img/img404.png').toggleClass('disabled', true);
     });
     $('#cam1').on("error", imgError);
