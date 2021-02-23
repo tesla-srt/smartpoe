@@ -64,11 +64,18 @@ app.get('/401', (req, res) => {
 app.get('/test', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    let fetch = require('node-fetch');
-    let url = 'admin:S0larr1g@192.168.1.172/SnapshotJPEG'
+    let request = require('request');
+    let src = 'admin:S0larr1g@192.168.1.172/SnapshotJPEG'
+    var requestSettings = {
+        url: src,
+        method: 'GET',
+        encoding: null
+    };
 
-    res.writeHead(302, {location:"admin:S0larr1g@192.168.1.172/SnapshotJPEG"});
-    res.end();
+    request(requestSettings, function(error, response, body) {
+        res.set('Content-Type', 'image/png');
+        res.send(body);
+    });
 
 })
 
