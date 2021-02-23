@@ -502,11 +502,11 @@ io.on('connection', async socket => {
         });
     })
 
-    socket.on('update', async data => {
+    socket.on('update', data => {
         let jsonData = '';
         console.log('request update')
         try {
-            config = await toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
+            config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
             console.log('Config Loaded')
         } catch (e) {
             console.error(e)

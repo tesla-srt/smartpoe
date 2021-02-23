@@ -331,7 +331,7 @@ window.mobileCheck = function () {
         portInfo.ports[2].streamUrl = `ws://${streamAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        if (p1.ipv4enabled || !p1.isRebooting) {
+        if (p1.ipv4enabled && !p1.isRebooting) {
             $("#cam1").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
