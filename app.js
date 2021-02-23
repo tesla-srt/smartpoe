@@ -545,7 +545,7 @@ io.on('connection', async socket => {
     updateWorker.on('message', (message) => {
         //config = message[1]
         sp = message;
-        socket.volatile.emit('receive_update', message)
+        socket.emit('receive_update', message)
     })
 
     socket.on('get_coords', async data => {
