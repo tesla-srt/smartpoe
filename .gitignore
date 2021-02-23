@@ -10,3 +10,5 @@ bin/cookies.txt
 bin/all.json
 bin/iptable.txt
 bin/all.json
+package.json
+package-lock.json

@@ -327,28 +327,38 @@ let pauseGui = false;
                     .attr('src', portInfo.ports[0].camUrl);
             }
         }
-        if (p2.ipv4enabled && !p2.isRebooting) {
-            $("#cam2").on("error", imgError)
-                .on("load", function () {
-                    $(this).removeClass('disabled');
-                })
-                .attr('src', portInfo.ports[1].camUrl);
-
+        if (p2.ipv4enabled) {
+            if (p2.isRebooting) {
+                $('#cam2').attr('src', 'img/img404.png')
+            } else {
+                $("#cam2").on("error", imgError)
+                    .on("load", function () {
+                        $(this).removeClass('disabled');
+                    })
+                    .attr('src', portInfo.ports[1].camUrl);
+            }
         }
-        if (p3.ipv4enabled && !p3.isRebooting) {
-            $("#cam3").on("error", imgError)
-                .on("load", function () {
-                    $(this).removeClass('disabled');
-                })
-                .attr('src', portInfo.ports[2].camUrl);
+        if (p3.ipv4enabled) {
+            if (p3.isRebooting) {
+                $('#cam3').attr('src', 'img/img404.png')
+            } else {
+                $("#cam3").on("error", imgError)
+                    .on("load", function () {
+                        $(this).removeClass('disabled');
+                    })
+                    .attr('src', portInfo.ports[2].camUrl);
+            }
         }
-        if (p4.ipv4enabled && !p4.isRebooting) {
-            $("#cam4").on("error", imgError)
-                .on("load", function () {
-                    $(this).removeClass('disabled');
-                })
-                .attr('src', portInfo.ports[3].camUrl);
-
+        if (p4.ipv4enabled) {
+            if (p4.isRebooting) {
+                $('#cam4').attr('src', 'img/img404.png')
+            } else {
+                $("#cam4").on("error", imgError)
+                    .on("load", function () {
+                        $(this).removeClass('disabled');
+                    })
+                    .attr('src', portInfo.ports[3].camUrl);
+            }
         }
 
         try {
