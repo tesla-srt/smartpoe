@@ -25,8 +25,8 @@ var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
 const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
-if (!fs.existsSync('bin/cookies.txt')) {
-    fs.writeFileSync('bin/cookies.txt', '')
+if (!fs.existsSync(__dirname + '/bin/cookies.txt')) {
+    fs.writeFileSync(__dirname + 'bin/cookies.txt', '')
 }
 
 app.set('view engine', 'ejs')
@@ -64,7 +64,7 @@ app.get('/401', (req, res) => {
 
 /**
  *
- */
+
 streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     res.contentType('image/jpeg');
     res.header("Access-Control-Allow-Origin", "*");
@@ -78,7 +78,7 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     let result = ''
 
 //let close = curl.close.bind(curl);
-    const curl = new Curl();
+    let curl = new Curl();
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
     curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
@@ -106,14 +106,14 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
         })
         .perform();
 
-    /*// fork another process
     const worker = fork('./snapshot.js');
     worker.send([src, user, pass]);
     worker.on('message', (message) => {
         res.json({ img: message});
-    });*/
+    });
 });
 
+**/
 
 const p1 = {
     current: 0.00,
