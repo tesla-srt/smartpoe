@@ -73,15 +73,6 @@ window.mobileCheck = function () {
         return funInterval(socket);
     }
 
-    // clearInterval(i1);
-    socket.emit('get_hostname', '');
-    //socket.emit('update', '');
-
-    socket.on('receive_hostname', data => {
-        //console.log(data)
-        hostfield.textContent = data.hostname
-    })
-
     socket.on('receive_watt', data => {
         //console.log(data)
         wattField.textContent = parseFloat(data.watts).toPrecision(3) + ` W`
@@ -292,7 +283,7 @@ window.mobileCheck = function () {
         let p2Icon = document.querySelector('#p2');
         let p3Icon = document.querySelector('#p3');
         let p4Icon = document.querySelector('#p4');
-        hostfield.textContent = data.hostname
+        hostfield.textContent = portInfo.hostname
         p1cfield.innerHTML = parseFloat(p1.current).toPrecision(4) + '&nbsp;mA';
         p2cfield.innerHTML = parseFloat(p2.current).toPrecision(4) + '&nbsp;mA';
         p3cfield.innerHTML = parseFloat(p3.current).toPrecision(4) + '&nbsp;mA';
