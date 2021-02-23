@@ -759,18 +759,6 @@ let pauseGui = false;
                 canvas: document.getElementById('cam1canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
-                /*        onStalled: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onEnded: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onSourceCompleted:  function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        }*/
             })
             $('#cam1live').modal('show');
         }
@@ -780,22 +768,11 @@ let pauseGui = false;
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            new JSMpeg.Player(portInfo.ports[1].streamUrl, {
+            loadPlayer({
+                url: portInfo.ports[1].streamUrl,
                 canvas: document.getElementById('cam2canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
-                /*        onStalled: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onEnded: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onSourceCompleted:  function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        }*/
             })
             $('#cam2live').modal('show');
         }
@@ -805,22 +782,11 @@ let pauseGui = false;
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            new JSMpeg.Player(portInfo.ports[2].streamUrl, {
+            loadPlayer({
+                url: portInfo.ports[2].streamUrl,
                 canvas: document.getElementById('cam3canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
-                /*        onStalled: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onEnded: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onSourceCompleted:  function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        }*/
             })
             $('#cam3live').modal('show');
         }
@@ -830,22 +796,11 @@ let pauseGui = false;
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            new JSMpeg.Player(portInfo.ports[3].streamUrl, {
+            loadPlayer({
+                url: portInfo.ports[3].streamUrl,
                 canvas: document.getElementById('cam4canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
-                /*        onStalled: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onEnded: function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        },
-                        onSourceCompleted:  function() {
-                            console.log('stalled');
-                            socket.emit('restart_stream',{ stream: 0 });
-                        }*/
             })
             $('#cam4live').modal('show');
         }

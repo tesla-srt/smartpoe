@@ -133,7 +133,7 @@ streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
             curl.close();
         })
         .on('error', function (e) {
-            //res.status(404);
+            res.status(404);
             //let buffer = Buffer.from(fs.readFileSync('public/img/img404.png', 'utf-8')).toString('base64')
             //result = buffer
             res.sendFile(__dirname + '/public/img/img404.png')
@@ -586,7 +586,7 @@ io.on('connection', socket => {
     updateWorker.on('message', (message) => {
         //config = message[1]
         sp = message;
-        socket.emit('receive_update', message)
+        socket.volatile.emit('receive_update', message)
     })
 
     socket.on('get_coords', async data => {
