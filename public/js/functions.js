@@ -75,7 +75,7 @@ window.mobileCheck = function () {
 
     // clearInterval(i1);
     socket.emit('get_hostname', '');
-    socket.emit('update', '');
+    //socket.emit('update', '');
 
     socket.on('receive_hostname', data => {
         //console.log(data)
