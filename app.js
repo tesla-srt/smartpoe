@@ -88,20 +88,19 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
         .on('end', function (code, body, headers) {
             let buffer = Buffer.from(body).toString('base64')
             result = buffer
-            //res.send(result);
+            res.json({ img: result});
             curl.close();
         })
         .on('error', function (e) {
             //res.status(404);
             let buffer = Buffer.from(fs.readFileSync('public/img/img404.png', 'utf-8')).toString('base64')
             result = buffer
-            //process.send(result);
+            res.json({ img: result});
             //res.send('poo');
             curl.close();
         })
         .perform();
 
-    res.json({ img: result});
     /*// fork another process
     const worker = fork('./snapshot.js');
     worker.send([src, user, pass]);
