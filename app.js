@@ -11,7 +11,13 @@ const CurlFeature = require("node-libcurl").CurlFeature;
 //const Stream = require('node-rtsp-stream')
 const app = new express();
 const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
+server.maxConnections = 3;
 const io = socketio(server)
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -50,7 +56,7 @@ streamApp.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
     })(ws)
     //ws.send("ok");
 })
-
+app.use("/", limiter)
 app.get('/', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
