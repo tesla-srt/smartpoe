@@ -41,6 +41,8 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
     streamAddress = '166.161.225.29:3002';
 }
 
+
+let pauseGui = false;
 (function connect() {
     $(".loading-modal").modal('hide');
 
@@ -314,12 +316,16 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
         portInfo.ports[2].streamUrl = `ws://${streamAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
         portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        if (p1.ipv4enabled && !p1.isRebooting) {
-            $("#cam1").on("error", imgError)
-                .on("load", function () {
-                    $(this).removeClass('disabled');
-                })
-                .attr('src', portInfo.ports[0].camUrl);
+        if (p1.ipv4enabled) {
+            if (p1.isRebooting) {
+                $('#cam1').attr('src', 'img/img404.png')
+            } else {
+                $("#cam1").on("error", imgError)
+                    .on("load", function () {
+                        $(this).removeClass('disabled');
+                    })
+                    .attr('src', portInfo.ports[0].camUrl);
+            }
         }
         if (p2.ipv4enabled && !p2.isRebooting) {
             $("#cam2").on("error", imgError)

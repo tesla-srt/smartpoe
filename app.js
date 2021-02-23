@@ -61,6 +61,26 @@ app.get('/401', (req, res) => {
     res.send('<h1>Invalid Login </h1>');
 })
 
+app.get('/test', (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    let request = require('request');
+
+    let r = {
+        url: 'admin:S0larr1g@192.168.1.172/SnapshotJPEG',
+        method: 'OPTIONS'
+    };
+
+    function f(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            res.send(body)
+            console.log(body)
+        }
+    }
+    request(r, f);
+
+})
+
 /**
  *
  */
@@ -194,7 +214,7 @@ exec("hostname", (error, stdout, stderr) => {
 });
 
 var jsonContent = {"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}
-io.on('connection', async socket => {
+io.on('connection', socket => {
     //io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
 
@@ -669,9 +689,6 @@ async function getCoords() {
         console.error(err);
     }
 
-    /**
-     * GPS Coords
-     */
     try {
         let bin1 = spawn(loncmd, {shell: true});
 
