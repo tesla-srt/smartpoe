@@ -62,15 +62,15 @@ app.get('/401', (req, res) => {
 })
 
 
-const fetchTimeout = (url, ms, { signal, ...options } = {}) => {
+/*const fetchTimeout = (url, ms, { signal, ...options } = {}) => {
     const controller = new AbortController();
     const promise = fetch(url, { signal: controller.signal, ...options });
     if (signal) signal.addEventListener("abort", () => controller.abort());
     const timeout = setTimeout(() => controller.abort(), ms);
     return promise.finally(() => clearTimeout(timeout));
-};
+};*/
 
-app.get('/test', (req, res) => {
+/*app.get('/test', (req, res) => {
     const controller = new AbortController();
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -78,7 +78,7 @@ app.get('/test', (req, res) => {
     let fetch = require('node-fetch')
     let src = 'http://admin:S0larr1g@192.168.1.172/SnapshotJPEG'
 
-/*    fetchTimeout("example.json", 5000, { signal: controller.signal })
+/!*    fetchTimeout("example.json", 5000, { signal: controller.signal })
         .then(response => response.json())
         .then(console.log)
         .catch(error => {
@@ -87,10 +87,10 @@ app.get('/test', (req, res) => {
             } else {
                 // network error or json parsing error
             }
-        });*/
+        });*!/
 
     fetch(src,{  credentials: 'include'}).then((response) => res.send(response.blob()));
-})
+})*/
 
 /**
  *
