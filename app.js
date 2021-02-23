@@ -61,22 +61,35 @@ app.get('/401', (req, res) => {
     res.send('<h1>Invalid Login </h1>');
 })
 
+
+const fetchTimeout = (url, ms, { signal, ...options } = {}) => {
+    const controller = new AbortController();
+    const promise = fetch(url, { signal: controller.signal, ...options });
+    if (signal) signal.addEventListener("abort", () => controller.abort());
+    const timeout = setTimeout(() => controller.abort(), ms);
+    return promise.finally(() => clearTimeout(timeout));
+};
+
 app.get('/test', (req, res) => {
+    const controller = new AbortController();
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    let request = require('request');
-    let src = 'admin:S0larr1g@192.168.1.172/SnapshotJPEG'
-    var requestSettings = {
-        url: src,
-        method: 'GET',
-        encoding: null
-    };
+    res.set('Content-Type', 'image/jpeg');
+    let fetch = require('node-fetch')
+    let src = 'http://admin:S0larr1g@192.168.1.172/SnapshotJPEG'
 
-    request(requestSettings, function(error, response, body) {
-        res.set('Content-Type', 'image/jpeg');
-        res.send(body);
-    });
+/*    fetchTimeout("example.json", 5000, { signal: controller.signal })
+        .then(response => response.json())
+        .then(console.log)
+        .catch(error => {
+            if (error.name === "AbortError") {
+                // fetch aborted either due to timeout or due to user clicking the cancel button
+            } else {
+                // network error or json parsing error
+            }
+        });*/
 
+    fetch(src).then((response) => res.send(response.blob()));
 })
 
 /**
