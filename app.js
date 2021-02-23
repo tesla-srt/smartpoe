@@ -97,9 +97,10 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
         })
         .on('error', function (e) {
             //res.status(404);
-            let buffer = Buffer.from(fs.readFileSync('public/img/img404.png', 'utf-8')).toString('base64')
-            result = buffer
-            res.json({img: result});
+            //let buffer = Buffer.from(fs.readFileSync('public/img/img404.png', 'utf-8')).toString('base64')
+            //result = buffer
+            res.sendFile(__dirname + '/public/img/img404.png')
+            //res.json({img: result});
             //res.send('poo');
             curl.close();
         })
