@@ -66,7 +66,7 @@ app.get('/401', (req, res) => {
  *
  */
 streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
-    res.contentType('application/json');
+    res.contentType('image/jpeg');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     let name = req.params.num;
@@ -89,9 +89,10 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
 
     curl
         .on('end', function (code, body, headers) {
-            let buffer = Buffer.from(body).toString('base64')
-            result = buffer
-            res.json({img: result});
+            //let buffer = Buffer.from(body).toString('base64')
+            //result = buffer
+            res.send(body)
+            //res.json({img: result});
             curl.close();
         })
         .on('error', function (e) {
