@@ -21,9 +21,8 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 const streamApp = new express();
-const {proxy, scriptUrl} = require('rtsp-relay')(streamApp)
+const {proxy } = require('rtsp-relay')(streamApp)
 const streamServer = streamApp.listen(3002, '0.0.0.0')
-console.log(`${scriptUrl}`)
 const updateWorker = fork('./update.js');
 let base64 = require('base-64');
 
@@ -233,7 +232,8 @@ exec("hostname", (error, stdout, stderr) => {
 });
 
 const timer = setInterval(() => {
-    io.sockets.emit('update_srv','')
+    //io.sockets.emit('update_srv','')
+    updateWorker.send([sp, config]);
 }, 15000) //15sec updates
 var jsonContent = {"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}
 io.on('connection', socket => {
