@@ -626,7 +626,7 @@ io.on('connection', socket => {
 
     socket.on('port_on', msg => {
         let cmd = __dirname + "/bin/aaeonSmartPOE.exe " + msg.port + " ON";
-        setTimeout(() => {sp.ports[msg.port].isRebooting = false}, 15000)
+        setTimeout(function(){sp.ports[msg.port].isRebooting = false}, 15000)
         let bin = spawn(cmd, {shell: true})
         bin.stdout.on('data', function (data) {
             try {
