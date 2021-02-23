@@ -65,14 +65,17 @@ app.get('/test', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     let fetch = require('node-fetch');
-    try {
-        fetch('admin:S0larr1g@192.168.1.172/SnapshotJPEG', {
-            method: 'OPTIONS'
-        });
-    } catch(e) {
-        console.log(e)
-    }
+    let url = 'admin:S0larr1g@192.168.1.172/SnapshotJPEG'
 
+    fetch(url).then(response => {
+        const reader = response.body.getReader();
+        reader.read().then(function process(result) {
+            res.send(reader)
+
+        }).then(() => {
+            console.log('All done!');
+        });
+    });
 
 })
 
