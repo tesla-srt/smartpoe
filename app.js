@@ -6,7 +6,7 @@ const {exec} = require("child_process")
 const {fork} = require('child_process');
 process.setMaxListeners(1000);
 const toml = require('toml-js');
-const { Curl}  = require('node-libcurl');
+const { Curl }  = require('node-libcurl');
 const CurlAuth = require("node-libcurl").CurlAuth;
 const CurlFeature = require("node-libcurl").CurlFeature;
 //const Stream = require('node-rtsp-stream')
@@ -25,11 +25,6 @@ var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
 const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
-
-let curly = new Curl();
-curly.enable(CurlFeature.Raw)
-
-
 if (!fs.existsSync('bin/cookies.txt')) {
     fs.writeFileSync('bin/cookies.txt', '')
 }
@@ -83,19 +78,21 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     let result = ''
 
 //let close = curl.close.bind(curl);
-    curly.setOpt('URL', src);
-    curly.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
-    curly.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
-    curly.setOpt('HTTPAUTH', CurlAuth.Digest);
-    curly.setOpt('COOKIEJAR', 'bin/cookies.txt');
-    curly.setOpt('COOKIEFILE', 'bin/cookies.txt');
+    const curl = new Curl();
+    curl.enable(CurlFeature.Raw)
+    curl.setOpt('URL', src);
+    curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
+    curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
+    curl.setOpt('HTTPAUTH', CurlAuth.Digest);
+    curl.setOpt('COOKIEJAR', 'bin/cookies.txt');
+    curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
 
-    curly
+    curl
         .on('end', function (code, body, headers) {
             let buffer = Buffer.from(body).toString('base64')
             result = buffer
             res.json({img: result});
-            curly.close();
+            curl.close();
         })
         .on('error', function (e) {
             //res.status(404);
@@ -103,7 +100,7 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
             result = buffer
             res.json({img: result});
             //res.send('poo');
-            curly.close();
+            curl.close();
         })
         .perform();
 

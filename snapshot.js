@@ -4,12 +4,12 @@ const CurlFeature = require("node-libcurl").CurlFeature;
 let base64 = require('base-64');
 var fs = require("fs");
 
-process.on('message', async (message) => {
-    let src = message[0]
-    let user = message[1]
-    let pass = message[2]
+process.on('message', async (data) => {
+    let src = data[0]
+    let user = data[1]
+    let pass = data[2]
     let result = ''
-    let curl = new Curl();
+    const curl = new Curl();
 //let close = curl.close.bind(curl);
     curl.enable(CurlFeature.Raw)
     curl.setOpt('URL', src);
@@ -18,9 +18,6 @@ process.on('message', async (message) => {
     curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
     curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
     curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
-    if (!fs.existsSync('bin/cookies.txt')) {
-        fs.writeFileSync('bin/cookies.txt', '')
-    }
     curl
         .on('end', function (code, body, headers) {
             let buffer = Buffer.from(body).toString('base64')
