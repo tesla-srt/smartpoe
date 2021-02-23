@@ -332,46 +332,33 @@ window.mobileCheck = function () {
         portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
         if (p1.ipv4enabled && !p1.isRebooting) {
-            $.getJSON( portInfo.ports[0].camUrl, function( data ) {
-                $("#cam1").attr('src', `data:image/png;base64, ${data.img}`)
-            });
-
             $("#cam1").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                });
+                })
+                .attr('src', portInfo.ports[0].camUrl);
         }
         if (p2.ipv4enabled && !p2.isRebooting) {
-            $.getJSON( portInfo.ports[1].camUrl, function( data ) {
-                $("#cam2").attr('src', `data:image/png;base64, ${data.img}`)
-            });
-
             $("#cam2").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                });
+                })
+                .attr('src', portInfo.ports[1].camUrl);
 
         }
         if (p3.ipv4enabled && !p3.isRebooting) {
-            $.getJSON( portInfo.ports[2].camUrl, function( data ) {
-                $("#cam3").attr('src', `data:image/png;base64, ${data.img}`)
-            });
-
             $("#cam3").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                });
-
+                })
+                .attr('src', portInfo.ports[2].camUrl);
         }
         if (p4.ipv4enabled && !p4.isRebooting) {
-            $.getJSON( portInfo.ports[3].camUrl, function( data ) {
-                $("#cam4").attr('src', `data:image/png;base64, ${data.img}`)
-            });
-
             $("#cam4").on("error", imgError)
                 .on("load", function () {
                     $(this).removeClass('disabled');
-                });
+                })
+                .attr('src', portInfo.ports[3].camUrl);
 
         }
 
