@@ -200,7 +200,7 @@ var sp = {
             current: 0.00,
             watts: 0.00,
             ipv4: config.cams.charlie.ip,
-            ipv4enabled: false
+            ipv4enabled: false,
             user: config.cams.charlie.user,
             pass: config.cams.charlie.pass
         },
