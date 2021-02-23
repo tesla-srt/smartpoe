@@ -1,6 +1,6 @@
 const {spawn} = require("child_process")
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
-var fs = require("fs");
+const fs = require("fs");
 
 process.on('message', async (message) => {
     let jsonData = '{}'

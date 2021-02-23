@@ -4,7 +4,6 @@ const socketio = require('socket.io')
 const {spawn} = require("child_process")
 const {exec} = require("child_process")
 const {fork} = require('child_process');
-process.setMaxListeners(1000);
 const toml = require('toml-js');
 const { Curl }  = require('node-libcurl');
 const CurlAuth = require("node-libcurl").CurlAuth;
@@ -64,7 +63,7 @@ app.get('/401', (req, res) => {
 
 /**
  *
-
+ */
 streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     res.contentType('image/jpeg');
     res.header("Access-Control-Allow-Origin", "*");
@@ -106,14 +105,14 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
         })
         .perform();
 
+    /*// fork another process
     const worker = fork('./snapshot.js');
     worker.send([src, user, pass]);
     worker.on('message', (message) => {
         res.json({ img: message});
-    });
+    });*/
 });
 
-**/
 
 const p1 = {
     current: 0.00,
@@ -184,9 +183,17 @@ var sp = {
         }]
 }
 
-let ports = [p1, p2, p3, p4];
+exec("hostname", (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error: ${error.message}`);
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+    }
+    sp.hostname = stdout;
+});
 
-var jsonContent = JSON.parse(`{"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}`)
+var jsonContent = {"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}
 io.on('connection', async socket => {
     //io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
@@ -491,15 +498,7 @@ io.on('connection', async socket => {
 
     socket.on('get_hostname', data => {
 
-        exec("hostname", (error, stdout, stderr) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-            }
-            if (stderr) {
-                console.log(`stderr: ${stderr}`);
-            }
-            sp.hostname = stdout;
-        });
+
     })
 
     socket.on('update', data => {
