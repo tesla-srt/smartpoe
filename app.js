@@ -28,7 +28,6 @@ const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
 
 let curl = new Curl();
 curl.enable(CurlFeature.Raw)
-curl.setOpt('URL', src);
 curl.setOpt('HTTPAUTH', CurlAuth.Digest);
 curl.setOpt('COOKIEJAR', 'bin/cookies.txt');
 curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
@@ -86,7 +85,7 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     let result = ''
 
 //let close = curl.close.bind(curl);
-
+    curl.setOpt('URL', src);
     curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
     curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
 
