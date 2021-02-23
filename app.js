@@ -541,7 +541,7 @@ io.on('connection', async socket => {
         worker.on('message', (message) => {
             //config = message[1]
             sp = message;
-            io.sockets.emit('receive_update', message)
+            socket.emit('receive_update', message)
         })
     })
 
