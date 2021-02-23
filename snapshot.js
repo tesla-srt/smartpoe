@@ -4,7 +4,6 @@ const CurlFeature = require("node-libcurl").CurlFeature;
 let base64 = require('base-64');
 var fs = require("fs");
 
-
 process.on('message', async (message) => {
     let src = message[0]
     let user = message[1]
