@@ -1,13 +1,11 @@
 const express = require('express')
 let ejs = require('ejs')
 const socketio = require('socket.io')
-const {spawn} = require("child_process")
-const {exec} = require("child_process")
-const {fork} = require('child_process');
+const {spawn, exec, fork} = require("child_process")
 const toml = require('toml-js');
-const { Curl }  = require('node-libcurl');
-const CurlAuth = require("node-libcurl").CurlAuth;
-const CurlFeature = require("node-libcurl").CurlFeature;
+const { Curl, CurlAuth, CurlFeature }  = require('node-libcurl');
+// const CurlAuth = require("node-libcurl").CurlAuth;
+// const CurlFeature = require("node-libcurl").CurlFeature;
 //const Stream = require('node-rtsp-stream')
 const app = new express();
 const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
@@ -23,9 +21,9 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 const streamApp = new express();
-const {proxy} = require('rtsp-relay')(streamApp)
+const {proxy, scriptUrl} = require('rtsp-relay')(streamApp)
 const streamServer = streamApp.listen(3002, '0.0.0.0')
-
+console.log(`${scriptUrl}`)
 const updateWorker = fork('./update.js');
 let base64 = require('base-64');
 
