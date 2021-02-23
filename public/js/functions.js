@@ -51,7 +51,7 @@ let pauseGui = false;
     const tMin = 5000;
     const tMax = 8000;
 
-    timeout = funInterval(socket);
+    //timeout = funInterval(socket);
 
     function funInterval(socket) {
         var interval = getRandomInt(tMin, tMax);
@@ -72,8 +72,8 @@ let pauseGui = false;
         wattField.textContent = parseFloat(data.watts).toPrecision(3) + ` W`
     })
 
-    socket.on('recv_iptable', data => {
-        //Do Stuff
+    socket.on('update_srv', data => {
+        socket.emit('update','');
     })
 
     socket.on('receive_temp', data => {
@@ -248,7 +248,6 @@ let pauseGui = false;
         portInfo = data;
         let loginPrompt = '';
         if (!login || (login == null || login == "")) {
-            clearInterval(i1);
             do {
                 loginPrompt = prompt('Please Enter Password: ');
             } while (loginPrompt == null || loginPrompt == "");
@@ -261,107 +260,146 @@ let pauseGui = false;
                 console.log(`${md5} == ${portInfo.pin} ---> LOGIN OK`);
                 login = true;
                 setCookie('login', 'true', 0.041667); //1hr
-                timeout = funInterval(socket);
             }
         }
+        if(!pauseGui) {
+            let p1 = portInfo.ports[0];
+            let p2 = portInfo.ports[1];
+            let p3 = portInfo.ports[2];
+            let p4 = portInfo.ports[3];
+            p1vfield.innerHTML = parseFloat(p1.voltage).toPrecision(4) + '&nbsp;V'
+            p2vfield.innerHTML = parseFloat(p2.voltage).toPrecision(4) + '&nbsp;V'
+            p3vfield.innerHTML = parseFloat(p3.voltage).toPrecision(4) + '&nbsp;V'
+            p4vfield.innerHTML = parseFloat(p4.voltage).toPrecision(4) + '&nbsp;V'
+            let p1Icon = document.querySelector('#p1');
+            let p2Icon = document.querySelector('#p2');
+            let p3Icon = document.querySelector('#p3');
+            let p4Icon = document.querySelector('#p4');
+            hostfield.textContent = portInfo.hostname
+            p1cfield.innerHTML = parseFloat(p1.current).toPrecision(4) + '&nbsp;mA';
+            p2cfield.innerHTML = parseFloat(p2.current).toPrecision(4) + '&nbsp;mA';
+            p3cfield.innerHTML = parseFloat(p3.current).toPrecision(4) + '&nbsp;mA';
+            p4cfield.innerHTML = parseFloat(p4.current).toPrecision(4) + '&nbsp;mA';
 
-        let p1 = portInfo.ports[0];
-        let p2 = portInfo.ports[1];
-        let p3 = portInfo.ports[2];
-        let p4 = portInfo.ports[3];
-        p1vfield.innerHTML = parseFloat(p1.voltage).toPrecision(4) + '&nbsp;V'
-        p2vfield.innerHTML = parseFloat(p2.voltage).toPrecision(4) + '&nbsp;V'
-        p3vfield.innerHTML = parseFloat(p3.voltage).toPrecision(4) + '&nbsp;V'
-        p4vfield.innerHTML = parseFloat(p4.voltage).toPrecision(4) + '&nbsp;V'
-        let p1Icon = document.querySelector('#p1');
-        let p2Icon = document.querySelector('#p2');
-        let p3Icon = document.querySelector('#p3');
-        let p4Icon = document.querySelector('#p4');
-        hostfield.textContent = portInfo.hostname
-        p1cfield.innerHTML = parseFloat(p1.current).toPrecision(4) + '&nbsp;mA';
-        p2cfield.innerHTML = parseFloat(p2.current).toPrecision(4) + '&nbsp;mA';
-        p3cfield.innerHTML = parseFloat(p3.current).toPrecision(4) + '&nbsp;mA';
-        p4cfield.innerHTML = parseFloat(p4.current).toPrecision(4) + '&nbsp;mA';
+            $('#p1w').html(parseFloat(p1.watts).toFixed(2) + '&nbsp;W');
+            $('#p2w').html(parseFloat(p2.watts).toFixed(2) + '&nbsp;W');
+            $('#p3w').html(parseFloat(p3.watts).toFixed(2) + '&nbsp;W');
+            $('#p4w').html(parseFloat(p4.watts).toFixed(2) + '&nbsp;W');
 
-        $('#p1w').html(parseFloat(p1.watts).toFixed(2) + '&nbsp;W');
-        $('#p2w').html(parseFloat(p2.watts).toFixed(2) + '&nbsp;W');
-        $('#p3w').html(parseFloat(p3.watts).toFixed(2) + '&nbsp;W');
-        $('#p4w').html(parseFloat(p4.watts).toFixed(2) + '&nbsp;W');
+            p1IpField.innerHTML = p1.ipv4
+            p2IpField.innerHTML = p2.ipv4
+            p3IpField.innerHTML = p3.ipv4
+            p4IpField.innerHTML = p4.ipv4
 
-        p1IpField.innerHTML = p1.ipv4
-        p2IpField.innerHTML = p2.ipv4
-        p3IpField.innerHTML = p3.ipv4
-        p4IpField.innerHTML = p4.ipv4
+            locationField.innerHTML = portInfo.location;
+            $('#version').html(portInfo.version);
 
-        locationField.innerHTML = portInfo.location;
-        $('#version').html(portInfo.version);
+            if (portInfo.temp == "N/A") {
+                //timeout = changeInterval(socket);
+                socket.emit('update', '');
+                //console.log(`NEW TIMEOUT: ` + timeout);
+            }
 
-        if (portInfo.temp == "N/A") {
-            timeout = changeInterval(socket);
-            socket.emit('update', '');
-            console.log(`NEW TIMEOUT: ` + timeout);
+            tempfield.innerHTML = data.temp + '&deg;F';
+            wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
+            let d = new Date().getTime();
+            portInfo.ports[0].camUrl = `http://${streamAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
+            portInfo.ports[1].camUrl = `http://${streamAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
+            portInfo.ports[2].camUrl = `http://${streamAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
+            portInfo.ports[3].camUrl = `http://${streamAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}?${d}`;
 
-        }
+            portInfo.ports[0].streamUrl = `ws://${streamAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
+            portInfo.ports[1].streamUrl = `ws://${streamAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
+            portInfo.ports[2].streamUrl = `ws://${streamAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
+            portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
 
-        tempfield.innerHTML = data.temp + '&deg;F';
-        wattField.textContent = parseFloat(data.totalWatts).toPrecision(3) + ` W`;
-        let d = new Date().getTime();
-        portInfo.ports[0].camUrl = `http://${streamAddress}/cam/${p1.ipv4}/u/${p1.user}/p/${p1.pass}?${d}`;
-        portInfo.ports[1].camUrl = `http://${streamAddress}/cam/${p2.ipv4}/u/${p2.user}/p/${p2.pass}?${d}`;
-        portInfo.ports[2].camUrl = `http://${streamAddress}/cam/${p3.ipv4}/u/${p3.user}/p/${p3.pass}?${d}`;
-        portInfo.ports[3].camUrl = `http://${streamAddress}/cam/${p4.ipv4}/u/${p4.user}/p/${p4.pass}?${d}`;
+            if (p1.ipv4enabled) {
+                if (p1.isRebooting) {
+                    $('#cam1').attr('src', 'img/img404.png')
+                } else {
+                    $("#cam1").on("error", imgError)
+                        .on("load", function () {
+                            $(this).removeClass('disabled');
+                        })
+                        .attr('src', portInfo.ports[0].camUrl);
+                }
+            }
+            if (p2.ipv4enabled) {
+                if (p2.isRebooting) {
+                    $('#cam2').attr('src', 'img/img404.png')
+                } else {
+                    $("#cam2").on("error", imgError)
+                        .on("load", function () {
+                            $(this).removeClass('disabled');
+                        })
+                        .attr('src', portInfo.ports[1].camUrl);
+                }
+            }
+            if (p3.ipv4enabled) {
+                if (p3.isRebooting) {
+                    $('#cam3').attr('src', 'img/img404.png')
+                } else {
+                    $("#cam3").on("error", imgError)
+                        .on("load", function () {
+                            $(this).removeClass('disabled');
+                        })
+                        .attr('src', portInfo.ports[2].camUrl);
+                }
+            }
+            if (p4.ipv4enabled) {
+                if (p4.isRebooting) {
+                    $('#cam4').attr('src', 'img/img404.png')
+                } else {
+                    $("#cam4").on("error", imgError)
+                        .on("load", function () {
+                            $(this).removeClass('disabled');
+                        })
+                        .attr('src', portInfo.ports[3].camUrl);
+                }
+            }
 
-        portInfo.ports[0].streamUrl = `ws://${streamAddress}/live/${p1.ipv4}/u/${p1.user}/p/${p1.pass}`;
-        portInfo.ports[1].streamUrl = `ws://${streamAddress}/live/${p2.ipv4}/u/${p2.user}/p/${p2.pass}`;
-        portInfo.ports[2].streamUrl = `ws://${streamAddress}/live/${p3.ipv4}/u/${p3.user}/p/${p3.pass}`;
-        portInfo.ports[3].streamUrl = `ws://${streamAddress}/live/${p4.ipv4}/u/${p4.user}/p/${p4.pass}`;
+            try {
+                let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
+                if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
+                    $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
+                        .removeClass('text-danger');
 
-        if (p1.ipv4enabled) {
-            if (p1.isRebooting) {
-                $('#cam1').attr('src', 'img/img404.png')
+                } else {
+                    $('#gpslink').html('GPS Signal Lost...')
+                        .addClass('text-danger');
+                    throw 'Lost GPS';
+                }
+            } catch (e) {
+                console.log(e);
+                setTimeout(socket.emit('get_coords', ''), 15000);
+            }
+            //stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
+
+            guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
+            guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
+            guiUpdate(p3Icon, p3OnBtn, p3OffBtn, p3);
+            guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
+
+            if (!portInfo.ports[0].ipv4enabled) {
+                $('#cam1').toggleClass('invisible', true);
             } else {
-                $("#cam1").on("error", imgError)
-                    .on("load", function () {
-                        $(this).removeClass('disabled');
-                    })
-                    .attr('src', portInfo.ports[0].camUrl);
+                $('#cam1').toggleClass('invisible', false);
             }
-        }
-        if (p2.ipv4enabled) {
-            if (p2.isRebooting) {
-                $('#cam2').attr('src', 'img/img404.png')
+            if (!portInfo.ports[1].ipv4enabled) {
+                $('#cam2').toggleClass('invisible', true);
             } else {
-                $("#cam2").on("error", imgError)
-                    .on("load", function () {
-                        $(this).removeClass('disabled');
-                    })
-                    .attr('src', portInfo.ports[1].camUrl);
+                $('#cam2').toggleClass('invisible', false);
             }
-        }
-        if (p3.ipv4enabled) {
-            if (p3.isRebooting) {
-                $('#cam3').attr('src', 'img/img404.png')
+            if (!portInfo.ports[2].ipv4enabled) {
+                $('#cam3').toggleClass('invisible', true);
             } else {
-                $("#cam3").on("error", imgError)
-                    .on("load", function () {
-                        $(this).removeClass('disabled');
-                    })
-                    .attr('src', portInfo.ports[2].camUrl);
+                $('#cam3').toggleClass('invisible', false);
             }
-        }
-        if (p4.ipv4enabled) {
-            if (p4.isRebooting) {
-                $('#cam4').attr('src', 'img/img404.png')
+            if (!portInfo.ports[3].ipv4enabled) {
+                $('#cam4').toggleClass('invisible', true);
             } else {
-                $("#cam4").on("error", imgError)
-                    .on("load", function () {
-                        $(this).removeClass('disabled');
-                    })
-                    .attr('src', portInfo.ports[3].camUrl);
+                $('#cam4').toggleClass('invisible', false);
             }
-        }
-
-        try {
             let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
             if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
                 $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
@@ -370,48 +408,8 @@ let pauseGui = false;
             } else {
                 $('#gpslink').html('GPS Signal Lost...')
                     .addClass('text-danger');
-                throw 'Lost GPS';
+                socket.emit('get_coords', '');
             }
-        } catch (e) {
-            console.log(e);
-            setTimeout(socket.emit('get_coords', ''), 15000);
-        }
-        //stream1 = 'ws://127.0.0..1:3001/live/'+ p1.ipv4 +'/u/'+ p1.user +'/p/'+ p1.pass + '';
-
-        guiUpdate(p1Icon, p1OnBtn, p1OffBtn, p1);
-        guiUpdate(p2Icon, p2OnBtn, p2OffBtn, p2);
-        guiUpdate(p3Icon, p3OnBtn, p3OffBtn, p3);
-        guiUpdate(p4Icon, p4OnBtn, p4OffBtn, p4);
-
-        if (!portInfo.ports[0].ipv4enabled) {
-            $('#cam1').toggleClass('invisible', true);
-        } else {
-            $('#cam1').toggleClass('invisible', false);
-        }
-        if (!portInfo.ports[1].ipv4enabled) {
-            $('#cam2').toggleClass('invisible', true);
-        } else {
-            $('#cam2').toggleClass('invisible', false);
-        }
-        if (!portInfo.ports[2].ipv4enabled) {
-            $('#cam3').toggleClass('invisible', true);
-        } else {
-            $('#cam3').toggleClass('invisible', false);
-        }
-        if (!portInfo.ports[3].ipv4enabled) {
-            $('#cam4').toggleClass('invisible', true);
-        } else {
-            $('#cam4').toggleClass('invisible', false);
-        }
-        let gpslink = `http://maps.google.com/maps?q=${portInfo.lat},${portInfo.lon}`
-        if (portInfo.lat != '' || portInfo.lat.length > 0 || portInfo.lon != '' || portInfo.lon.length > 0) {
-            $('#gpslink').html("<a href='" + gpslink + "' target='_blank'>" + portInfo.lat.toFixed(6) + ", " + portInfo.lon.toFixed(6) + "</a>")
-                .removeClass('text-danger');
-
-        } else {
-            $('#gpslink').html('GPS Signal Lost...')
-                .addClass('text-danger');
-            socket.emit('get_coords', '');
         }
     })
 
@@ -426,61 +424,75 @@ let pauseGui = false;
 
     p1OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
-        clearInterval(i1)
-        if (parseFloat($("#p1v").html()) < 1) {
+        //clearInterval(i1)
+        pauseGui = true;
+        if (parseFloat(portInfo.ports[0].voltage) < 1) {
             socket.emit('port_on', {port: 0})
         }
-        timeout = funInterval(socket)
+        //timeout = funInterval(socket)
+        pauseGui = false;
+
     })
     p2OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
 
-        clearInterval(i1)
-        if (parseFloat($("#p2v").html()) < 1) {
+        pauseGui = true;
+        if (parseFloat(portInfo.ports[1].voltage) < 1) {
             socket.emit('port_on', {port: 1})
         }
-        timeout = funInterval(socket)
+        pauseGui = false;
     })
     p3OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
 
-        clearInterval(i1)
-        if (parseFloat($("#p3v").html()) < 1) {
+        pauseGui = true;
+        if (parseFloat(portInfo.ports[2].voltage) < 1) {
             socket.emit('port_on', {port: 2})
         }
-        timeout = funInterval(socket)
+        pauseGui = false;
     })
     p4OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
-        clearInterval(i1)
-        if (parseFloat($("#p4v").html()) < 1) {
+        //clearInterval(i1)
+        pauseGui = true
+        if (parseFloat(portInfo.ports[3].voltage) < 1) {
             socket.emit('port_on', {port: 3})
         }
-        timeout = funInterval(socket)
+        pauseGui = false
+        //timeout = funInterval(socket)
     })
+
     p1OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
         socket.emit('port_off', {port: 0})
-        timeout = funInterval(socket)
+        //timeout = funInterval(socket)
+        pauseGui = false;
     })
     p2OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
         socket.emit('port_off', {port: 1})
-        timeout = funInterval(socket)
+        //timeout = funInterval(socket)
+        pauseGui = false;
     })
     p3OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
         socket.emit('port_off', {port: 2})
-        timeout = funInterval(socket)
+        pauseGui = false;
+        //timeout = funInterval(socket)
     })
     p4OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
         socket.emit('port_off', {port: 3})
-        timeout = funInterval(socket)
+        //timeout = funInterval(socket)
+        pauseGui = false;
     })
 
     $('#c1edit').on("click", function () {
@@ -576,39 +588,52 @@ let pauseGui = false;
     });
 
     $('#cam1settings').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        //timeout = funInterval(socket);
+        pauseGui = false;
     })
 
     $('#cam1live').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        //timeout = funInterval(socket);
+        pauseGui = false;
+
     })
 
     $('#cam2settings').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        // timeout = funInterval(socket);
+        pauseGui = false;
+
     })
 
     $('#cam2live').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        // timeout = funInterval(socket);
+        pauseGui = false;
     })
 
     $('#cam3settings').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        // timeout = funInterval(socket);
+        pauseGui = false;
+
     })
 
     $('#cam3live').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        // timeout = funInterval(socket);
+        pauseGui = false;
     })
 
     $('#cam4settings').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        // timeout = funInterval(socket);
+        pauseGui = false;
     })
 
     $('#cam4live').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        //timeout = funInterval(socket);
+        pauseGui = false;
+
     })
 
     $('#loginmodal').on('hide.bs.modal', function () {
-        timeout = funInterval(socket);
+        // timeout = funInterval(socket);
+        pauseGui = false;
     })
 
     /**
@@ -618,7 +643,8 @@ let pauseGui = false;
     $('#p1, #p1alt').on('click', function (event) {
         event.stopPropagation();
         portInfo.ports[0].isRebooting = true;
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
         $('#p1').toggleClass('blink', true);
         $('#cam1').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
@@ -628,14 +654,17 @@ let pauseGui = false;
             $('#p1').toggleClass('blink', false);
             $('#loadMe').modal('hide');
             portInfo.ports[0].isRebooting = false;
-            timeout = funInterval(socket);
+            //timeout = funInterval(socket);
+            pauseGui = false;
             //window.location.reload(true);
         }, 10000);
 
     });
 
     $('#p2, #p2alt').on('click', function () {
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
+
         $('#p2').toggleClass('blink', true);
         $('#cam2').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
@@ -644,14 +673,17 @@ let pauseGui = false;
             socket.emit('port_on', {port: 1});
             $('#p2').toggleClass('blink', false);
             $('#loadMe').modal('hide');
-            timeout = funInterval(socket);
+            //timeout = funInterval(socket);
+            pauseGui = false;
             //window.location.reload(true);
 
         }, 10000);
     });
 
     $('#p3, #p3alt').on('click', function () {
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
+
         $('#p3').toggleClass('blink', true);
         $('#cam3').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
@@ -660,14 +692,18 @@ let pauseGui = false;
             socket.emit('port_on', {port: 2});
             $('#p3').toggleClass('blink', false);
             $('#loadMe').modal('hide');
-            timeout = funInterval(socket);
+           // timeout = funInterval(socket);
+            pauseGui = false;
+
             // window.location.reload(true);
         }, 10000);
     });
 
 
     $('#p4, #p4alt').on('click', function () {
-        clearInterval(i1)
+       // clearInterval(i1)
+        pauseGui = true;
+
         $('#p4').toggleClass('blink', true);
         $('#cam4').attr('src', 'img/reboot.png');
         $('#loadMe').modal('show');
@@ -676,7 +712,9 @@ let pauseGui = false;
             socket.emit('port_on', {port: 3});
             $('#p4').toggleClass('blink', false);
             $('#loadMe').modal('hide');
-            timeout = funInterval(socket);
+            //timeout = funInterval(socket);
+            pauseGui = false;
+
             // window.location.reload(true);
         }, 10000);
     });
@@ -684,7 +722,8 @@ let pauseGui = false;
 
     $(".edit").click(function (e) {
         e.stopPropagation();
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true;
         let editable = $(this).prev('span').attr('contenteditable');
         if (editable) {
             let i = $(this).prev().attr('id').replace("#", "");
@@ -695,7 +734,8 @@ let pauseGui = false;
             $(this).prev('span')
                 .removeAttr('contenteditable')
                 .removeClass('border border-success');
-            timeout = funInterval(socket)
+            //timeout = funInterval(socket)
+            pauseGui = false;
 
         } else {
             $(this).removeClass('fa-pencil')
@@ -710,7 +750,8 @@ let pauseGui = false;
 
     $('#cam1').on("click", function () {
         if ($(this).hasClass('disabled') == false) {
-            clearInterval(i1)
+            //clearInterval(i1)
+            pauseGui = true;
             //socket.emit('restart_stream',{ stream: 0 });
             //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
             new JSMpeg.Player(portInfo.ports[0].streamUrl, {
@@ -736,7 +777,8 @@ let pauseGui = false;
 
     $('#cam2').on("click", function () {
         if ($(this).hasClass('disabled') == false) {
-            clearInterval(i1)
+            //clearInterval(i1)
+            pauseGui = true;
             new JSMpeg.Player(portInfo.ports[1].streamUrl, {
                 canvas: document.getElementById('cam2canvas'),
                 audio: false,
@@ -760,7 +802,8 @@ let pauseGui = false;
 
     $('#cam3').on("click", function () {
         if ($(this).hasClass('disabled') == false) {
-            clearInterval(i1)
+            //clearInterval(i1)
+            pauseGui = true;
             new JSMpeg.Player(portInfo.ports[2].streamUrl, {
                 canvas: document.getElementById('cam3canvas'),
                 audio: false,
@@ -784,7 +827,8 @@ let pauseGui = false;
 
     $('#cam4').on("click", function () {
         if ($(this).hasClass('disabled') == false) {
-            clearInterval(i1)
+            //clearInterval(i1)
+            pauseGui = true;
             new JSMpeg.Player(portInfo.ports[3].streamUrl, {
                 canvas: document.getElementById('cam4canvas'),
                 audio: false,
@@ -807,7 +851,8 @@ let pauseGui = false;
     });
 
     $('#setpassword').on("click", function () {
-        clearInterval(i1)
+        //clearInterval(i1)
+        pauseGui = true
         $('#loginmodal').modal('show');
     });
 

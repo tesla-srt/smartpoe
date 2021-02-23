@@ -19,7 +19,6 @@ process.on('message',  (message) => {
 
     bin.stdout.on('data', async function (data) {
         try {
-            console.log('JSON Parsed: realtime')
             jsonData = await JSON.parse(data)
         } catch (ex) {
             console.log(ex)
@@ -79,7 +78,6 @@ process.on('message',  (message) => {
 
                 data.totalWatts = port1.watts + port2.watts + port3.watts + port4.watts;
                 okay = true
-                console.log('Port Info Updated')
             } catch (ex) {
                 console.log(`Error: ${ex}`);
             }

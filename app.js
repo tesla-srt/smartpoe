@@ -225,8 +225,12 @@ exec("hostname", (error, stdout, stderr) => {
     sp.hostname = stdout;
 });
 
+let timer = setInterval(() => {
+    io.sockets.emit('update_srv','')
+}, 10000)
 var jsonContent = {"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}
 io.on('connection', socket => {
+
     //io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
 
@@ -535,10 +539,8 @@ io.on('connection', socket => {
 
     socket.on('update', data => {
         let jsonData = '';
-        console.log('request update')
         try {
             config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
-            console.log('Config Loaded')
         } catch (e) {
             console.error(e)
             console.log('Config Loading Failed')
@@ -636,7 +638,7 @@ io.on('connection', socket => {
             io.sockets.emit('device_on_busy', {port: msg.port})
         });
         bin.on('close', () => {
-            sp.ports[msg.port].isRebooting = false
+            setTimeout(() => {sp.ports[msg.port].isRebooting = false}, 15000)
         })
     })
 
@@ -653,9 +655,6 @@ io.on('connection', socket => {
             console.log(`port_off_busy: ` + msg.port)
             io.sockets.emit('device_off_busy', {port: msg.port})
         });
-        bin.on('close', () => {
-            sp.ports[msg.port].isRebooting = true
-        })
     })
 
     socket.on('restart_steam', data => {
