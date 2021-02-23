@@ -64,20 +64,12 @@ app.get('/401', (req, res) => {
 app.get('/test', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    let request = require('request');
+    let fetch = require('node-fetch');
 
-    let r = {
-        url: 'admin:S0larr1g@192.168.1.172/SnapshotJPEG',
+    fetch('admin:S0larr1g@192.168.1.172/SnapshotJPEG', {
         method: 'OPTIONS'
-    };
+    });
 
-    function f(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            res.send(body)
-            console.log(body)
-        }
-    }
-    request(r, f);
 
 })
 
