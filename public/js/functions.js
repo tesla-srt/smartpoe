@@ -910,6 +910,9 @@ $(function () {
     /********
      * Events
      *********/
+    $('img').error(function(){
+        $(this).attr('src', 'img/img404.png').toggleClass('disabled', true);
+    });
     $('#cam1').on("error", imgError);
     $('#cam2').on("error", imgError);
     $('#cam3').on("error", imgError);
