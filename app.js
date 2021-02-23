@@ -67,15 +67,8 @@ app.get('/test', (req, res) => {
     let fetch = require('node-fetch');
     let url = 'admin:S0larr1g@192.168.1.172/SnapshotJPEG'
 
-    fetch(url).then(response => {
-        const reader = response.body.getReader();
-        reader.read().then(function process(result) {
-            res.send(reader)
-
-        }).then(() => {
-            console.log('All done!');
-        });
-    });
+    res.writeHead(302, {location:"admin:S0larr1g@192.168.1.172/SnapshotJPEG"});
+    res.end();
 
 })
 
