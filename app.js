@@ -183,7 +183,6 @@ var sp = {
             watts: 0.00,
             ipv4: config.cams.alpha.ip,
             ipv4enabled: false,
-            //isRebooting: false,
             user: config.cams.alpha.user,
             pass: config.cams.alpha.pass,
         },
@@ -193,7 +192,6 @@ var sp = {
             watts: 0.00,
             ipv4: config.cams.bravo.ip,
             ipv4enabled: false,
-            //isRebooting: false,
             user: config.cams.bravo.user,
             pass: config.cams.bravo.pass
         },
@@ -202,8 +200,7 @@ var sp = {
             current: 0.00,
             watts: 0.00,
             ipv4: config.cams.charlie.ip,
-            ipv4enabled: false,
-            //isRebooting: false,
+            ipv4enabled: false
             user: config.cams.charlie.user,
             pass: config.cams.charlie.pass
         },
@@ -213,7 +210,6 @@ var sp = {
             watts: 0.00,
             ipv4: config.cams.delta.ip,
             ipv4enabled: false,
-            //isRebooting: false,
             user: config.cams.delta.user,
             pass: config.cams.delta.pass
         }]
