@@ -10,7 +10,7 @@ process.on('message',  (message) => {
         let foo = fs.readFileSync('bin/all.json', 'utf-8')
         try {
             console.log(`fallback: local file`)
-            jsonData = await JSON.parse(foo)
+            jsonData = foo
         } catch (e) {
             console.log('Fallback Failed');
         }
@@ -19,7 +19,7 @@ process.on('message',  (message) => {
 
     bin.stdout.on('data', async function (data) {
         try {
-            jsonData = await JSON.parse(data)
+            jsonData = (data)
         } catch (ex) {
             console.log(ex)
         }
@@ -28,9 +28,9 @@ process.on('message',  (message) => {
 
     let config = message[1]
     let data = message[0]
-    bin.on('close', () => {
+    bin.on('close', async () => {
         let okay = false;
-        let newData = jsonData
+        let newData = await JSON.parse(jsonData)
         let port1 = data.ports[0];
         let port2 = data.ports[1];
         let port3 = data.ports[2];
