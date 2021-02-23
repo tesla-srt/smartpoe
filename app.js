@@ -225,12 +225,12 @@ exec("hostname", (error, stdout, stderr) => {
     sp.hostname = stdout;
 });
 
-
+const timer = setInterval(() => {
+    io.sockets.emit('update_srv','')
+}, 10000)
 var jsonContent = {"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}
 io.on('connection', socket => {
-    const timer = setInterval(() => {
-        io.sockets.emit('update_srv','')
-    }, 10000)
+
     //io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
 
