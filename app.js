@@ -12,6 +12,7 @@ const CurlFeature = require("node-libcurl").CurlFeature;
 //const Stream = require('node-rtsp-stream')
 const app = express();
 const streamApp = express();
+const updateWorker = fork('./update.js');
 let base64 = require('base-64');
 
 process.on('uncaughtException', function (exception) {
@@ -24,6 +25,17 @@ var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
 const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
+
+let curl = new Curl();
+curl.enable(CurlFeature.Raw)
+curl.setOpt('URL', src);
+curl.setOpt('HTTPAUTH', CurlAuth.Digest);
+curl.setOpt('COOKIEJAR', 'bin/cookies.txt');
+curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
+
+if (!fs.existsSync('bin/cookies.txt')) {
+    fs.writeFileSync('bin/cookies.txt', '')
+}
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -72,18 +84,13 @@ streamApp.get('/cam/:num/u/:user/p/:pass', (req, res) => {
     let src = 'http://' + name + '/SnapshotJPEG';
 
     let result = ''
-    let curl = new Curl();
+
 //let close = curl.close.bind(curl);
-    curl.enable(CurlFeature.Raw)
-    curl.setOpt('URL', src);
-    curl.setOpt('HTTPAUTH', CurlAuth.Digest);
-    curl.setOpt('COOKIEJAR', 'bin/cookies.txt');
-    curl.setOpt('COOKIEFILE', 'bin/cookies.txt');
+
     curl.setOpt('USERPWD', `${user}:${pass}`); //stuff goes in here
     curl.setOpt('HTTPHEADER', ['Content-Type: image/jpeg', 'Accept: image/jpeg']);
-    if (!fs.existsSync('bin/cookies.txt')) {
-        fs.writeFileSync('bin/cookies.txt', '')
-    }
+
+
     curl
         .on('end', function (code, body, headers) {
             let buffer = Buffer.from(body).toString('base64')
@@ -532,16 +539,16 @@ io.on('connection', async socket => {
 */
 
         // fork another process
-        const worker = fork('./update.js');
+
         //const mails = request.body.emails;
         // send list of e-mails to forked process
-        worker.send([sp, config]);
-        // listen for messages from forked process
-        worker.on('message', (message) => {
-            //config = message[1]
-            sp = message;
-            socket.emit('receive_update', message)
-        })
+        updateWorker.send([sp, config]);
+    })
+
+    updateWorker.on('message', (message) => {
+        //config = message[1]
+        sp = message;
+        socket.emit('receive_update', message)
     })
 
     socket.on('get_coords', async data => {
