@@ -419,7 +419,12 @@ let pauseGui = false;
      **********/
 
     $('#pingSubmit').on("click", function () {
-        socket.emit('ping', $('#pingAdd').val());
+        if($('#pingAdd').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
+            alert('Invalid IP');
+        } else {
+            $('#pingout').text('Pinging...');
+            socket.emit('ping', $('#pingAdd').val());
+        }
     });
 
     p1OnBtn.addEventListener('click', e => {

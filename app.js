@@ -24,6 +24,7 @@ const streamApp = new express();
 const {proxy } = require('rtsp-relay')(streamApp)
 const streamServer = streamApp.listen(3002, '0.0.0.0')
 const updateWorker = fork('./update.js');
+const toolWorker = fork('./tools.js');
 let base64 = require('base-64');
 
 process.on('uncaughtException', function (exception) {
@@ -242,7 +243,7 @@ io.on('connection', socket => {
     //console.log("New user connected")
 
     socket.on('ping', data => {
-        var isWin = process.platform === "win32";
+       /* var isWin = process.platform === "win32";
         let options = [];
         if (isWin) {
             options = [`${data.toString()}`, '-n', '3']
@@ -263,7 +264,17 @@ io.on('connection', socket => {
 
         ping.on('close', function () {
             io.sockets.emit('pingOut', result)
-        })
+        })*/
+        toolWorker.send({tool: 'pingtool', ip: data})
+    })
+
+    toolWorker.on('message', (message) => {
+        switch(message.m) {
+            case 'pingout':
+                io.sockets.emit('pingOut', message.data)
+                break
+        }
+
     })
 
     socket.on('set_location', data => {
