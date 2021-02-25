@@ -598,7 +598,7 @@ let pauseGui = false;
     })
 
     $('#cam1live').on('hide.bs.modal', function () {
-        //timeout = funInterval(socket);
+        portInfo.ports[0].stream.destroy()
         pauseGui = false;
 
     })
@@ -610,7 +610,7 @@ let pauseGui = false;
     })
 
     $('#cam2live').on('hide.bs.modal', function () {
-        // timeout = funInterval(socket);
+        portInfo.ports[1].stream.destroy()
         pauseGui = false;
     })
 
@@ -622,6 +622,7 @@ let pauseGui = false;
 
     $('#cam3live').on('hide.bs.modal', function () {
         // timeout = funInterval(socket);
+        portInfo.ports[2].stream.destroy()
         pauseGui = false;
     })
 
@@ -633,6 +634,7 @@ let pauseGui = false;
     $('#cam4live').on('hide.bs.modal', function () {
         //timeout = funInterval(socket);
         pauseGui = false;
+        portInfo.ports[3].stream.destroy()
 
     })
 
@@ -753,13 +755,11 @@ let pauseGui = false;
 
     });
 
-    $('#cam1').on("click", function () {
+    $('#cam1').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            //socket.emit('restart_stream',{ stream: 0 });
-            //var streamstring  = 'ws://192.168.1.170:3001/live/'+ p1.ipv4 +'/u/' + p1.user + '/p/'+ p1.pass;
-            loadPlayer({
+            portInfo.ports[0].stream = await loadPlayer({
                 url: portInfo.ports[0].streamUrl,
                 canvas: document.getElementById('cam1canvas'),
                 audio: false,
@@ -769,11 +769,11 @@ let pauseGui = false;
         }
     });
 
-    $('#cam2').on("click", function () {
+    $('#cam2').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            loadPlayer({
+            portInfo.ports[1].stream = await loadPlayer({
                 url: portInfo.ports[1].streamUrl,
                 canvas: document.getElementById('cam2canvas'),
                 audio: false,
@@ -783,11 +783,11 @@ let pauseGui = false;
         }
     });
 
-    $('#cam3').on("click", function () {
+    $('#cam3').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            loadPlayer({
+            portInfo.ports[2].stream = await loadPlayer({
                 url: portInfo.ports[2].streamUrl,
                 canvas: document.getElementById('cam3canvas'),
                 audio: false,
@@ -797,11 +797,11 @@ let pauseGui = false;
         }
     });
 
-    $('#cam4').on("click", function () {
+    $('#cam4').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            loadPlayer({
+            portInfo.ports[3].stream = await loadPlayer({
                 url: portInfo.ports[3].streamUrl,
                 canvas: document.getElementById('cam4canvas'),
                 audio: false,
