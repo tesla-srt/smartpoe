@@ -235,38 +235,15 @@ exec("hostname", (error, stdout, stderr) => {
 });
 
 const timer = setInterval(() => {
-    //io.sockets.emit('update_srv','')
     updateWorker.send([sp, config]);
 }, 15000) //15sec updates
 var jsonContent = {"temp":"Loading..","p1":[{"voltage":"0.00","current":"0.00"}],"p2":[{"voltage":"0.00","current":"0.00"}],"p3":[{"voltage":"0.00","current":"0.00"}],"p4":[{"voltage":"0.00","current":"0.00"}]}
 io.on('connection', socket => {
-
+    updateWorker.send([sp, config]);
     //io.sockets.emit('receive_location', sp.location)
     //console.log("New user connected")
 
     socket.on('ping', data => {
-       /* var isWin = process.platform === "win32";
-        let options = [];
-        if (isWin) {
-            options = [`${data.toString()}`, '-n', '3']
-        } else {
-            options = [`${data.toString()}`, '-c', '3']
-        }
-        let ping = spawn(`ping`, options, {shell: true})
-
-        let result = '';
-        ping.stdout.on('data', function (data) {
-            result += data + '';
-        })
-
-        ping.stderr.on('data', (data) => {
-            //res.status(0)
-            console.log(data.toString())
-        })
-
-        ping.on('close', function () {
-            io.sockets.emit('pingOut', result)
-        })*/
         toolWorker.send({tool: 'pingtool', ip: data})
     })
 
