@@ -27,6 +27,58 @@ const updateWorker = fork('./update.js');
 const toolWorker = fork('./tools.js');
 let base64 = require('base-64');
 
+var sp = {
+    version: '',
+    hostname: '',
+    location: config.info.location,
+    temp: 0.0,
+    totalWatts: 0.00,
+    pin: config.info.pin,
+    lat: '',
+    lon: '',
+    ports: [
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00,
+            ipv4: config.cams.alpha.ip,
+            ipv4enabled: false,
+            isRebooting: false,
+            user: config.cams.alpha.user,
+            pass: config.cams.alpha.pass,
+        },
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00,
+            ipv4: config.cams.bravo.ip,
+            ipv4enabled: false,
+            isRebooting: false,
+            user: config.cams.bravo.user,
+            pass: config.cams.bravo.pass
+        },
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00,
+            ipv4: config.cams.charlie.ip,
+            ipv4enabled: false,
+            isRebooting: false,
+            user: config.cams.charlie.user,
+            pass: config.cams.charlie.pass
+        },
+        {
+            voltage: 0.00,
+            current: 0.00,
+            watts: 0.00,
+            ipv4: config.cams.delta.ip,
+            ipv4enabled: false,
+            isRebooting: false,
+            user: config.cams.delta.user,
+            pass: config.cams.delta.pass
+        }]
+}
+
 process.on('uncaughtException', function (exception) {
     // handle or ignore error
     console.log(exception);
@@ -34,15 +86,11 @@ process.on('uncaughtException', function (exception) {
 
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
-const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
 const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
 if (!fs.existsSync(__dirname + '/bin/cookies.txt')) {
     fs.writeFileSync(__dirname + 'bin/cookies.txt', '')
 }
-
-//initialize socket for the server
-
 
 streamApp.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
     let uri = `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
@@ -137,9 +185,9 @@ streamApp.get('/cam/:num/u/:user/p/:pass', async (req, res) => {
             res.status(404);
             //let buffer = Buffer.from(fs.readFileSync('public/img/img404.png', 'utf-8')).toString('base64')
             //result = buffer
-            //res.sendFile(__dirname + '/public/img/img404.png')
+            res.sendFile(__dirname + '/public/img/img404.png')
             //res.json({img: result});
-            res.send('poo');
+            //res.send('poo');
             curl.close();
         })
         .perform();
@@ -174,53 +222,7 @@ const p4 = {
     watts: 0.00
 }
 
-var sp = {
-    version: '',
-    hostname: '',
-    location: config.info.location,
-    temp: 0.0,
-    totalWatts: 0.00,
-    pin: config.info.pin,
-    lat: '',
-    lon: '',
-    ports: [
-        {
-            voltage: 0.00,
-            current: 0.00,
-            watts: 0.00,
-            ipv4: config.cams.alpha.ip,
-            ipv4enabled: false,
-            user: config.cams.alpha.user,
-            pass: config.cams.alpha.pass,
-        },
-        {
-            voltage: 0.00,
-            current: 0.00,
-            watts: 0.00,
-            ipv4: config.cams.bravo.ip,
-            ipv4enabled: false,
-            user: config.cams.bravo.user,
-            pass: config.cams.bravo.pass
-        },
-        {
-            voltage: 0.00,
-            current: 0.00,
-            watts: 0.00,
-            ipv4: config.cams.charlie.ip,
-            ipv4enabled: false,
-            user: config.cams.charlie.user,
-            pass: config.cams.charlie.pass
-        },
-        {
-            voltage: 0.00,
-            current: 0.00,
-            watts: 0.00,
-            ipv4: config.cams.delta.ip,
-            ipv4enabled: false,
-            user: config.cams.delta.user,
-            pass: config.cams.delta.pass
-        }]
-}
+
 
 exec("hostname", (error, stdout, stderr) => {
     if (error) {
