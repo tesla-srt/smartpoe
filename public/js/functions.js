@@ -607,8 +607,8 @@ let pauseGui = false;
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
-            portInfo.ports[0].stream = stream;
             $('#cam1live').modal('show');
+            portInfo.ports[0].stream = stream;
         }
     });
 
