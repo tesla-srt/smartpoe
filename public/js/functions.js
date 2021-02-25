@@ -245,7 +245,17 @@ let pauseGui = false;
     socket.on('receive_update', data => {
         let login = getCookie('login');
         $("#loadMe").modal('hide');
+        let stream1 = portInfo.ports[0].stream;
+        let stream2 = portInfo.ports[1].stream;
+        let stream3 = portInfo.ports[2].stream;
+        let stream4 = portInfo.ports[3].stream;
         portInfo = data;
+
+        portInfo.ports[0].stream = stream1;
+        portInfo.ports[1].stream = stream2;
+        portInfo.ports[2].stream = stream3;
+        portInfo.ports[3].stream = stream4;
+
         let loginPrompt = '';
         if (!login || (login == null || login == "")) {
             do {
@@ -601,14 +611,14 @@ let pauseGui = false;
             $('#cam1live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam1canvas'></canvas>")
             pauseGui = true;
             $('#loadMe').modal('show');
-            let stream = await loadPlayer({
+            let thisStream = await loadPlayer({
                 url: portInfo.ports[0].streamUrl,
                 canvas: document.getElementById('cam1canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
             $('#cam1live').modal('show');
-            portInfo.ports[0].stream = stream;
+            portInfo.ports[0].stream = thisStream;
         }
     });
 
