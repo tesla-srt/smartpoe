@@ -644,8 +644,12 @@ io.on('connection', socket => {
 
     socket.on('port_on', msg => {
         let cmd = __dirname + "/bin/aaeonSmartPOE.exe " + msg.port + " ON";
-        setTimeout(function(){sp.ports[msg.port].isRebooting = false}, 15000)
+
         let bin = spawn(cmd, {shell: true})
+        bin.on('close', () => {
+            sp.ports[msg.port].isRebooting = false
+        })
+
         bin.stdout.on('data', function (data) {
             try {
                 jsonContent = JSON.parse(data);
@@ -653,7 +657,6 @@ io.on('connection', socket => {
                 console.error(e);
             }
             console.log(`port_on_busy: ` + msg.port)
-
             io.sockets.emit('device_on_busy', {port: msg.port})
         });
     })
