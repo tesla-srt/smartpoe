@@ -26,7 +26,13 @@ const streamServer = streamApp.listen(3002, '0.0.0.0')
 const updateWorker = fork('./update.js');
 const toolWorker = fork('./tools.js');
 let base64 = require('base-64');
-
+var fs = require("fs");
+var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
+const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
+const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
+if (!fs.existsSync(__dirname + '/bin/cookies.txt')) {
+    fs.writeFileSync(__dirname + 'bin/cookies.txt', '')
+}
 var sp = {
     version: '',
     hostname: '',
@@ -84,13 +90,7 @@ process.on('uncaughtException', function (exception) {
     console.log(exception);
 });
 
-var fs = require("fs");
-var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
-const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
-const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
-if (!fs.existsSync(__dirname + '/bin/cookies.txt')) {
-    fs.writeFileSync(__dirname + 'bin/cookies.txt', '')
-}
+
 
 streamApp.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
     let uri = `rtsp://${req.params.user}:${req.params.pass}@${req.params.cameraIP}:554/MediaInput/h265/stream_3`
