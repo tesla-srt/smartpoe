@@ -592,6 +592,10 @@ let pauseGui = false;
         }
     });
 
+    /**
+     * MODALS
+     */
+
     $('#cam1settings').on('hide.bs.modal', function () {
         //timeout = funInterval(socket);
         pauseGui = false;
@@ -601,6 +605,14 @@ let pauseGui = false;
         portInfo.ports[0].stream.destroy()
         pauseGui = false;
 
+    })
+    $('#cam1live').on('show.bs.modal', async function () {
+        portInfo.ports[0].stream = await loadPlayer({
+            url: portInfo.ports[0].streamUrl,
+            canvas: document.getElementById('cam1canvas'),
+            audio: false,
+            videoBufferSize: 512 * 1024
+        })
     })
 
     $('#cam2settings').on('hide.bs.modal', function () {
@@ -759,12 +771,7 @@ let pauseGui = false;
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
             pauseGui = true;
-            portInfo.ports[0].stream = await loadPlayer({
-                url: portInfo.ports[0].streamUrl,
-                canvas: document.getElementById('cam1canvas'),
-                audio: false,
-                videoBufferSize: 512 * 1024
-            })
+
             $('#cam1live').modal('show');
         }
     });
