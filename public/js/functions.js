@@ -601,7 +601,13 @@ let pauseGui = false;
             $('#cam1live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam1canvas'></canvas>")
             pauseGui = true;
             $('#loadMe').modal('show');
-
+            let stream = await loadPlayer({
+                url: portInfo.ports[0].streamUrl,
+                canvas: document.getElementById('cam1canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+            })
+            portInfo.ports[0].stream = stream;
             $('#cam1live').modal('show');
         }
     });
@@ -613,12 +619,13 @@ let pauseGui = false;
             $('#cam2live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam2canvas'></canvas>")
             pauseGui = true;
             $('#loadMe').modal('show');
-            portInfo.ports[1].stream = await loadPlayer({
+            let stream = await loadPlayer({
                 url: portInfo.ports[1].streamUrl,
                 canvas: document.getElementById('cam2canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
+            portInfo.ports[1].stream = stream;
             $('#cam2live').modal('show');
         }
     });
@@ -630,12 +637,13 @@ let pauseGui = false;
             $('#cam3live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam3canvas'></canvas>")
             pauseGui = true;
             $('#loadMe').modal('show');
-            portInfo.ports[2].stream = await loadPlayer({
+            let stream = await loadPlayer({
                 url: portInfo.ports[2].streamUrl,
                 canvas: document.getElementById('cam3canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
+            portInfo.ports[2].stream = stream;
             $('#cam3live').modal('show');
         }
     });
@@ -647,12 +655,13 @@ let pauseGui = false;
             $('#cam4live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam4canvas'></canvas>")
             pauseGui = true;
             $('#loadMe').modal('show');
-            portInfo.ports[3].stream = await loadPlayer({
+            let stream = await loadPlayer({
                 url: portInfo.ports[3].streamUrl,
                 canvas: document.getElementById('cam4canvas'),
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
+            portInfo.ports[3].stream = stream;
             $('#cam4live').modal('show');
         }
     });
@@ -672,13 +681,7 @@ let pauseGui = false;
         pauseGui = false;
 
     })
-    $('#cam1live').on('show.bs.modal', async function () {
-        portInfo.ports[0].stream = await loadPlayer({
-            url: portInfo.ports[0].streamUrl,
-            canvas: document.getElementById('cam1canvas'),
-            audio: false,
-            videoBufferSize: 512 * 1024
-        })
+    $('#cam1live').on('show.bs.modal', function () {
         $('#loadMe').modal('hide');
     })
 
