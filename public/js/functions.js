@@ -592,6 +592,65 @@ let pauseGui = false;
         }
     });
 
+
+
+    $('#cam1').on("click", async function () {
+        if ($(this).hasClass('disabled') == false) {
+            //clearInterval(i1)
+            pauseGui = true;
+            portInfo.ports[0].stream = await loadPlayer({
+                url: portInfo.ports[0].streamUrl,
+                canvas: document.getElementById('cam1canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+            })
+            $('#cam1live').modal('show');
+        }
+    });
+
+    $('#cam2').on("click", async function () {
+        if ($(this).hasClass('disabled') == false) {
+            //clearInterval(i1)
+            pauseGui = true;
+            portInfo.ports[1].stream = await loadPlayer({
+                url: portInfo.ports[1].streamUrl,
+                canvas: document.getElementById('cam2canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+            })
+            $('#cam2live').modal('show');
+        }
+    });
+
+    $('#cam3').on("click", async function () {
+        if ($(this).hasClass('disabled') == false) {
+            //clearInterval(i1)
+            pauseGui = true;
+            portInfo.ports[2].stream = await loadPlayer({
+                url: portInfo.ports[2].streamUrl,
+                canvas: document.getElementById('cam3canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+            })
+            $('#cam3live').modal('show');
+        }
+    });
+
+    $('#cam4').on("click", async function () {
+        if ($(this).hasClass('disabled') == false) {
+            //clearInterval(i1)
+            pauseGui = true;
+            portInfo.ports[3].stream = await loadPlayer({
+                url: portInfo.ports[3].streamUrl,
+                canvas: document.getElementById('cam4canvas'),
+                audio: false,
+                videoBufferSize: 512 * 1024
+            })
+            $('#cam4live').modal('show');
+        }
+    });
+
+
     /**
      * MODALS
      */
@@ -606,13 +665,9 @@ let pauseGui = false;
         pauseGui = false;
 
     })
+
     $('#cam1live').on('show.bs.modal', async function () {
-        portInfo.ports[0].stream = await loadPlayer({
-            url: portInfo.ports[0].streamUrl,
-            canvas: document.getElementById('cam1canvas'),
-            audio: false,
-            videoBufferSize: 512 * 1024
-        })
+
     })
 
     $('#cam2settings').on('hide.bs.modal', function () {
@@ -765,57 +820,6 @@ let pauseGui = false;
                 .focus();
         }
 
-    });
-
-    $('#cam1').on("click", async function () {
-        if ($(this).hasClass('disabled') == false) {
-            //clearInterval(i1)
-            pauseGui = true;
-
-            $('#cam1live').modal('show');
-        }
-    });
-
-    $('#cam2').on("click", async function () {
-        if ($(this).hasClass('disabled') == false) {
-            //clearInterval(i1)
-            pauseGui = true;
-            portInfo.ports[1].stream = await loadPlayer({
-                url: portInfo.ports[1].streamUrl,
-                canvas: document.getElementById('cam2canvas'),
-                audio: false,
-                videoBufferSize: 512 * 1024
-            })
-            $('#cam2live').modal('show');
-        }
-    });
-
-    $('#cam3').on("click", async function () {
-        if ($(this).hasClass('disabled') == false) {
-            //clearInterval(i1)
-            pauseGui = true;
-            portInfo.ports[2].stream = await loadPlayer({
-                url: portInfo.ports[2].streamUrl,
-                canvas: document.getElementById('cam3canvas'),
-                audio: false,
-                videoBufferSize: 512 * 1024
-            })
-            $('#cam3live').modal('show');
-        }
-    });
-
-    $('#cam4').on("click", async function () {
-        if ($(this).hasClass('disabled') == false) {
-            //clearInterval(i1)
-            pauseGui = true;
-            portInfo.ports[3].stream = await loadPlayer({
-                url: portInfo.ports[3].streamUrl,
-                canvas: document.getElementById('cam4canvas'),
-                audio: false,
-                videoBufferSize: 512 * 1024
-            })
-            $('#cam4live').modal('show');
-        }
     });
 
     $('#setpassword').on("click", function () {
