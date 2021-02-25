@@ -597,6 +597,7 @@ let pauseGui = false;
     $('#cam1').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
+            $('#cam1live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam1canvas'></canvas>")
             pauseGui = true;
             portInfo.ports[0].stream = await loadPlayer({
                 url: portInfo.ports[0].streamUrl,
@@ -611,6 +612,7 @@ let pauseGui = false;
     $('#cam2').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
+            $('#cam2live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam2canvas'></canvas>")
             pauseGui = true;
             portInfo.ports[1].stream = await loadPlayer({
                 url: portInfo.ports[1].streamUrl,
@@ -625,6 +627,7 @@ let pauseGui = false;
     $('#cam3').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
+            $('#cam3live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam3canvas'></canvas>")
             pauseGui = true;
             portInfo.ports[2].stream = await loadPlayer({
                 url: portInfo.ports[2].streamUrl,
@@ -639,6 +642,7 @@ let pauseGui = false;
     $('#cam4').on("click", async function () {
         if ($(this).hasClass('disabled') == false) {
             //clearInterval(i1)
+            $('#cam4live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam4canvas'></canvas>")
             pauseGui = true;
             portInfo.ports[3].stream = await loadPlayer({
                 url: portInfo.ports[3].streamUrl,
