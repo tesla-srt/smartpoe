@@ -601,12 +601,7 @@ let pauseGui = false;
             $('#cam1live > .modal-dialog > .modal-content > .modal-body').html("<canvas class='col-lg' id='cam1canvas'></canvas>")
             pauseGui = true;
             $('#loadMe').modal('show');
-            portInfo.ports[0].stream = await loadPlayer({
-                url: portInfo.ports[0].streamUrl,
-                canvas: document.getElementById('cam1canvas'),
-                audio: false,
-                videoBufferSize: 512 * 1024
-            })
+
             $('#cam1live').modal('show');
         }
     });
@@ -677,7 +672,13 @@ let pauseGui = false;
         pauseGui = false;
 
     })
-    $('#cam1live').on('show.bs.modal', function () {
+    $('#cam1live').on('show.bs.modal', async function () {
+        portInfo.ports[0].stream = await loadPlayer({
+            url: portInfo.ports[0].streamUrl,
+            canvas: document.getElementById('cam1canvas'),
+            audio: false,
+            videoBufferSize: 512 * 1024
+        })
         $('#loadMe').modal('hide');
     })
 
