@@ -666,10 +666,6 @@ let pauseGui = false;
 
     })
 
-    $('#cam1live').on('show.bs.modal', async function () {
-
-    })
-
     $('#cam2settings').on('hide.bs.modal', function () {
         // timeout = funInterval(socket);
         pauseGui = false;
