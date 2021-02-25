@@ -244,11 +244,6 @@ let pauseGui = false;
 
     socket.on('receive_update', data => {
         let login = getCookie('login');
-        $("#loadMe").modal('hide');
-        let stream1 = portInfo.ports[0].stream !== null ? portInfo.ports[0].stream : null;
-        let stream2 = portInfo.ports[1].stream !== null ? portInfo.ports[1].stream : null;
-        let stream3 = portInfo.ports[2].stream !== null ? portInfo.ports[2].stream : null;
-        let stream4 = portInfo.ports[3].stream !== null ? portInfo.ports[3].stream : null;
         portInfo = data;
 
         portInfo.ports[0].stream = stream1;
@@ -269,6 +264,7 @@ let pauseGui = false;
             } else {
                 console.log(`${md5} == ${portInfo.pin} ---> LOGIN OK`);
                 login = true;
+                $("#loadMe").modal('hide');
                 setCookie('login', 'true', 0.041667); //1hr
             }
         }
