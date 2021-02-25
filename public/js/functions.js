@@ -246,11 +246,6 @@ let pauseGui = false;
         let login = getCookie('login');
         portInfo = data;
 
-        portInfo.ports[0].stream = stream1;
-        portInfo.ports[1].stream = stream2;
-        portInfo.ports[2].stream = stream3;
-        portInfo.ports[3].stream = stream4;
-
         let loginPrompt = '';
         if (!login || (login == null || login == "")) {
             do {
