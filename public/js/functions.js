@@ -222,6 +222,7 @@ let pauseGui = false;
 
     socket.on('pingOut', data => {
         $('#pingout').text(data.toString());
+        CodeMirror.fromTextArea(document.getElementById('pingout'));
     })
 
     socket.on('receive_location', data => {
@@ -937,7 +938,7 @@ function updateModals() {
 }
 
 $(function () {
-    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('pingout'));
+    // var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('pingout'));
     $('[data-toggle="tooltip"]').tooltip();
 
     $('.cstate').parent().css("width", "100px");
