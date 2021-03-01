@@ -13,9 +13,9 @@ function ping(data) {
     const isWin = process.platform === "win32";
     let options = [];
     if (isWin) {
-        options = [`${data.toString()}`, '-n', '3']
+        options = [`${data.toString()}`, '-n', '4']
     } else {
-        options = [`${data.toString()}`, '-c', '3']
+        options = [`${data.toString()}`, '-c', '4']
     }
     let ping = spawn(`ping`, options, {shell: true})
 

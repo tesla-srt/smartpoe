@@ -85,7 +85,7 @@ var sp = {
             pass: config.cams.delta.pass
         }]
 }
-
+var numConn = 0;
 process.on('uncaughtException', function (exception) {
     // handle or ignore error
     console.log(exception);
@@ -106,9 +106,15 @@ streamApp.ws('/live/:cameraIP/u/:user/p/:pass', (ws, req) => {
 })
 app.use("/", limiter)
 app.get('/', (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.render('index')
+    // numConn++;
+    //console.log(numConn);
+    if (numConn < 3) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.render('index')
+    } else {
+        res.send('<h1>Max Users Logged In</h1>')
+    }
 })
 
 app.get('/401', (req, res) => {
@@ -250,6 +256,10 @@ io.on('connection', socket => {
                 break
         }
 
+    })
+
+    socket.on('login', data => {
+        numConn++;
     })
 
     socket.on('set_location', data => {
@@ -693,6 +703,9 @@ io.on('connection', socket => {
                 //sp.ports[3].stream.startMpeg1Stream()
                 break;
         }
+    })
+    socket.on('disconnect', data => {
+        numConn--;
     })
 })
 

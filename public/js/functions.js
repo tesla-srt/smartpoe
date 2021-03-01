@@ -45,13 +45,14 @@ if (window.location.host.indexOf('127.0.0.1') > -1) {
 let pauseGui = false;
 (function connect() {
     $(".loading-modal").modal('hide');
-
     let socket = io({reconnectionDelayMax: 10000});
 
     const tMin = 5000;
     const tMax = 8000;
 
     //timeout = funInterval(socket);
+
+    socket.emit('login', '');
 
     function funInterval(socket) {
         var interval = getRandomInt(tMin, tMax);
@@ -220,8 +221,10 @@ let pauseGui = false;
         socket.emit('port_off', {port: data.port})
     })
 
-    socket.on('pingOut', data => {
-        $('#pingout').text(data.toString());
+    socket.on('pingOut', v => {
+        // cm.setValue();
+        //cm.setValue(data.toString());
+        $('#pingout').val(v.toString().trim());
     })
 
     socket.on('receive_location', data => {
@@ -423,7 +426,7 @@ let pauseGui = false;
         if($('#pingAdd').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('Invalid IP');
         } else {
-            $('#pingout').text('Pinging...');
+            $('#pingout').val('Pinging...');
             socket.emit('ping', $('#pingAdd').val());
         }
     });
