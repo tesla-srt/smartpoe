@@ -222,7 +222,6 @@ let pauseGui = false;
 
     socket.on('pingOut', data => {
         $('#pingout').text(data.toString());
-        CodeMirror.fromTextArea(document.getElementById('pingout'));
     })
 
     socket.on('receive_location', data => {
