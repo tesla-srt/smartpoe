@@ -32,7 +32,7 @@ var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
 const latcmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lat.py"
 if (!fs.existsSync(__dirname + '/bin/cookies.txt')) {
-    fs.writeFileSync(__dirname + 'bin/cookies.txt', '')
+    fs.writeFileSync(__dirname + '/bin/cookies.txt', '')
 }
 var sp = {
     version: '',
