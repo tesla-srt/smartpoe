@@ -39,7 +39,7 @@ process.on('message',  (message) => {
             try {
                 data.temp = newData.temp;
                 data.location = config.info.location;
-                data.version = config.info.version;
+                // data.version = config.info.version;
                 port3.ipv4 = config.cams.charlie.ip
                 port3.ipv4enabled = config.cams.charlie.enabled
                 port3.pass = config.cams.charlie.pass

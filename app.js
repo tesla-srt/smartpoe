@@ -21,7 +21,7 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 const streamApp = new express();
-const {proxy } = require('rtsp-relay')(streamApp)
+const { proxy } = require('rtsp-relay')(streamApp)
 const streamServer = streamApp.listen(3002, '0.0.0.0')
 const updateWorker = fork('./update.js');
 const toolWorker = fork('./tools.js');
@@ -35,7 +35,7 @@ if (!fs.existsSync(__dirname + '/bin/cookies.txt')) {
     fs.writeFileSync(__dirname + '/bin/cookies.txt', '')
 }
 var sp = {
-    version: '',
+    version: config.info.version,
     hostname: '',
     location: config.info.location,
     temp: 0.0,

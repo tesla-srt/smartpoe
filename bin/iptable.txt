@@ -1,7 +1,7 @@
 [info]
 location = "SRT-HQ"
 pin = "81dc9bdb52d04dc20036dbd8313ed055"
-version = "0.5.1-ND"
+version = "0.5.2-ND"
 
 [email]
 smtp = ""
