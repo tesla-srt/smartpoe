@@ -937,7 +937,7 @@ function updateModals() {
 }
 
 $(function () {
-    var myCodeMirror = CodeMirror.fromTextArea($('#pingout'));
+    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('pingout'));
     $('[data-toggle="tooltip"]').tooltip();
 
     $('.cstate').parent().css("width", "100px");
