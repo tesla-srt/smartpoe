@@ -26,6 +26,7 @@ const streamServer = streamApp.listen(3002, '0.0.0.0')
 const updateWorker = fork('./update.js');
 const toolWorker = fork('./tools.js');
 let base64 = require('base-64');
+const onvif = require('node-onvif');
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
@@ -125,27 +126,22 @@ app.get('/401', (req, res) => {
     return promise.finally(() => clearTimeout(timeout));
 };*/
 
-/*app.get('/test', (req, res) => {
-    const controller = new AbortController();
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.set('Content-Type', 'image/jpeg');
-    let fetch = require('node-fetch')
-    let src = 'http://admin:S0larr1g@192.168.1.172/SnapshotJPEG'
-
-/!*    fetchTimeout("example.json", 5000, { signal: controller.signal })
-        .then(response => response.json())
-        .then(console.log)
-        .catch(error => {
-            if (error.name === "AbortError") {
-                // fetch aborted either due to timeout or due to user clicking the cancel button
-            } else {
-                // network error or json parsing error
-            }
-        });*!/
-
-    fetch(src,{  credentials: 'include'}).then((response) => res.send(response.blob()));
-})*/
+app.get('/test', (req, res) => {
+    console.log('Start the discovery process.');
+// Find the ONVIF network cameras.
+// It will take about 3 seconds.
+    onvif.startProbe().then((device_info_list) => {
+        console.log(device_info_list.length + ' devices were found.');
+        // Show the device name and the URL of the end point.
+        device_info_list.forEach((info) => {
+            console.log('- ' + info.urn);
+            console.log('  - ' + info.name);
+            console.log('  - ' + info.xaddrs[0]);
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
+})
 
 /**
  *

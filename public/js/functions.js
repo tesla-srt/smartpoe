@@ -459,6 +459,7 @@ let pauseGui = false;
     })
     p4OnBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
+        e.stopPropagation();
         //clearInterval(i1)
         pauseGui = true
         if (parseFloat(portInfo.ports[3].voltage) < 1) {
@@ -471,6 +472,7 @@ let pauseGui = false;
     p1OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
         //clearInterval(i1)
+        e.stopPropagation();
         pauseGui = true;
         socket.emit('port_off', {port: 0})
         //timeout = funInterval(socket)
@@ -478,6 +480,7 @@ let pauseGui = false;
     })
     p2OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
+        e.stopPropagation();
         //clearInterval(i1)
         pauseGui = true;
         socket.emit('port_off', {port: 1})
@@ -486,6 +489,7 @@ let pauseGui = false;
     })
     p3OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
+        e.stopPropagation();
         //clearInterval(i1)
         pauseGui = true;
         socket.emit('port_off', {port: 2})
@@ -494,6 +498,7 @@ let pauseGui = false;
     })
     p4OffBtn.addEventListener('click', e => {
         $("#loadMe").modal('show');
+        e.stopPropagation();
         //clearInterval(i1)
         pauseGui = true;
         socket.emit('port_off', {port: 3})
