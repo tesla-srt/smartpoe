@@ -422,6 +422,10 @@ let pauseGui = false;
      * BUTTONS *
      **********/
 
+    $('#ptz1up').on("click", function() {
+        console.log("up fired");
+    })
+
     $('#pingSubmit').on("click", function () {
         if($('#pingAdd').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
             alert('Invalid IP');
