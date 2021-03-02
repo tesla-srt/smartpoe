@@ -32,6 +32,7 @@
     height: 160px;
     top: 1em;
     right: 1.6em;
+    z-index: 9999;
 }
 #connected-device div.ptz-ctl-box div.ptz-pad-box {
     width: 160px;
