@@ -132,7 +132,7 @@ app.get('/401', (req, res) => {
 app.get('/test', (req, res) => {
     let move = { x: 0.0, y: 1.0, z: 0.0 }
     let odevice = new onvif.OnvifDevice({
-        xaddr: 'http://' + config.cams.alpha.ipv4 + '/onvif/device_service',
+        xaddr: 'http://' + config.cams.alpha.ip + '/onvif/device_service',
         user : config.cams.alpha.user,
         pass : config.cams.alpha.pass
     });
