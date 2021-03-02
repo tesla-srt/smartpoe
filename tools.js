@@ -1,10 +1,14 @@
 const {spawn} = require("child_process")
+const onvif = require('node-onvif');
 
 process.on('message', (m) => {
     let result = ''
     switch (m.tool) {
         case 'pingtool':
             ping(m.ip)
+            break
+        case 'ptzmove':
+            ptzMove(m.params)
             break
     }
 })
@@ -32,4 +36,25 @@ function ping(data) {
     ping.on('close', function () {
         process.send({m: 'pingout', data: result})
     })
+}
+
+function ptzMove(params) {
+    let move = params.speed
+    let odevice = new onvif.OnvifDevice({
+        xaddr: params.addr,
+        user : params.user,
+        pass : params.pass
+    });
+
+    odevice.init().then(() => {
+        // Move the camera
+        return odevice.ptzMove({
+            'speed': move,
+            'timeout': 1 // seconds
+        });
+    }).then(() => {
+        console.log('Done!');
+    }).catch((error) => {
+        console.error(error);
+    });
 }

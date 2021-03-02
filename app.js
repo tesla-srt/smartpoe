@@ -562,9 +562,11 @@ io.on('connection', socket => {
         //config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'));
     })
 
-    socket.on('get_hostname', data => {
-
-
+    socket.on('ptzMove', data => {
+        let port = sp.ports[data.port]
+        let move = data.speed
+        let options = {tool: 'ptzmove', params: {addr: port.ipv4, user: port.user, pass: port.pass, speed: data.speed}}
+        toolWorker.send(options)
     })
 
     socket.on('update', data => {
@@ -576,33 +578,6 @@ io.on('connection', socket => {
             console.log('Config Loading Failed')
         }
 
-
-        /*let bin = spawn(updatecmd, {shell: true});
-        bin.stderr.on('data', async function (data) {
-            let foo = fs.readFileSync('bin/all.json', 'utf-8')
-            try {
-                console.log(`fallback: local file`)
-                jsonData = await JSON.parse(foo)
-            } catch (e) {
-                console.log('Fallback Failed');
-            }
-
-        });
-
-        bin.stdout.on('data', async function (data) {
-            try {
-                console.log('JSON Parsed: realtime')
-                jsonData = await JSON.parse(data)
-            } catch (ex) {
-                console.log(ex)
-            }
-        });
-*/
-
-        // fork another process
-
-        //const mails = request.body.emails;
-        // send list of e-mails to forked process
         updateWorker.send([sp, config]);
     })
 
