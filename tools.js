@@ -53,7 +53,7 @@ async function ptzMove(params) {
             'timeout': 1 // seconds
         });
     }).then(() => {
-        
+
     }).catch((error) => {
         console.error(error);
     });

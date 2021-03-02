@@ -1,6 +1,7 @@
 const {spawn} = require("child_process")
 const updatecmd = "C:/Users/TBIAdmin/node/smartpoe/bin/aaeonSmartPOE.exe all"
 const fs = require("fs");
+let streamAddress = '166.161.225.29:3002';
 
 process.on('message',  (message) => {
     let jsonData = '{}'
@@ -69,6 +70,15 @@ process.on('message',  (message) => {
 
                 port1.voltage = newData["p1"][0].voltage
                 port1.current = newData["p1"][0].current
+                let d = new Date().getTime();
+                port1.camUrl = `http://${streamAddress}/cam/${port1.ipv4}/u/${port1.user}/p/${port1.pass}?${d}`;
+                port2.camUrl = `http://${streamAddress}/cam/${port2.ipv4}/u/${port2.user}/p/${port2.pass}?${d}`;
+                port3.camUrl = `http://${streamAddress}/cam/${port3.ipv4}/u/${port3.user}/p/${port3.pass}?${d}`;
+                port4.camUrl = `http://${streamAddress}/cam/${port4.ipv4}/u/${port4.user}/p/${port4.pass}?${d}`;
+                port1.streamUrl = `ws://${streamAddress}/live/${port1.ipv4}/u/${port1.user}/p/${port1.pass}`;
+                port2.streamUrl = `ws://${streamAddress}/live/${port2.ipv4}/u/${port2.user}/p/${port2.pass}`;
+                port3.streamUrl = `ws://${streamAddress}/live/${port3.ipv4}/u/${port3.user}/p/${port3.pass}`;
+                port4.streamUrl = `ws://${streamAddress}/live/${port4.ipv4}/u/${port4.user}/p/${port4.pass}`;
 
 
                 port1.watts = (port1.current / 1000) * port1.voltage;
