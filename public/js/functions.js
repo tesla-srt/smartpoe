@@ -423,7 +423,7 @@ let pauseGui = false;
      **********/
 
     $('#ptz1up').on("click", function() {
-        socket.emit('ptzmove', {port: 0, tool: 'ptzmpove', speed: {x: 0.0, y: 1.0, z:0.0}})
+        socket.emit('ptzmove', {port: 0, tool: 'ptzmove', speed: {x: 0.0, y: 1.0, z:0.0}})
     })
 
     $('#pingSubmit').on("click", function () {
