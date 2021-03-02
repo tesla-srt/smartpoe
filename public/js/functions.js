@@ -1,4 +1,5 @@
 var p1c, p2c, p3c, p4c, i1, timeout;
+let streams = [null, null, null, null];
 let hostfield = document.querySelector('#hostname');
 let tempfield = document.querySelector('#temp');
 let wattField = document.querySelector('#totWatts');
@@ -621,7 +622,7 @@ let pauseGui = false;
                 videoBufferSize: 512 * 1024
             })
             $('#cam1live').modal('show');
-            portInfo.ports[0].stream = thisStream;
+            streams[0] = thisStream;
         }
     });
 
@@ -638,7 +639,7 @@ let pauseGui = false;
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
-            portInfo.ports[1].stream = stream;
+            streams[1] = stream;
             $('#cam2live').modal('show');
         }
     });
@@ -656,7 +657,7 @@ let pauseGui = false;
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
-            portInfo.ports[2].stream = stream;
+            streams[2] = stream;
             $('#cam3live').modal('show');
         }
     });
@@ -674,7 +675,7 @@ let pauseGui = false;
                 audio: false,
                 videoBufferSize: 512 * 1024
             })
-            portInfo.ports[3].stream = stream;
+            streams[4] = stream;
             $('#cam4live').modal('show');
         }
     });
@@ -690,7 +691,7 @@ let pauseGui = false;
     })
 
     $('#cam1live').on('hide.bs.modal', function () {
-        portInfo.ports[0].stream.destroy()
+        streams[0].destroy();
         pauseGui = false;
 
     })
@@ -705,7 +706,7 @@ let pauseGui = false;
     })
 
     $('#cam2live').on('hide.bs.modal', function () {
-        portInfo.ports[1].stream.destroy()
+        streams[1].destroy();
         pauseGui = false;
     })
 
@@ -721,7 +722,7 @@ let pauseGui = false;
 
     $('#cam3live').on('hide.bs.modal', function () {
         // timeout = funInterval(socket);
-        portInfo.ports[2].stream.destroy()
+        streams[2].destroy();
         pauseGui = false;
     })
 
@@ -737,8 +738,7 @@ let pauseGui = false;
     $('#cam4live').on('hide.bs.modal', function () {
         //timeout = funInterval(socket);
         pauseGui = false;
-        portInfo.ports[3].stream.destroy()
-
+        streams[3].destroy();
     })
     $('#cam4live').on('show.bs.modal', function () {
         $('#loadMe').modal('hide');
