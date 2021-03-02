@@ -2,7 +2,6 @@
     position: relative;
     background-color: #000000;
     overflow: hidden;
-    display: none;
 }
 #connected-device div.ptz-spd-ctl-box {
     position: absolute;
