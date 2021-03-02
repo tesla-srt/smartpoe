@@ -63,10 +63,38 @@
 }
 
 @media (max-width: 768px) {
-    #connected-device {
-        width: 80px !important;
-        height: 80px !important;
+    #connected-device div.ptz-ctl-box div.ptz-pad-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 40px;
+        opacity: 0.4;
     }
+
+    #connected-device div.ptz-ctl-box div.ptz-pad-box .left {
+        position: absolute;
+        left: 0px;
+        top: 33px;
+    }
+
+    #connected-device div.ptz-ctl-box div.ptz-pad-box .right {
+        position: absolute;
+        right: 0px;
+        top: 33px;
+    }
+
+
+    #connected-device div.ptz-ctl-box div.ptz-pad-box .up {
+        position: absolute;
+        left: 33px;
+        top: 0px;
+    }
+
+    #connected-device div.ptz-ctl-box div.ptz-pad-box .down {
+        position: absolute;
+        left: 33px;
+        top: 65px;
+    }
+
     #connected-device div.ptz-zom-ctl-box {
         position: absolute;
         top: 10em !important;
