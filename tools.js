@@ -10,6 +10,9 @@ process.on('message', (m) => {
         case 'ptzmove':
             ptzMove(m.params)
             break
+        case 'ptzhome':
+            ptzHome(m.params)
+            break
     }
 })
 
@@ -54,6 +57,29 @@ async function ptzMove(params) {
         });
     }).then(() => {
 
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+async function ptzHome(options) {
+    let odevice = await new onvif.OnvifDevice({
+        xaddr: 'http://' + options.addr + '/onvif/device_service',
+        user : options.user,
+        pass : options.pass
+    });
+
+    odevice.init().then(() => {
+        let ptz = odevice.services.ptz;
+        let profile = odevice.getCurrentProfile();
+        let params = {
+            'ProfileToken': profile['token'],
+            'Speed'       : 1
+        };
+        // Move the camera
+        return ptz.gotoHomePosition(params);
+    }).then(() => {
+        
     }).catch((error) => {
         console.error(error);
     });
