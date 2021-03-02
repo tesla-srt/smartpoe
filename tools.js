@@ -70,16 +70,21 @@ async function ptzHome(options) {
     });
 
     odevice.init().then(() => {
+        // The OnvifServicePtz object
         let ptz = odevice.services.ptz;
+        if(!ptz) {
+            throw new Error('Your ONVIF network camera does not support the PTZ service.');
+        }
+        // The parameters for the gotoHomePosition() method
         let profile = odevice.getCurrentProfile();
         let params = {
             'ProfileToken': profile['token'],
             'Speed'       : 1
         };
-        // Move the camera
+        // Send the GotoHomePosition command using the gotoHomePosition() method
         return ptz.gotoHomePosition(params);
-    }).then(() => {
-        
+    }).then((result) => {
+        console.log(JSON.stringify(result.data, null, '  '));
     }).catch((error) => {
         console.error(error);
     });
