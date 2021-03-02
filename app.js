@@ -4,9 +4,7 @@ const socketio = require('socket.io')
 const {spawn, exec, fork} = require("child_process")
 const toml = require('toml-js');
 const { Curl, CurlAuth, CurlFeature }  = require('node-libcurl');
-// const CurlAuth = require("node-libcurl").CurlAuth;
-// const CurlFeature = require("node-libcurl").CurlFeature;
-//const Stream = require('node-rtsp-stream')
+const onvif = require('node-onvif');
 const app = new express();
 const server = app.listen(3001, '0.0.0.0') //initialize socket for the server
 //server.maxConnections = 3;
@@ -133,17 +131,21 @@ app.get('/401', (req, res) => {
 };*/
 
 app.get('/test', (req, res) => {
-    console.log('Start the discovery process.');
-// Find the ONVIF network cameras.
-// It will take about 3 seconds.
-    onvif.startProbe().then((device_info_list) => {
-        console.log(device_info_list.length + ' devices were found.');
-        // Show the device name and the URL of the end point.
-        device_info_list.forEach((info) => {
-            console.log('- ' + info.urn);
-            console.log('  - ' + info.name);
-            console.log('  - ' + info.xaddrs[0]);
+    let move = { x: 0.0, y: 1.0, z: 0.0 }
+    let odevice = new onvif.OnvifDevice({
+        xaddr: 'http://' + config.cams.alpha.ipv4 + '/onvif/device_service',
+        user : config.cams.alpha.user,
+        pass : config.cams.alpha.pass
+    });
+
+    odevice.init().then(() => {
+        // Move the camera
+        return odevice.ptzMove({
+            'speed': move,
+            'timeout': 1 // seconds
         });
+    }).then(() => {
+        console.log('Done!');
     }).catch((error) => {
         console.error(error);
     });
@@ -563,7 +565,6 @@ io.on('connection', socket => {
     })
 
     socket.on('ptzMove', data => {
-        console.log(data.port + "\n" + data.speed)
         let port = sp.ports[data.port]
         let move = data.speed
         let options = {tool: 'ptzmove', params: {addr: port.ipv4, user: port.user, pass: port.pass, speed: data.speed}}

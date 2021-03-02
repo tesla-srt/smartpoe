@@ -38,11 +38,11 @@ function ping(data) {
     })
 }
 
-function ptzMove(params) {
-    console.log(params)
+async function ptzMove(params) {
+    console.log(params.speed)
     let move = params.speed
-    let odevice = new onvif.OnvifDevice({
-        xaddr: params.addr,
+    let odevice = await new onvif.OnvifDevice({
+        xaddr: 'http://' + params.addr + '/onvif/device_service',
         user : params.user,
         pass : params.pass
     });
