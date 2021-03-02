@@ -563,6 +563,7 @@ io.on('connection', socket => {
     })
 
     socket.on('ptzMove', data => {
+        console.log(data.port + "\n" + data.speed)
         let port = sp.ports[data.port]
         let move = data.speed
         let options = {tool: 'ptzmove', params: {addr: port.ipv4, user: port.user, pass: port.pass, speed: data.speed}}
