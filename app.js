@@ -566,7 +566,7 @@ io.on('connection', socket => {
     socket.on('ptzMove', data => {
         let port = sp.ports[data.port]
         let move = data.speed
-        let options = {tool: 'ptzmove', params: {addr: port.ipv4, user: port.user, pass: port.pass, speed: data.speed}}
+        let options = {tool: data.tool, params: {addr: port.ipv4, user: port.user, pass: port.pass, speed: data.speed}}
         toolWorker.send(options)
     })
 
