@@ -92,6 +92,11 @@
     #connected-device div.ptz-ctl-box {
         bottom: 10px;
     }
+    #connected-device div.ptz-zom-ctl-box {
+        position: absolute;
+        top: 10em;
+        left: 2.5em;
+    }
 }
 
 #connected-device div.ptz-zom-ctl-box {
