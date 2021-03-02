@@ -24,7 +24,6 @@ const streamServer = streamApp.listen(3002, '0.0.0.0')
 const updateWorker = fork('./update.js');
 const toolWorker = fork('./tools.js');
 let base64 = require('base-64');
-const onvif = require('node-onvif');
 var fs = require("fs");
 var config = toml.parse(fs.readFileSync('bin/iptable.txt', 'utf-8'))
 const loncmd = "python C:/Users/TBIAdmin/node/smartpoe/bin/gps.lon.py"
