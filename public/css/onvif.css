@@ -94,7 +94,7 @@
     }
     #connected-device div.ptz-zom-ctl-box {
         position: absolute;
-        top: 10em;
+        top: 5em !important;
         left: 2.5em;
     }
 }
