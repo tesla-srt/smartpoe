@@ -96,8 +96,8 @@
 
 #connected-device div.ptz-zom-ctl-box {
     position: absolute;
-    bottom: 120px;
-    right: 1em;
+    top: 4em;
+    left: 1.5em;
     opacity: 0.4;
 }
 #connected-device div.ptz-zom-ctl-box:hover {
