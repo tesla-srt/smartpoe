@@ -39,6 +39,7 @@ function ping(data) {
 }
 
 function ptzMove(params) {
+    console.log(params)
     let move = params.speed
     let odevice = new onvif.OnvifDevice({
         xaddr: params.addr,
