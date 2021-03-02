@@ -67,6 +67,10 @@
         width: 80px !important;
         height: 80px !important;
     }
+    #connected-device div.ptz-ctl-box div.ptz-pad-box {
+        width: 80px !important;
+        height: 80px !important;
+    }
     #connected-device div.ptz-zom-ctl-box {
         position: absolute;
         top: 10em !important;
