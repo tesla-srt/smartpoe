@@ -69,7 +69,10 @@
         border-radius: 40px;
         opacity: 0.4;
     }
-
+    #connected-device div.ptz-ctl-box {
+        top: 1.5em;
+        left: 14em;
+    }
     #connected-device div.ptz-ctl-box div.ptz-pad-box .left {
         position: absolute;
         left: 0px;
