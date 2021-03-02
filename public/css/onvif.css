@@ -63,7 +63,7 @@
 }
 
 @media (max-width: 768px) {
-    #connected-device div.ptz-ctl-box div.ptz-pad-box {
+    #connected-device {
         width: 80px !important;
         height: 80px !important;
     }
