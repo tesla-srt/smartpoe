@@ -423,8 +423,21 @@ let pauseGui = false;
      * BUTTONS *
      **********/
 
+
+    /****************
+     * PTZ Controls *
+     ****************/
     $('#ptz1up').on("click", function() {
         socket.emit('ptzMove', {port: 0, tool: 'ptzmove', speed: {x: 0.0, y: 0.5, z:0.0}})
+    })
+    $('#ptz1down').on("click", function() {
+        socket.emit('ptzMove', {port: 0, tool: 'ptzmove', speed: {x: 0.0, y: -0.5, z:0.0}})
+    })
+    $('#ptz1left').on("click", function() {
+        socket.emit('ptzMove', {port: 0, tool: 'ptzmove', speed: {x: -0.5, y: 0.0, z:0.0}})
+    })
+    $('#ptz1right').on("click", function() {
+        socket.emit('ptzMove', {port: 0, tool: 'ptzmove', speed: {x: 0.5, y: 0.0, z:0.0}})
     })
 
     $('#pingSubmit').on("click", function () {
