@@ -442,6 +442,12 @@ let pauseGui = false;
     $('#ptz1home').on("click", function() {
         socket.emit('ptzMove', {port: 0, tool: 'ptzhome'})
     })
+    $('#ptz1zin').on("click", function() {
+        socket.emit('ptzMove', {port: 0, tool: 'ptzmove', speed: {x: 0.0, y: 0.0, z: 0.25}})
+    })
+    $('#ptz1zout').on("click", function() {
+        socket.emit('ptzMove', {port: 0, tool: 'ptzmove', speed: {x: 0.0, y: 0.0, z: -0.25}})
+    })
 
     $('#pingSubmit').on("click", function () {
         if($('#pingAdd').val().toString().match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/) == null) {
