@@ -108,9 +108,9 @@ app.use("/", limiter)
 app.get('/', (req, res) => {
     // numConn++;
     //console.log(numConn);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     if (numConn < 3) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
         res.render('index')
     } else {
         res.send('<h1>Max Users Logged In</h1>')
